@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>f13beb71-d04b-48be-9fea-9d68e8a0ceea</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RoadStoryTracking.Model\RoadStoryTracking.Model.csproj" />
+    <ProjectReference Include="..\RoadStoryTracking.WebApi.Business\RoadStoryTracking.WebApi.Business.csproj" />
+    <ProjectReference Include="..\RoadStoryTracking.WebApi.Data\RoadStoryTracking.WebApi.Data.csproj" />
+  </ItemGroup>
+
+</Project>
