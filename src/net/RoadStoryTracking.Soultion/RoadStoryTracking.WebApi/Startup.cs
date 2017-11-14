@@ -21,6 +21,8 @@ namespace RoadStoryTracking.WebApi
             app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
             app.UseAuthentication();
             app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
 
         public void ConfigureServices(IServiceCollection services)
