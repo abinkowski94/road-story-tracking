@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { AngularMaterialModule } from './material/material.module';
+import { AngularMaterialModule } from './shared/modules/material.module';
 
 @NgModule({
   declarations: [
