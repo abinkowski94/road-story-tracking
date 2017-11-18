@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RoadStoryTracking.WebApi.AppStartup;
+using System.Collections.Generic;
 
 namespace RoadStoryTracking.WebApi
 {
@@ -20,9 +21,18 @@ namespace RoadStoryTracking.WebApi
         {
             app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
             app.UseAuthentication();
-            app.UseMvc();
-            app.UseDefaultFiles();
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
+            app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });
             app.UseStaticFiles();
+            app.UseMvc();
         }
 
         public void ConfigureServices(IServiceCollection services)
