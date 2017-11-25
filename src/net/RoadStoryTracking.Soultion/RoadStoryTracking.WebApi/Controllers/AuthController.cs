@@ -25,7 +25,7 @@ namespace RoadStoryTracking.WebApi.Controllers
             return response.GetActionResult(this);
         }
 
-        [HttpPost("token")]
+        [HttpGet("token")]
         public async Task<IActionResult> CreateToken(string userName, string password)
         {
             var response = await _userService.CreateToken(userName, password);

@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../../net/RoadStoryTracking.Soultion/RoadStoryTracking.WebApi/wwwroot",
+      "outDir": "dist",
       "assets": [
         "assets",
         "favicon.ico"

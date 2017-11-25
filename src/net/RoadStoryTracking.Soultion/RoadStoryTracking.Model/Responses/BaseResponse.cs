@@ -6,6 +6,7 @@ namespace RoadStoryTracking.Model.Responses
 {
     public abstract class BaseResponse
     {
+        [JsonProperty("id")]
         public Guid Id { get; private set; }
 
         [JsonIgnore]

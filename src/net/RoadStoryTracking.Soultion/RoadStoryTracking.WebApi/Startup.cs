@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,11 +34,19 @@ namespace RoadStoryTracking.WebApi
             });
             app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });
             app.UseStaticFiles();
+
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials());
+
             app.UseMvc();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             ApplicationInsightsTelemetryConfiguration.ConfigureApplicationInsightsTelemetry(services, Configuration);
             FiltersConfiguration.ConfigureFilter(services);
             DatabaseConfiguration.ConfigureDatabae(services, Configuration);

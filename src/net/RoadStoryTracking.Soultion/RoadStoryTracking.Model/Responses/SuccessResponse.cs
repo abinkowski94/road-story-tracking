@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using Newtonsoft.Json;
+using System.Net;
 
 namespace RoadStoryTracking.Model.Responses
 {
     public class SuccessResponse<T> : BaseResponse
     {
+        [JsonProperty("result")]
         public T Result { get; private set; }
 
         public override HttpStatusCode StatusCode => HttpStatusCode.OK;
