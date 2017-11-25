@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { NavigationBarComponent } from './shared/components/navigation-bar.component';
 import { AngularMaterialModule } from './shared/modules/material.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
@@ -14,13 +15,14 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], { useHash: fal
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        NavigationBarComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        HttpClientModule,
         AngularMaterialModule,
+        HttpClientModule,
         HomeModule,
         ManageAccountModule,
         SharedModule,

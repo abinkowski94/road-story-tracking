@@ -8,6 +8,7 @@ import { UserService } from './services/user.service';
 import { TokenApiService } from './services/token-api.service';
 import { ApllicationInterceptor } from './services/application.interceptor';
 
+
 const sharedRouting: ModuleWithProviders = RouterModule.forChild([
     {
         path: 'auth-required',
@@ -24,7 +25,9 @@ const sharedRouting: ModuleWithProviders = RouterModule.forChild([
 ]);
 
 @NgModule({
-    imports: [sharedRouting],
+    imports: [
+        sharedRouting
+    ],
     providers: [
         TokenApiService,
         UserService,
