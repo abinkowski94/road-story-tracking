@@ -4,8 +4,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { ManageAccountComponent } from './components/manage-account.component';
+import { RegisterAccountComponent } from './components/register-account.component';
 import { UserService } from './../shared/services/user.service';
-import { AuthGuard } from './services/auth-guard.service';
+import { AuthGuard } from './../shared/services/auth-guard.service';
 
 const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
     {
@@ -16,6 +17,10 @@ const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
     {
         path: 'account/login',
         component: LoginAccountComponent
+    },
+    {
+        path: 'account/register',
+        component: RegisterAccountComponent
     }
 ]);
 
@@ -23,7 +28,8 @@ const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
     imports: [FormsModule, manageAccountRouting],
     declarations: [
         ManageAccountComponent,
-        LoginAccountComponent
+        LoginAccountComponent,
+        RegisterAccountComponent
     ],
     providers: [
         AuthGuard

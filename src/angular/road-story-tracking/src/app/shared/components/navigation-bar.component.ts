@@ -10,8 +10,18 @@ import { UserService } from './../services/user.service';
 export class NavigationBarComponent {
 
     public userName: string;
+    public isAuthenticated: boolean;
 
     public constructor(private userService: UserService) {
+        this.userName = '';
+        this.isAuthenticated = false;
+
         this.userService.userName.subscribe(userName => this.userName = userName);
+        this.userService.isAuthenticated.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    }
+
+    public logOff(): void {
+        this.userService.logOff();
+        window.location.reload();
     }
 }

@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
 
 import { TokenApiService } from './token-api.service';
-import { CustomResponse } from './../models/responses/custom-response.model';
 import { environment } from './../../../environments/environment';
 import { TokenInfo } from './../models/data/token-info.model';
 
@@ -47,6 +46,11 @@ export class UserService {
                 localStorage.setItem(environment.localStorageTokenKey, JSON.stringify(tokenInfo));
                 this._tokenInfo.next(tokenInfo);
             });
+    }
+
+    public logOff(): void {
+        localStorage.setItem(environment.localStorageTokenKey, null);
+        this._tokenInfo.next(null);
     }
 
     private getTokenInfo(): TokenInfo {

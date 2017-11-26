@@ -5,8 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserService } from './../../shared/services/user.service';
 import { TokenInfo } from '../../shared/models/data/token-info.model';
-import { CustomResponse } from '../../shared/models/responses/custom-response.model';
-
+import { BackendErrorResponse } from './../../shared/models/responses/error-response.model';
 
 @Component({
     templateUrl: './login-account.component.html'
@@ -23,7 +22,7 @@ export class LoginAccountComponent {
             .subscribe((result: TokenInfo) => {
                 this.router.navigate(['home']);
             }, (error: HttpErrorResponse) => {
-                alert((error.error as CustomResponse<TokenInfo>).exception.Message);
+                alert((error.error as BackendErrorResponse).exception.Message);
             });
     }
 }
