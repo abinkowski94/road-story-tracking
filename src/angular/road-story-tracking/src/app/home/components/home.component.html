@@ -1,1 +1,5 @@
-<h1>Home</h1>
+<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="15">
+    <agm-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="'assets/icons/my-position-marker.png'">
+        <agm-info-window>My position</agm-info-window>
+    </agm-marker>
+</agm-map>

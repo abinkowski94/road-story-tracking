@@ -1,5 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AgmCoreModule } from '@agm/core';
+import { environment } from './../../environments/environment.keys';
 
 import { HomeComponent } from './components/home.component';
 
@@ -15,7 +17,12 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
 ]);
 
 @NgModule({
-    imports: [homeRouting],
+    imports: [
+        homeRouting,
+        AgmCoreModule.forRoot({
+            apiKey: environment.googleMapsAPIKey
+          })
+        ],
     declarations: [HomeComponent]
 })
 export class HomeModule { }
