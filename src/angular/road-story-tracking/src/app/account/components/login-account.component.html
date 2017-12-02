@@ -1,6 +1,33 @@
 <div class="wrapper">
-    <h1>Login</h1>
-    <input type="text" name="login" [(ngModel)]="loginInput">
-    <input type="password" name="password" [(ngModel)]="passwordInput">
-    <button (click)="login()">Login</button>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h1>Login</h1>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="login-form" #loginForm="ngForm" (submit)="login()">
+                <div class="login-inputs">
+                    <mat-form-field class="login-full-width">
+                        <input matInput type="text" name="login" [(ngModel)]="userLogin" placeholder="Email" #emailInput="ngModel" required email>
+                        <mat-error *ngIf="emailInput.invalid">
+                            <span *ngIf="emailInput.hasError('required')">* The email address is required</span>
+                            <span *ngIf="!emailInput.hasError('required') && emailInput.hasError('email')">* The email address is invalid</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="login-full-width">
+                        <input matInput type="password" name="password" [(ngModel)]="password" placeholder="Password" #passwordInput="ngModel"
+                            required>
+                        <mat-error *ngIf="passwordInput.invalid">
+                            <span *ngIf="passwordInput.hasError('required')">* The password is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="login-button">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.form.valid || pendingRequest">Login</button>
+                </div>
+                <div class="clearfix"></div>
+            </form>
+        </mat-card-content>
+    </mat-card>
 </div>

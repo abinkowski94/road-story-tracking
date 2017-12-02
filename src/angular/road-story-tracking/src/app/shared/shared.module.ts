@@ -1,11 +1,12 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AngularMaterialModule } from './modules/material.module';
 
 import { AuthRequiredComponent } from './components/auth-required.component';
 import { NotFoundComponent } from './components/not-found.component';
 import { UserService } from './services/user.service';
-import { TokenApiService } from './services/token-api.service';
+import { UserApiService } from './services/user-api.service';
 import { ApllicationInterceptor } from './services/application.interceptor';
 
 
@@ -26,11 +27,12 @@ const sharedRouting: ModuleWithProviders = RouterModule.forChild([
 
 @NgModule({
     imports: [
+        AngularMaterialModule,
         sharedRouting
     ],
     providers: [
-        TokenApiService,
         UserService,
+        UserApiService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ApllicationInterceptor,

@@ -3,9 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
 
-import { TokenApiService } from './token-api.service';
+import { UserApiService } from './user-api.service';
 import { environment } from './../../../environments/environment';
 import { TokenInfo } from './../models/data/token-info.model';
+import { ApplicationUser } from './../models/data/user/application-user.model';
+import { RegisterUser } from './../models/data/user/register-user.model';
 
 @Injectable()
 export class UserService {
@@ -13,7 +15,7 @@ export class UserService {
     private _tokenInfo: BehaviorSubject<TokenInfo>;
     public readonly tokenInfo: Observable<TokenInfo>;
 
-    public constructor(private tokenApiService: TokenApiService) {
+    public constructor(private userApiService: UserApiService) {
         this._tokenInfo = new BehaviorSubject<TokenInfo>(this.getTokenInfo());
         this.tokenInfo = this._tokenInfo.asObservable();
     }
@@ -41,7 +43,7 @@ export class UserService {
     }
 
     public login(userName: string, password: string): Observable<TokenInfo> {
-        return this.tokenApiService.getToken(userName, password)
+        return this.userApiService.getToken(userName, password)
             .do((tokenInfo: TokenInfo) => {
                 localStorage.setItem(environment.localStorageTokenKey, JSON.stringify(tokenInfo));
                 this._tokenInfo.next(tokenInfo);
@@ -51,6 +53,10 @@ export class UserService {
     public logOff(): void {
         localStorage.setItem(environment.localStorageTokenKey, null);
         this._tokenInfo.next(null);
+    }
+
+    public register(user: RegisterUser): Observable<ApplicationUser> {
+        return this.userApiService.registerUser(user);
     }
 
     private getTokenInfo(): TokenInfo {

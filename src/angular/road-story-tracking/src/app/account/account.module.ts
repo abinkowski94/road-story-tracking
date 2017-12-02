@@ -1,8 +1,10 @@
-import { LoginAccountComponent } from './components/login-account.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularMaterialModule } from './../shared/modules/material.module';
 
+import { LoginAccountComponent } from './components/login-account.component';
 import { ManageAccountComponent } from './components/manage-account.component';
 import { RegisterAccountComponent } from './components/register-account.component';
 import { UserService } from './../shared/services/user.service';
@@ -25,7 +27,13 @@ const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
 ]);
 
 @NgModule({
-    imports: [FormsModule, manageAccountRouting],
+    imports: [
+        AngularMaterialModule,
+        FormsModule,
+        CommonModule,
+        ReactiveFormsModule,
+        manageAccountRouting
+    ],
     declarations: [
         ManageAccountComponent,
         LoginAccountComponent,

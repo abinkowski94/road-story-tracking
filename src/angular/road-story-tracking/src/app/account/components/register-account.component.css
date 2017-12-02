@@ -1,0 +1,26 @@
+.register-form {
+    min-width: 240px;
+    max-width: 60%;
+    width: 100%;
+    margin: 0 auto;
+}
+  
+.register-full-width {
+    width: 100%;
+    min-width: 240px;
+    margin-bottom: 3%;
+}
+
+.register-inputs {
+    margin-bottom: 2%;
+}
+
+.register-button {
+    float: right;
+}
+
+.clearfix { 
+    clear: both;
+    display: block;
+    margin-bottom: 2%;
+}

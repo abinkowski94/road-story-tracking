@@ -12,30 +12,31 @@ export abstract class BaseHttpService {
 
     private httpEndpoint: string;
 
-    protected constructor(private client: HttpClient, controllerName: string, actionName: string) {
-        this.httpEndpoint = `${environment.backendHotst}/api/${controllerName}/${actionName}`;
+    protected constructor(private client: HttpClient, controllerName: string) {
+        this.httpEndpoint = `${environment.backendHotst}/api/${controllerName}/`;
     }
 
-    protected get<T>(httpParams?: HttpParams): Observable<T> {
-        return this.extractResult(this.client.get<BackendSuccessResponse<T>>(this.httpEndpoint, {
+    protected get<T>(actionName: string, httpParams?: HttpParams): Observable<T> {
+        return this.extractResult(this.client.get<BackendSuccessResponse<T>>(this.httpEndpoint + actionName, {
             params: httpParams
         }));
     }
 
-    protected post<T>(body: any, httpParams?: HttpParams): Observable<T> {
-        return this.extractResult(this.client.post<BackendSuccessResponse<T>>(this.httpEndpoint, body, {
+    protected post<T>(actionName: string, body: any, httpParams?: HttpParams): Observable<T> {
+        return this.extractResult(this.client.post<BackendSuccessResponse<T>>(this.httpEndpoint + actionName, body, {
             params: httpParams
         }));
     }
 
-    protected put<T>(body: any, httpParams?: HttpParams): Observable<T> {
-        return this.extractResult(this.client.put<BackendSuccessResponse<T>>(this.httpEndpoint, body, {
+    protected put<T>(actionName: string, body: any, httpParams?: HttpParams): Observable<T> {
+
+        return this.extractResult(this.client.put<BackendSuccessResponse<T>>(this.httpEndpoint + actionName, body, {
             params: httpParams
         }));
     }
 
-    protected delete<T>(httpParams?: HttpParams): Observable<T> {
-        return this.extractResult(this.client.delete<BackendSuccessResponse<T>>(this.httpEndpoint, {
+    protected delete<T>(actionName: string, httpParams?: HttpParams): Observable<T> {
+        return this.extractResult(this.client.delete<BackendSuccessResponse<T>>(this.httpEndpoint + actionName, {
             params: httpParams
         }));
     }

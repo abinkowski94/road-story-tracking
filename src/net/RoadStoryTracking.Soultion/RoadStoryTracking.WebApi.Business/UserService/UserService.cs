@@ -118,16 +118,17 @@ namespace RoadStoryTracking.WebApi.Business.UserService
             return new ErrorResponse(new CustomApplicationException("User with given name not found."));
         }
 
-        public async Task<BaseResponse> RegisterNewUser(ApplicationUser ApplicationUser, Uri tokenCallback)
+        public async Task<BaseResponse> RegisterNewUser(ApplicationUser applicationUser, Uri tokenCallback)
         {
-            var mappedApplicationUser = LocalMapper.Map<Entities.ApplicationUser>(ApplicationUser);
-            var createdUser = await _userManager.CreateAsync(mappedApplicationUser, ApplicationUser.Password);
+            applicationUser.UserName = applicationUser.Email;
+            var mappedApplicationUser = LocalMapper.Map<Entities.ApplicationUser>(applicationUser);
+            var createdUser = await _userManager.CreateAsync(mappedApplicationUser, applicationUser.Password);
 
             if (createdUser != null && createdUser.Succeeded)
             {
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(mappedApplicationUser);
-                await SendEmailConfirmation(ApplicationUser.Email, $"{ApplicationUser.FirstName} {ApplicationUser.LastName}", tokenCallback, ApplicationUser.UserName, token);
-                return new SuccessResponse<ApplicationUser>(ApplicationUser);
+                await SendEmailConfirmation(applicationUser.Email, $"{applicationUser.FirstName} {applicationUser.LastName}", tokenCallback, applicationUser.UserName, token);
+                return new SuccessResponse<ApplicationUser>(applicationUser);
             }
             else
             {
@@ -175,7 +176,7 @@ namespace RoadStoryTracking.WebApi.Business.UserService
                     var errors = result.Errors.Select(e => new CustomApplicationException(e.Description)).ToArray();
                     return new ErrorResponse(new CustomAggregatedException("Errors occured during changing password.", errors));
                 }
-                return new ErrorResponse(new CustomApplicationException("Wrong password."));
+                return new ErrorResponse(new CustomApplicationException("Wrong old password."));
             }
             return new ErrorResponse(new CustomApplicationException($"Could not find user with user name: '{userName}'."));
         }
@@ -186,13 +187,13 @@ namespace RoadStoryTracking.WebApi.Business.UserService
 
             var claims = new[]
             {
-                            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                            new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
-                            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
-                            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                            new Claim(JwtRegisteredClaimNames.AuthTime, DateTime.Now.ToString())
-                    }
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
+                new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.AuthTime, DateTime.Now.ToString())
+            }
             .Union(userClaims);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));

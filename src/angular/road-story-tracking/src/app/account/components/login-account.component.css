@@ -1,0 +1,25 @@
+.login-form {
+    min-width: 240px;
+    max-width: 60%;
+    width: 100%;
+    margin: 0 auto;
+}
+  
+.login-full-width {
+    width: 100%;
+    min-width: 240px;
+    margin-bottom: 3%;
+}
+
+.login-inputs {
+    margin-bottom: 2%;
+}
+
+.login-button {
+    float: right;
+}
+
+.clearfix { 
+    clear: both;
+    display: block; 
+}
