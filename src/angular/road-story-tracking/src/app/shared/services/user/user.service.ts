@@ -4,10 +4,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
 
 import { UserApiService } from './user-api.service';
-import { environment } from './../../../environments/environment';
-import { TokenInfo } from './../models/data/token-info.model';
-import { ApplicationUser } from './../models/data/user/application-user.model';
-import { RegisterUser } from './../models/data/user/register-user.model';
+import { environment } from '../../../../environments/environment';
+import { TokenInfo } from './../../models/data/token/token-info.model';
+import { ApplicationUser } from './../../models/data/user/application-user.model';
+import { RegisterUser } from './../../models/data/user/register-user.model';
 
 @Injectable()
 export class UserService {

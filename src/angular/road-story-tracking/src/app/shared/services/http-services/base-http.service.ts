@@ -3,9 +3,9 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { environment } from '../../../environments/environment';
-import { TokenInfo } from './../models/data/token-info.model';
-import { BackendSuccessResponse } from './../models/responses/success-response.model';
+import { environment } from './../../../../environments/environment';
+import { TokenInfo } from './../../models/data/token/token-info.model';
+import { BackendSuccessResponse } from './../../models/responses/success-response.model';
 
 @Injectable()
 export abstract class BaseHttpService {

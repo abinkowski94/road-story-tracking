@@ -4,13 +4,15 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from './../shared/modules/material.module';
 
-import { LoginAccountComponent } from './components/login-account.component';
-import { ManageAccountComponent } from './components/manage-account.component';
-import { RegisterAccountComponent } from './components/register-account.component';
-import { RegisterCompleteComponent } from './components/register-complete.component';
-import { ConfirmedAccountComponent } from './components/confirmed-account.component';
-import { UserService } from './../shared/services/user.service';
-import { AuthGuard } from './../shared/services/auth-guard.service';
+import { LoginAccountComponent } from './components/login-account/login-account.component';
+import { ManageAccountComponent } from './components/manage-account/manage-account.component';
+import { RegisterAccountComponent } from './components/register-account/register-account.component';
+import { RegisterCompleteComponent } from './components/register-complete/register-complete.component';
+import { ConfirmedAccountComponent } from './components/confirmed-account/confirmed-account.component';
+
+import { UserService } from './../shared/services/user/user.service';
+import { ManageAccountApiService } from './services/manage-account-api.service';
+import { AuthGuard } from './../shared/services/user/auth-guard.service';
 
 const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
     {
@@ -52,7 +54,8 @@ const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
         ConfirmedAccountComponent
     ],
     providers: [
-        AuthGuard
+        AuthGuard,
+        ManageAccountApiService
     ]
 })
 export class ManageAccountModule { }

@@ -4,14 +4,12 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from './app.component';
-import { NavigationBarComponent } from './shared/components/navigation-bar.component';
+import { AppComponent } from './main/app.component';
+import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
 import { AngularMaterialModule } from './shared/modules/material.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
 import { ManageAccountModule } from './account/account.module';
-
-const rootRouting: ModuleWithProviders = RouterModule.forRoot([], { useHash: false });
 
 @NgModule({
     declarations: [
@@ -26,7 +24,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], { useHash: fal
         HomeModule,
         ManageAccountModule,
         SharedModule,
-        rootRouting
+        RouterModule.forRoot([], { useHash: false })
     ],
     providers: [],
     bootstrap: [AppComponent]

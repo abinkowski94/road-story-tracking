@@ -4,7 +4,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AngularMaterialModule } from './../shared/modules/material.module';
 import { environment } from './../../environments/environment.keys';
 
-import { HomeComponent } from './components/home.component';
+import { HomeComponent } from './components/home/home.component';
 
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
     {

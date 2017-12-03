@@ -3,8 +3,8 @@ import { HttpHeaders, HttpInterceptor, HttpRequest, HttpHandler, HttpErrorRespon
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/do';
 
-import { environment } from './../../../environments/environment';
-import { TokenInfo } from './../models/data/token-info.model';
+import { environment } from './../../../../environments/environment';
+import { TokenInfo } from './../../models/data/token/token-info.model';
 
 @Injectable()
 export class ApllicationInterceptor implements HttpInterceptor {

@@ -2,10 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { BaseHttpService } from './base-http.service';
-import { TokenInfo } from '../models/data/token-info.model';
-import { ApplicationUser } from './../models/data/user/application-user.model';
-import { RegisterUser } from './../models/data/user/register-user.model';
+import { BaseHttpService } from './../http-services/base-http.service';
+import { TokenInfo } from './../../models/data/token/token-info.model';
+import { ApplicationUser } from './../../models/data/user/application-user.model';
+import { RegisterUser } from './../../models/data/user/register-user.model';
 
 @Injectable()
 export class UserApiService extends BaseHttpService {

@@ -3,12 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { RegisterUser } from './../../shared/models/data/user/register-user.model';
-import { UserService } from './../../shared/services/user.service';
-import { ApplicationUser } from '../../shared/models/data/user/application-user.model';
-import { BackendErrorResponse } from './../../shared/models/responses/error-response.model';
-import { CustomAggregatedBackendException } from './../../shared/models/exceptions/custom-aggregated-backend-exception';
-
+import { UserService } from './../../../shared/services/user/user.service';
+import { RegisterUser } from './../../../shared/models/data/user/register-user.model';
+import { ApplicationUser } from './../../../shared/models/data/user/application-user.model';
+import { BackendErrorResponse } from './../../../shared/models/responses/error-response.model';
+import { CustomAggregatedBackendException } from './../../../shared/models/exceptions/custom-aggregated-backend-exception';
 
 @Component({
     templateUrl: './register-account.component.html',

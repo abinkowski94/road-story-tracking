@@ -5,7 +5,7 @@
         </button>
         <span class="fill-remaining-space"></span>
         <div *ngIf="isAuthenticated">
-            <button mat-button routerLink="/account/manage" routerLinkActive="active">{{ userName }}</button>
+            <button mat-button routerLink="/account/manage" routerLinkActive="active"><i class="material-icons">account_circle</i> My account</button>
             <button mat-button (click)="logOff()"><i class="material-icons">exit_to_app</i> Log off</button>
         </div>
         <div *ngIf="!isAuthenticated">

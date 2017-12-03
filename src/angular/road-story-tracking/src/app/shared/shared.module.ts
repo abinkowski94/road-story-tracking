@@ -3,12 +3,11 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from './modules/material.module';
 
-import { AuthRequiredComponent } from './components/auth-required.component';
-import { NotFoundComponent } from './components/not-found.component';
-import { UserService } from './services/user.service';
-import { UserApiService } from './services/user-api.service';
-import { ApllicationInterceptor } from './services/application.interceptor';
-
+import { AuthRequiredComponent } from './components/auth-required/auth-required.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UserService } from './services/user/user.service';
+import { UserApiService } from './services/user/user-api.service';
+import { ApllicationInterceptor } from './services/http-services/application.interceptor';
 
 const sharedRouting: ModuleWithProviders = RouterModule.forChild([
     {
