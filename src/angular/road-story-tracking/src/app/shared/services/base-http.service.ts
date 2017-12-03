@@ -13,7 +13,7 @@ export abstract class BaseHttpService {
     private httpEndpoint: string;
 
     protected constructor(private client: HttpClient, controllerName: string) {
-        this.httpEndpoint = `${environment.backendHotst}/api/${controllerName}/`;
+        this.httpEndpoint = `${environment.backendHotst}api/${controllerName}/`;
     }
 
     protected get<T>(actionName: string, httpParams?: HttpParams): Observable<T> {

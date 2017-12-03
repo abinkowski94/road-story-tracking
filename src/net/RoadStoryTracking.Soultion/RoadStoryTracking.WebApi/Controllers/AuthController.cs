@@ -22,7 +22,14 @@ namespace RoadStoryTracking.WebApi.Controllers
         public async Task<IActionResult> ConfirmEmailAddress(string userName, string token)
         {
             var response = await _userService.ConfirmUserEmailAddress(userName, token);
-            return response.GetActionResult(this);
+            if (response is BM.Responses.SuccessResponse<object>)
+            {
+                return Redirect("~/account/register/confirmed");
+            }
+            else
+            {
+                return new ObjectResult(null);
+            }
         }
 
         [HttpGet("token")]

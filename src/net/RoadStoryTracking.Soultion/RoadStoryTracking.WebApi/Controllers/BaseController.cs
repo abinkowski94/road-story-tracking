@@ -6,6 +6,7 @@ using RoadStoryTracking.Model.Responses;
 using RoadStoryTracking.WebApi.Data.Context;
 using RoadStoryTracking.WebApi.Models;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -34,8 +35,7 @@ namespace RoadStoryTracking.WebApi.Controllers
                 {
                     SetupRequestor();
                     var response = await next();
-                    var result = (ObjectResult)response.Result;
-                    if (result.StatusCode.Equals(HttpStatusCode.BadRequest))
+                    if (response.Result is ObjectResult result && result.StatusCode.Equals(HttpStatusCode.BadRequest))
                     {
                         transaction.Rollback();
                     }
@@ -44,8 +44,10 @@ namespace RoadStoryTracking.WebApi.Controllers
                         transaction.Commit();
                     }
                 }
-                catch
+                catch (Exception exception)
                 {
+                    Trace.TraceError(exception.Message);
+                    Trace.TraceError(exception.StackTrace);
                     transaction.Rollback();
                 }
             }
@@ -62,7 +64,8 @@ namespace RoadStoryTracking.WebApi.Controllers
                 cfg.CreateMap<BM.TokenInfo, TokenInfo>();
 
                 cfg.CreateMap<BM.ApplicationUser, ApplicationUser>();
-                cfg.CreateMap<ApplicationUser, BM.ApplicationUser>();
+                cfg.CreateMap<ApplicationUser, BM.ApplicationUser>()
+                    .ForMember(p => p.UserName, p => p.MapFrom(d => d.Email));
             });
 
             configuration.AssertConfigurationIsValid();

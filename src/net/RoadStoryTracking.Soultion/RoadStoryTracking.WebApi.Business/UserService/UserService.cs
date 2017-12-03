@@ -120,7 +120,6 @@ namespace RoadStoryTracking.WebApi.Business.UserService
 
         public async Task<BaseResponse> RegisterNewUser(ApplicationUser applicationUser, Uri tokenCallback)
         {
-            applicationUser.UserName = applicationUser.Email;
             var mappedApplicationUser = LocalMapper.Map<Entities.ApplicationUser>(applicationUser);
             var createdUser = await _userManager.CreateAsync(mappedApplicationUser, applicationUser.Password);
 
@@ -189,9 +188,7 @@ namespace RoadStoryTracking.WebApi.Business.UserService
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
-                new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
                 new Claim(JwtRegisteredClaimNames.AuthTime, DateTime.Now.ToString())
             }
             .Union(userClaims);

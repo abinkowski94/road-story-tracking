@@ -5,6 +5,6 @@
 
 export const environment = {
     production: false,
-    backendHotst: 'https://localhost:44353',
+    backendHotst: 'https://localhost:44353/',
     localStorageTokenKey: 'authorizationToken'
 };
