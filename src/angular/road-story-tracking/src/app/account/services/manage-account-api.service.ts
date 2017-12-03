@@ -12,7 +12,7 @@ export class ManageAccountApiService extends BaseHttpService {
         super(client, 'ManageAccount');
     }
 
-    public registerUser(user: ApplicationUser): Observable<ApplicationUser> {
-        return this.post('UpdateUserData', user);
+    public getUserData(): Observable<ApplicationUser> {
+        return this.get('GetUserData');
     }
 }

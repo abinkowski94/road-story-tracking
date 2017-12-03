@@ -1,0 +1,52 @@
+.manage-form {
+    width: 100%;
+}
+  
+.manage-full-width {
+    width: 100%;
+    min-width: 240px;
+    margin-bottom: 3%;
+}
+
+.manage-inputs {
+    margin-bottom: 1%;
+}
+
+.manage-button {
+    float: right;
+}
+
+.clearfix { 
+    clear: both;
+    display: block;
+    margin-bottom: 1%;
+}
+
+.manage-content{
+    width: 100%;
+    display: flex;
+}
+
+.manage-image{
+    width: calc(100% * 1/3);
+}
+
+.manage-data{
+    width: calc(100% * 2/3);
+}
+
+@media only screen and (max-width: 500px) {
+    .manage-content{
+        width: 100%;
+        display: block;
+    }
+
+    .manage-image{
+        width: 100%;
+        margin-bottom: 10%;
+    }
+    
+    .manage-data{
+        width: 100%;
+    }
+}
