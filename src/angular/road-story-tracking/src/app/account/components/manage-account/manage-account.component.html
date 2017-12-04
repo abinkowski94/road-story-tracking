@@ -8,10 +8,10 @@
         <mat-card-content>
             <div class="manage-content">
                 <div class="manage-image">
-                    Here image
+                    <img [src]="applicationUser.imageUrl" onError="this.onerror = null; this.src = this.src='assets/images/account-image.svg';">
                 </div>
                 <div class="manage-data">
-                    <form class="manage-form" #manageForm="ngForm">
+                    <form class="manage-form" #manageForm="ngForm" (submit)="updateUserInfo()">
                         <div class="manage-inputs">
                             <mat-form-field class="manage-full-width">
                                 <input matInput type="text" name="login" placeholder="Email" [(ngModel)]="applicationUser.email" [disabled]="true">

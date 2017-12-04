@@ -29,10 +29,12 @@
 
 .manage-image{
     width: calc(100% * 1/3);
+    padding: 2%;
 }
 
 .manage-data{
     width: calc(100% * 2/3);
+    padding: 2%;
 }
 
 @media only screen and (max-width: 500px) {

@@ -15,4 +15,8 @@ export class ManageAccountApiService extends BaseHttpService {
     public getUserData(): Observable<ApplicationUser> {
         return this.get('GetUserData');
     }
+
+    public updateUserData(applicationUser: ApplicationUser): Observable<ApplicationUser> {
+        return this.put('UpdateUserData', applicationUser);
+    }
 }
