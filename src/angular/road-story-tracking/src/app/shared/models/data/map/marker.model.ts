@@ -10,4 +10,5 @@ export class Marker {
     opacity: number;
     zIndex: number;
     clickable: boolean;
+    infoWindowText: string;
 }

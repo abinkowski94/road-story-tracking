@@ -1,3 +1,40 @@
 agm-map {
     height: 100%;
 }
+
+app-navigation-menu{
+    position: absolute;
+    left: 0;
+    top: calc(64px + 65px + 5% + 5%);
+    z-index: 2;
+}
+
+app-filter{
+    position: absolute;
+    width: 70%;
+    top: calc(64px + 5%);
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 10px 0 10px;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 425px) {
+
+    app-navigation-menu{
+        position: absolute;
+        left: 0;
+        top: initial;
+        bottom: 0;
+        z-index: 2;
+        width: 100%;
+    }
+
+    agm-map {
+        height: calc(100% - 36px * 2);
+    }
+}

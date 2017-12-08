@@ -1,5 +1,7 @@
-<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" #map>
+<app-filter></app-filter>
+<app-navigation-menu (refreshMapClick)="refreshMap()"></app-navigation-menu>
+<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)">
     <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude" [iconUrl]="marker.iconUrl">
-        <agm-info-window>My position</agm-info-window>
+        <agm-info-window *ngIf="marker.infoWindowText">{{ marker.infoWindowText }}</agm-info-window>
     </agm-marker>
 </agm-map>

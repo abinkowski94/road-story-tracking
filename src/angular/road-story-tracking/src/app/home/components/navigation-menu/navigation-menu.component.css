@@ -1,0 +1,28 @@
+.navigation-buttons > button:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+}
+
+.navigation-buttons > button {
+    display: table;
+    margin: 5px 0 5px 0;
+    width: 100%;
+    text-align: left;
+}
+
+@media only screen and (max-width: 425px) {
+
+    .navigation-buttons > button:hover {
+        transition: none;
+        transform: none;
+    }
+
+    .navigation-buttons > button {
+        display: block;
+        width: 50%;
+        margin: 0;
+        float: left;
+        text-align: initial;
+        border-radius: 0;
+    }
+}
