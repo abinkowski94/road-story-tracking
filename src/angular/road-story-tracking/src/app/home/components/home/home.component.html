@@ -1,5 +1,5 @@
-<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="15">
-    <agm-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="'assets/icons/my-position-marker.png'">
+<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" #map>
+    <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude" [iconUrl]="marker.iconUrl">
         <agm-info-window>My position</agm-info-window>
     </agm-marker>
 </agm-map>
