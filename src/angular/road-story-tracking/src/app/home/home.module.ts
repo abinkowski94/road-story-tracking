@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 import { AngularMaterialModule } from './../shared/modules/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from './../../environments/environment.keys';
 
 import { MarkerService } from './services/marker.service';
@@ -10,6 +11,7 @@ import { MarkerService } from './services/marker.service';
 import { HomeComponent } from './components/home/home.component';
 import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { NewMarkerDialogComponent } from './components/new-marker/new-marker-dialog.component';
 
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
     {
@@ -27,6 +29,8 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
         CommonModule,
         AngularMaterialModule,
         homeRouting,
+        FormsModule,
+        ReactiveFormsModule,
         AgmCoreModule.forRoot({
             apiKey: environment.googleMapsAPIKey
         })
@@ -34,7 +38,11 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
     declarations: [
         HomeComponent,
         NavigationMenuComponent,
-        FilterComponent
+        FilterComponent,
+        NewMarkerDialogComponent
+    ],
+    entryComponents: [
+        NewMarkerDialogComponent
     ],
     providers: [
         MarkerService

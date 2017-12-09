@@ -1,25 +1,20 @@
 .manage-form {
     width: 100%;
 }
-  
+
 .manage-full-width {
     width: 100%;
     min-width: 240px;
     margin-bottom: 3%;
 }
 
-.manage-inputs {
-    margin-bottom: 1%;
-}
-
 .manage-button {
     float: right;
 }
 
-.clearfix { 
+.clearfix {
     clear: both;
     display: block;
-    margin-bottom: 1%;
 }
 
 .manage-content{
@@ -47,7 +42,7 @@
         width: 100%;
         margin-bottom: 10%;
     }
-    
+
     .manage-data{
         width: 100%;
     }

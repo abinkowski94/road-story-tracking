@@ -25,7 +25,7 @@ export class MarkerService {
                 marker.latitude = position.coords.latitude;
                 marker.longitude = position.coords.longitude;
                 marker.iconUrl = 'assets/icons/my-position-marker.png';
-                marker.infoWindowText = 'My position';
+                marker.name = 'My position';
 
                 this._staticMarkers.push(marker);
             });

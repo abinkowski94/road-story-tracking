@@ -2,6 +2,10 @@
 <app-navigation-menu (refreshMapClick)="refreshMap()"></app-navigation-menu>
 <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)">
     <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude" [iconUrl]="marker.iconUrl">
-        <agm-info-window *ngIf="marker.infoWindowText">{{ marker.infoWindowText }}</agm-info-window>
+        <agm-info-window *ngIf="marker.name">
+            <h3>{{ marker.name }}</h3>
+            <p class="styled-description">{{ marker.description }}</p>
+            <a href="#" onclick="return false;">Details</a>
+        </agm-info-window>
     </agm-marker>
 </agm-map>

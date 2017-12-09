@@ -1,14 +1,17 @@
-export class Marker {
-    latitude: number;
-    longitude: number;
-    title: string;
-    label: string;
-    draggable: boolean;
-    iconUrl: string;
-    visible: boolean;
-    openInfoWindow: boolean;
-    opacity: number;
-    zIndex: number;
-    clickable: boolean;
-    infoWindowText: string;
+import { MarkerType } from './marker-type.enum.model';
+import { BaseMarker } from './base-marker.model';
+
+export class Marker extends BaseMarker {
+    public latitude: number;
+    public longitude: number;
+    public name: string;
+    public type: MarkerType;
+    public description: string;
+    public imageUrls: string[];
+
+    public constructor() {
+        super();
+        this.type = MarkerType.Other;
+        this.imageUrls = [];
+    }
 }

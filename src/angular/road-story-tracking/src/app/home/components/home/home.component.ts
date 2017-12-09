@@ -1,4 +1,5 @@
-import { MatSnackBar } from '@angular/material';
+import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.component';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Component, AfterContentInit } from '@angular/core';
 import { Marker } from './../../../shared/models/data/map/marker.model';
 import { MarkerService } from './../../services/marker.service';
@@ -11,13 +12,18 @@ import { MarkerServiceState } from './../../services/marker-service-state.enum';
 })
 export class HomeComponent implements AfterContentInit {
 
-    public latitude = 0;
-    public longitude = 0;
-    public zoom = 15;
+    public latitude: number;
+    public longitude: number;
+    public zoom: number;
     public markers: Marker[];
     public state: MarkerServiceState;
 
-    public constructor(private snackBar: MatSnackBar, private markerService: MarkerService) {
+    public constructor(private snackBar: MatSnackBar, private markerService: MarkerService,
+        private materialdialogService: MatDialog) {
+        this.latitude = 0;
+        this.longitude = 0;
+        this.zoom = 15;
+
         this.markerService.markers.subscribe((markers: Marker[]) => {
             this.markers = markers;
         });
@@ -34,16 +40,22 @@ export class HomeComponent implements AfterContentInit {
     public mapClicked($event: any): void {
         if (this.state === MarkerServiceState.AddMarker) {
 
-            const marker = new Marker();
-            marker.latitude = $event.coords.lat;
-            marker.longitude = $event.coords.lng;
+            const dialogRef = this.materialdialogService.open(NewMarkerDialogComponent);
 
-            this.markerService.addMarker(marker);
-            this.markerService.setState(MarkerServiceState.None);
+            dialogRef.afterClosed().subscribe((marker: Marker) => {
+                if (marker) {
+                    marker.latitude = $event.coords.lat;
+                    marker.longitude = $event.coords.lng;
+
+                    this.markerService.addMarker(marker);
+                }
+
+                this.markerService.setState(MarkerServiceState.None);
+            });
         }
     }
 
-    public getLocation() {
+    public getLocation(): void {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position: Position) => {
                 this.latitude = position.coords.latitude;
