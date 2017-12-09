@@ -5,6 +5,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AngularMaterialModule } from './../shared/modules/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from './../../environments/environment.keys';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 import { MarkerService } from './services/marker.service';
 
@@ -31,6 +32,7 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
         homeRouting,
         FormsModule,
         ReactiveFormsModule,
+        NgxGalleryModule,
         AgmCoreModule.forRoot({
             apiKey: environment.googleMapsAPIKey
         })

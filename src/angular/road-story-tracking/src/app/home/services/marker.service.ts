@@ -17,20 +17,6 @@ export class MarkerService {
 
     public constructor() {
         this._staticMarkers = [];
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position: Position) => {
-
-                const marker = new Marker();
-                marker.latitude = position.coords.latitude;
-                marker.longitude = position.coords.longitude;
-                marker.iconUrl = 'assets/icons/my-position-marker.png';
-                marker.name = 'My position';
-
-                this._staticMarkers.push(marker);
-            });
-        }
-
         this._state = new BehaviorSubject(MarkerServiceState.None);
         this._markers = new BehaviorSubject<Marker[]>(this._staticMarkers);
         this.markers = this._markers.asObservable();

@@ -32,6 +32,10 @@ html, body{
     cursor: pointer;
 }
 
+.mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
+    transform: none !important;
+}
+
 :focus {
     outline: none;
 }

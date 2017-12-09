@@ -2,7 +2,10 @@
 <form #addMarkerForm="ngForm" (submit)="saveMarker()">
     <mat-dialog-content>
         <mat-form-field class="new-marker-full-width">
-            <input matInput placeholder="Name" [(ngModel)]="marker.name" name="Marker-name">
+            <input matInput placeholder="Name" [(ngModel)]="marker.name" name="Marker-name" #markerNameInput="ngModel" required>
+            <mat-error *ngIf="markerNameInput.invalid">
+                <span *ngIf="markerNameInput.hasError('required')">* This field is required</span>
+            </mat-error>
         </mat-form-field>
         <mat-form-field class="new-marker-full-width">
             <mat-select placeholder="Event type" [(ngModel)]="marker.type" name="Marker-type">
@@ -14,8 +17,13 @@
         </mat-form-field>
         <mat-form-field class="new-marker-full-width">
             <textarea matInput placeholder="Description" [(ngModel)]="marker.description" name="Marker-description" matTextareaAutosize
-                matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
+                matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
         </mat-form-field>
+        <div class="image-opetaion-buttons">
+            <button *ngIf="galleryImages.length > 0" mat-raised-button (click)="removeImage()" type="button">Remove</button>
+            <button mat-raised-button color="primary" (click)="addImage()" type="button">Add image</button>
+        </div>
+        <ngx-gallery *ngIf="galleryImages.length > 0" [options]="galleryOptions" [images]="galleryImages" #gallery></ngx-gallery>
     </mat-dialog-content>
     <mat-dialog-actions class="new-marker-action-buttons">
         <button mat-raised-button color="primary" type="submit">Save</button>

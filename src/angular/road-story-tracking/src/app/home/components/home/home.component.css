@@ -41,6 +41,6 @@ app-filter{
     }
 
     agm-map {
-        height: calc(100% - 36px * 2);
+        height: calc(100% - 36px);
     }
 }

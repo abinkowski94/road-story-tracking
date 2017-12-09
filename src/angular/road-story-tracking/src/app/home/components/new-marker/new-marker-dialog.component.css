@@ -1,7 +1,13 @@
 .new-marker-full-width {
     width: 100%;
+    margin-bottom: 2%;
 }
 
-.new-marker-action-buttons{
+.new-marker-action-buttons {
     float: right;
+}
+
+.image-opetaion-buttons {
+    float: right;
+    margin-bottom: 2%;
 }

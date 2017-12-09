@@ -3,14 +3,6 @@
         <i [style.opacity]="state === 1 ? 1 : 0" class="material-icons">keyboard_arrow_right</i>
         <i class="material-icons">add</i> Add
     </button>
-    <button mat-raised-button (click)="setMarkerMode(2)" color="primary">
-        <i [style.opacity]="state === 2 ? 1 : 0" class="material-icons">keyboard_arrow_right</i>
-        <i class="material-icons">clear</i> Remove
-    </button>
-    <button mat-raised-button (click)="setMarkerMode(3)" color="primary">
-        <i [style.opacity]="state === 3 ? 1 : 0" class="material-icons">keyboard_arrow_right</i>
-        <i class="material-icons">highlight_off</i> Ignore
-    </button>
     <button mat-raised-button (click)="refreshMap()" color="primary">
         <i [style.opacity]="0" class="material-icons">keyboard_arrow_right</i>
         <i class="material-icons">refresh</i> Refresh map
