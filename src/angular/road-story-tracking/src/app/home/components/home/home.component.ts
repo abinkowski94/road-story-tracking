@@ -40,16 +40,17 @@ export class HomeComponent implements AfterContentInit {
     public mapClicked($event: any): void {
         if (this.state === MarkerServiceState.AddMarker) {
 
-            const dialogRef = this.materialdialogService.open(NewMarkerDialogComponent);
+            const dialogRef = this.materialdialogService.open(NewMarkerDialogComponent, {
+                data: {
+                    latitude: $event.coords.lat,
+                    longitude: $event.coords.lng
+                }
+            });
 
             dialogRef.afterClosed().subscribe((marker: Marker) => {
                 if (marker) {
-                    marker.latitude = $event.coords.lat;
-                    marker.longitude = $event.coords.lng;
-
                     this.markerService.addMarker(marker);
                 }
-
                 this.markerService.setState(MarkerServiceState.None);
             });
         }

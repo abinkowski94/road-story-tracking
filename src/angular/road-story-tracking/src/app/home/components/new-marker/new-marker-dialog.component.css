@@ -11,3 +11,7 @@
     float: right;
     margin-bottom: 2%;
 }
+
+.input-file{
+    display: none;
+}

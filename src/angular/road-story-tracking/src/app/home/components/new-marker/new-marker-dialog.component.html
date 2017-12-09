@@ -21,12 +21,13 @@
         </mat-form-field>
         <div class="image-opetaion-buttons">
             <button *ngIf="galleryImages.length > 0" mat-raised-button (click)="removeImage()" type="button">Remove</button>
-            <button mat-raised-button color="primary" (click)="addImage()" type="button">Add image</button>
+            <input type="file" class="input-file" accept="image/*" (change)="addImage(inputImageChange)" #inputImageChange />
+            <button mat-raised-button color="primary" (click)="inputImageChange.click()" type="button">Add image</button>
         </div>
         <ngx-gallery *ngIf="galleryImages.length > 0" [options]="galleryOptions" [images]="galleryImages" #gallery></ngx-gallery>
     </mat-dialog-content>
     <mat-dialog-actions class="new-marker-action-buttons">
-        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]='addMarkerForm.invalid'>Save</button>
         <button mat-raised-button mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
 </form>

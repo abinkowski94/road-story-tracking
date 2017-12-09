@@ -5,7 +5,7 @@
         <agm-info-window *ngIf="marker.name">
             <h3>{{ marker.name }}</h3>
             <p class="styled-description">{{ marker.description }}</p>
-            <a href="#" onclick="return false;">Details</a>
+            <a [routerLink]="'/marker/' + marker.id" routerLinkActive="active">Details</a>
         </agm-info-window>
     </agm-marker>
     <agm-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="'assets/icons/my-position-marker.png'">
