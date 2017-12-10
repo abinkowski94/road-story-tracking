@@ -45,5 +45,12 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .Where(m => m.CreateDate > DateTimeOffset.Now.AddDays(-1))
                 .ToList();
         }
+
+        public List<Marker> GetUsersMarkers(string userId)
+        {
+            return _dbContext.Markers
+                .Where(m => m.ApplicationUserId == userId)
+                .ToList();
+        }
     }
 }

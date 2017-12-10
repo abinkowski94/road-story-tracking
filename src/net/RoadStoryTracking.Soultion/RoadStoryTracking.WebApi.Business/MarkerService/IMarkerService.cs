@@ -12,5 +12,7 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
         Task<BaseResponse> GetMarker(Guid markerId);
 
         Task<BaseResponse> GetMarkers();
+
+        Task<BaseResponse> GetUsersMarkers(string userId);
     }
 }

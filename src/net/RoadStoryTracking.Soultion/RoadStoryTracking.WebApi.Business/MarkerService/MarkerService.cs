@@ -61,5 +61,16 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
                 return new SuccessResponse<List<Marker>>(result);
             });
         }
+
+        public Task<BaseResponse> GetUsersMarkers(string userId)
+        {
+            return Task.Run<BaseResponse>(() =>
+            {
+                var dbMarkers = _markerRepository.GetUsersMarkers(userId);
+                var result = LocalMapper.Map<List<Marker>>(dbMarkers);
+
+                return new SuccessResponse<List<Marker>>(result);
+            });
+        }
     }
 }
