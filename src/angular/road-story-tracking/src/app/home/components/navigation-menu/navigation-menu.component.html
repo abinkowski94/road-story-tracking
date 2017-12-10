@@ -1,9 +1,9 @@
 <div class="navigation-buttons">
-    <button mat-raised-button (click)="setMarkerMode(1)" color="primary">
+    <button mat-raised-button (click)="setMarkerMode(1)" color="primary" *ngIf="isAuthenticated">
         <i [style.opacity]="state === 1 ? 1 : 0" class="material-icons">keyboard_arrow_right</i>
         <i class="material-icons">add</i> Add
     </button>
-    <button mat-raised-button (click)="refreshMap()" color="primary">
+    <button mat-raised-button (click)="refreshMap()" color="primary" [ngClass]="isAuthenticated ? '' : 'full-width-refresh'">
         <i [style.opacity]="0" class="material-icons">keyboard_arrow_right</i>
         <i class="material-icons">refresh</i> Refresh map
     </button>

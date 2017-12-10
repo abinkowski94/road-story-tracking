@@ -3,6 +3,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 import { MarkerService } from './../../services/marker.service';
 import { MarkerServiceState } from '../../services/marker-service-state.enum';
+import { UserService } from './../../../shared/services/user/user.service';
 
 @Component({
     templateUrl: './navigation-menu.component.html',
@@ -13,14 +14,12 @@ export class NavigationMenuComponent {
 
     @Output() public refreshMapClick: EventEmitter<any>;
     public state: MarkerServiceState;
+    public isAuthenticated: boolean;
 
-    public constructor(private markerService: MarkerService, private snackBar: MatSnackBar) {
-
+    public constructor(private markerService: MarkerService, private snackBar: MatSnackBar, private userService: UserService) {
         this.refreshMapClick = new EventEmitter<any>();
-
-        this.markerService.state.subscribe((state: MarkerServiceState) => {
-            this.state = state;
-        });
+        this.markerService.state.subscribe((state: MarkerServiceState) => this.state = state);
+        this.userService.isAuthenticated.subscribe((result: boolean) => this.isAuthenticated = result);
     }
 
     public setMarkerMode(mode: MarkerServiceState): void {

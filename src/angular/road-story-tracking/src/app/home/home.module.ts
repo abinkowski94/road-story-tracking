@@ -8,6 +8,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { AngularMaterialModule } from './../shared/modules/material.module';
 import { environment } from './../../environments/environment.keys';
 
+import { MarkerApiService } from './services/marker-api.service';
 import { MarkerService } from './services/marker.service';
 import { ImageService } from './../shared/services/image-services/image.service';
 
@@ -55,6 +56,7 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
         NewMarkerDialogComponent
     ],
     providers: [
+        MarkerApiService,
         MarkerService,
         ImageService
     ]

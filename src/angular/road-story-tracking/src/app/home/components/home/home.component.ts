@@ -1,9 +1,10 @@
-import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.component';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Component, AfterContentInit } from '@angular/core';
-import { Marker } from './../../../shared/models/data/map/marker.model';
-import { MarkerService } from './../../services/marker.service';
 
+import { MarkerService } from './../../services/marker.service';
+import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.component';
+
+import { Marker } from './../../../shared/models/data/map/marker.model';
 import { MarkerServiceState } from './../../services/marker-service-state.enum';
 
 @Component({
@@ -12,25 +13,20 @@ import { MarkerServiceState } from './../../services/marker-service-state.enum';
 })
 export class HomeComponent implements AfterContentInit {
 
+    public state: MarkerServiceState;
+
     public latitude: number;
     public longitude: number;
     public zoom: number;
     public markers: Marker[];
-    public state: MarkerServiceState;
 
-    public constructor(private snackBar: MatSnackBar, private markerService: MarkerService,
-        private materialdialogService: MatDialog) {
+    public constructor(private snackBar: MatSnackBar, private markerService: MarkerService, private materialdialogService: MatDialog) {
         this.latitude = 0;
         this.longitude = 0;
         this.zoom = 15;
 
-        this.markerService.markers.subscribe((markers: Marker[]) => {
-            this.markers = markers;
-        });
-
-        this.markerService.state.subscribe((state: MarkerServiceState) => {
-            this.state = state;
-        });
+        this.markerService.markers.subscribe((markers: Marker[]) => this.markers = markers);
+        this.markerService.state.subscribe((state: MarkerServiceState) => this.state = state);
     }
 
     public ngAfterContentInit(): void {
@@ -39,19 +35,11 @@ export class HomeComponent implements AfterContentInit {
 
     public mapClicked($event: any): void {
         if (this.state === MarkerServiceState.AddMarker) {
-
-            const dialogRef = this.materialdialogService.open(NewMarkerDialogComponent, {
+            this.materialdialogService.open(NewMarkerDialogComponent, {
                 data: {
                     latitude: $event.coords.lat,
                     longitude: $event.coords.lng
                 }
-            });
-
-            dialogRef.afterClosed().subscribe((marker: Marker) => {
-                if (marker) {
-                    this.markerService.addMarker(marker);
-                }
-                this.markerService.setState(MarkerServiceState.None);
             });
         }
     }

@@ -10,6 +10,10 @@
     text-align: left;
 }
 
+.full-width-refresh{
+    width: 100% !important;
+}
+
 @media only screen and (max-width: 600px) {
 
     .navigation-buttons > button:hover {

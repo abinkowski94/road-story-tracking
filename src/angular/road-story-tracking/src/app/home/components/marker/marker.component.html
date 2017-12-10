@@ -1,0 +1,13 @@
+<div class="wrapper">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h1>{{ marker.name }}</h1>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <ngx-gallery *ngIf="galleryImages.length > 0" [options]="galleryOptions" [images]="galleryImages" #gallery></ngx-gallery>
+            <p class="styled-description">{{ marker.description }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

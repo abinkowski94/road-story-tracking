@@ -1,6 +1,5 @@
-
 import { Component, ViewChild, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryComponent } from 'ngx-gallery';
 
 import { Marker } from './../../../shared/models/data/map/marker.model';
@@ -19,7 +18,7 @@ export class NewMarkerDialogComponent {
     public galleryImages: NgxGalleryImage[];
 
     public constructor(private imageService: ImageService, private dialogRef: MatDialogRef<NewMarkerDialogComponent>,
-        private markerService: MarkerService, @Inject(MAT_DIALOG_DATA) private data: any) {
+        private markerService: MarkerService, @Inject(MAT_DIALOG_DATA) private data: any, private snackBar: MatSnackBar) {
 
         this.marker = new Marker();
         this.marker.latitude = this.data.latitude;
@@ -33,20 +32,23 @@ export class NewMarkerDialogComponent {
     }
 
     public saveMarker(): void {
-        // TODO: save marker to backend
-        this.dialogRef.close(this.marker);
+        this.markerService.addMarker(this.marker).subscribe((result: Marker) => {
+            this.dialogRef.close(result);
+        }, error => {
+            this.snackBar.open('Cannot save event at the server side.', 'Error!', {
+                duration: 3000,
+                horizontalPosition: 'right'
+            });
+        });
     }
 
     public addImage(input: any): void {
         this.imageService.loadImage(input, (loadedImage: string) => {
-            // TODO: check weird behaviour.
-            // const resized = this.imageService.resize(loadedImage, 250, 250);
             this.galleryImages.push({
                 small: loadedImage,
                 medium: loadedImage,
                 big: loadedImage
             });
-
             this.marker.images.push(loadedImage);
         });
     }

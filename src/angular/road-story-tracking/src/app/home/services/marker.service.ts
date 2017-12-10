@@ -3,32 +3,46 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
 
+import { MarkerApiService } from './marker-api.service';
 import { MarkerServiceState } from './marker-service-state.enum';
 import { Marker } from './../../shared/models/data/map/marker.model';
 
 @Injectable()
 export class MarkerService {
 
+    private _state: BehaviorSubject<MarkerServiceState>;
     private _staticMarkers: Marker[];
     private _markers: BehaviorSubject<Marker[]>;
-    private _state: BehaviorSubject<MarkerServiceState>;
-    public readonly markers: Observable<Marker[]>;
-    public readonly state: Observable<MarkerServiceState>;
 
-    public constructor() {
+    public readonly state: Observable<MarkerServiceState>;
+    public readonly markers: Observable<Marker[]>;
+
+    public constructor(private markerApiService: MarkerApiService) {
         this._staticMarkers = [];
         this._state = new BehaviorSubject(MarkerServiceState.None);
         this._markers = new BehaviorSubject<Marker[]>(this._staticMarkers);
         this.markers = this._markers.asObservable();
         this.state = this._state.asObservable();
+
+        this.getMarkers();
     }
 
     public setState(state: MarkerServiceState): void {
         this._state.next(state);
     }
 
-    public addMarker(marker: Marker): void {
-        this._staticMarkers.push(marker);
-        this._markers.next(this._staticMarkers);
+    public getMarkers(): void {
+        this.markerApiService.getMarkers().subscribe((result: Marker[]) => {
+            this._staticMarkers = result;
+            this._markers.next(this._staticMarkers);
+        });
+    }
+
+    public addMarker(marker: Marker): Observable<Marker> {
+        return this.markerApiService.addMarker(marker).do((result: Marker) => {
+            this._staticMarkers.push(result);
+            this._markers.next(this._staticMarkers);
+            this.setState(MarkerServiceState.None);
+        });
     }
 }
