@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RoadStoryTracking.Model.Models;
+using RoadStoryTracking.Model.Models.User;
 using RoadStoryTracking.WebApi.Business.UserService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Threading.Tasks;
-using BM = RoadStoryTracking.WebApi.Business.BusinessModels;
+using BM = RoadStoryTracking.WebApi.Business.BusinessModels.User;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -38,7 +38,7 @@ namespace RoadStoryTracking.WebApi.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateUserPassword(string oldPassword, string newPassword)
         {
-            var response = await _userService.UpdateUserPassword(Requestor.UserName, oldPassword, newPassword);
+            var response = await _userService.UpdateUserPassword(Requestor.User.UserName, oldPassword, newPassword);
             return response.GetActionResult(this);
         }
     }

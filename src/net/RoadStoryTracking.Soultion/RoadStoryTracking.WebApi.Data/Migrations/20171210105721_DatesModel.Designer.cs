@@ -12,9 +12,10 @@ using System;
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     [DbContext(typeof(RoadStoryTrackingDbContext))]
-    partial class RoadStoryTrackingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171210105721_DatesModel")]
+    partial class DatesModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,11 +198,11 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<double>("Latitude");
+                    b.Property<decimal>("Latitude");
 
-                    b.Property<double>("Longitude");
+                    b.Property<decimal>("Longitude");
 
-                    b.Property<DateTimeOffset?>("ModificationDate");
+                    b.Property<DateTimeOffset>("ModificationDate");
 
                     b.Property<string>("Name");
 
@@ -225,7 +226,7 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
 
                     b.Property<Guid>("MarkerId");
 
-                    b.Property<DateTimeOffset?>("ModificationDate");
+                    b.Property<DateTimeOffset>("ModificationDate");
 
                     b.HasKey("Id");
 

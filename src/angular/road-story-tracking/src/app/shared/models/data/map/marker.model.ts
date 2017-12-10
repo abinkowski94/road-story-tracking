@@ -1,3 +1,4 @@
+import { MarkerOwner } from './marker-owner.model';
 import { MarkerType } from './marker-type.enum.model';
 import { BaseMarker } from './base-marker.model';
 
@@ -10,6 +11,7 @@ export class Marker extends BaseMarker {
     public type: MarkerType;
     public description: string;
     public images: string[];
+    public markerOwner: MarkerOwner;
 
     public constructor() {
         super();

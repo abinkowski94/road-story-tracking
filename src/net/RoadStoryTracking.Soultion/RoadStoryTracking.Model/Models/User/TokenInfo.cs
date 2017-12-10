@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace RoadStoryTracking.Model.Models
+namespace RoadStoryTracking.Model.Models.User
 {
     public class TokenInfo
     {

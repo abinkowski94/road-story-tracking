@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RoadStoryTracking.WebApi.Business.BusinessModels
+namespace RoadStoryTracking.WebApi.Business.BusinessModels.User
 {
     public class TokenInfo
     {

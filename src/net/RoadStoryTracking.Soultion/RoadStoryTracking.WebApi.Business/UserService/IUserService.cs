@@ -1,4 +1,4 @@
-﻿using RoadStoryTracking.WebApi.Business.BusinessModels;
+﻿using RoadStoryTracking.WebApi.Business.BusinessModels.User;
 using RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
 using System;
 using System.Threading.Tasks;

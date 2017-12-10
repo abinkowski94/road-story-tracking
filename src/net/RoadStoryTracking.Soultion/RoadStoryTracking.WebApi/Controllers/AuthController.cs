@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RoadStoryTracking.Model.Models;
+using RoadStoryTracking.Model.Models.User;
 using RoadStoryTracking.WebApi.Business.UserService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Threading.Tasks;
-using BM = RoadStoryTracking.WebApi.Business.BusinessModels;
+using BM = RoadStoryTracking.WebApi.Business.BusinessModels.User;
+using BMR = RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -22,7 +23,7 @@ namespace RoadStoryTracking.WebApi.Controllers
         public async Task<IActionResult> ConfirmEmailAddress(string userName, string token)
         {
             var response = await _userService.ConfirmUserEmailAddress(userName, token);
-            if (response is BM.Responses.SuccessResponse<object>)
+            if (response is BMR.SuccessResponse<object>)
             {
                 return Redirect("~/account/register/confirmed");
             }

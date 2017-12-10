@@ -7,6 +7,9 @@ namespace RoadStoryTracking.WebApi.Data.Context
 {
     public class RoadStoryTrackingDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<MarkerImage> MarkerImages { get; set; }
+        public DbSet<Marker> Markers { get; set; }
+
         public RoadStoryTrackingDbContext(DbContextOptions<RoadStoryTrackingDbContext> options) : base(options)
         {
         }

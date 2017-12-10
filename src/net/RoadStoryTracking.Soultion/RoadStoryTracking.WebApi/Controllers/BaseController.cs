@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using RoadStoryTracking.Model.Models;
+using RoadStoryTracking.Model.Models.User;
 using RoadStoryTracking.Model.Responses;
 using RoadStoryTracking.WebApi.Data.Context;
 using RoadStoryTracking.WebApi.Models;
@@ -10,7 +10,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using BM = RoadStoryTracking.WebApi.Business.BusinessModels;
+using BMU = RoadStoryTracking.WebApi.Business.BusinessModels.User;
+using BMM = RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
+using BMR = RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
+using RoadStoryTracking.Model.Models.Marker;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -57,15 +60,19 @@ namespace RoadStoryTracking.WebApi.Controllers
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap(typeof(BM.Responses.BaseResponse), typeof(BaseResponse));
-                cfg.CreateMap(typeof(BM.Responses.SuccessResponse<>), typeof(SuccessResponse<>));
-                cfg.CreateMap(typeof(BM.Responses.ErrorResponse), typeof(ErrorResponse));
+                cfg.CreateMap(typeof(BMR.BaseResponse), typeof(BaseResponse));
+                cfg.CreateMap(typeof(BMR.SuccessResponse<>), typeof(SuccessResponse<>));
+                cfg.CreateMap(typeof(BMR.ErrorResponse), typeof(ErrorResponse));
 
-                cfg.CreateMap<BM.TokenInfo, TokenInfo>();
+                cfg.CreateMap<BMU.TokenInfo, TokenInfo>();
 
-                cfg.CreateMap<BM.ApplicationUser, ApplicationUser>();
-                cfg.CreateMap<ApplicationUser, BM.ApplicationUser>()
-                    .ForMember(p => p.UserName, p => p.MapFrom(d => d.Email));
+                cfg.CreateMap<BMU.ApplicationUser, ApplicationUser>();
+                cfg.CreateMap<ApplicationUser, BMU.ApplicationUser>()
+                    .ForMember(p => p.UserName, p => p.MapFrom(d => d.Email))
+                    .ForMember(p => p.Id, p => p.Ignore());
+
+                cfg.CreateMap<BMM.Marker, Marker>().ReverseMap();
+                cfg.CreateMap<BMM.MarkerOwner, MarkerOwner>().ReverseMap();
             });
 
             configuration.AssertConfigurationIsValid();

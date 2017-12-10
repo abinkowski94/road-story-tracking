@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RoadStoryTracking.WebApi.Business.EmailService;
+using RoadStoryTracking.WebApi.Business.MarkerService;
 using RoadStoryTracking.WebApi.Business.UserService;
+using RoadStoryTracking.WebApi.Data.Repositories;
 
 namespace RoadStoryTracking.WebApi.AppStartup
 {
@@ -11,6 +13,8 @@ namespace RoadStoryTracking.WebApi.AppStartup
         {
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IMarkerRepository, MarkerRepository>();
+            services.AddTransient<IMarkerService, MarkerService>();
             services.AddSingleton(configuration);
         }
     }

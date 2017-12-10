@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RoadStoryTracking.Model.Models
+namespace RoadStoryTracking.Model.Models.User
 {
     public class ApplicationUser
     {

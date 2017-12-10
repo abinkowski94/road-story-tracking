@@ -12,9 +12,10 @@ using System;
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     [DbContext(typeof(RoadStoryTrackingDbContext))]
-    partial class RoadStoryTrackingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171210105925_MarkerDateModificationNullable")]
+    partial class MarkerDateModificationNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,13 +194,14 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
-                    b.Property<DateTimeOffset>("CreateDate");
+                    b.Property<DateTimeOffset>("CreateDate")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
-                    b.Property<double>("Latitude");
+                    b.Property<decimal>("Latitude");
 
-                    b.Property<double>("Longitude");
+                    b.Property<decimal>("Longitude");
 
                     b.Property<DateTimeOffset?>("ModificationDate");
 
@@ -219,7 +221,8 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset>("CreateDate");
+                    b.Property<DateTimeOffset>("CreateDate")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Image");
 
