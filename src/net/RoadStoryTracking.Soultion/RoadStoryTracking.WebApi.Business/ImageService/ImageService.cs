@@ -37,6 +37,18 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
             return $"assets/{location}/{imageName}.jpg";
         }
 
+        public bool DeleteImage(string path)
+        {
+            var fullPath = Path.Combine(_enviroment.WebRootPath, path);
+            if (File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+                return true;
+            }
+
+            return false;
+        }
+
         private string ClearBase64Fromat(string base64Image)
         {
             var indexOfFormatEnd = base64Image.IndexOf(',') + 1;

@@ -52,5 +52,13 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .Where(m => m.ApplicationUserId == userId)
                 .ToList();
         }
+
+        public Marker DeleteMarker(Marker marker)
+        {
+            _dbContext.Markers.Remove(marker);
+            _dbContext.SaveChanges();
+
+            return marker;
+        }
     }
 }

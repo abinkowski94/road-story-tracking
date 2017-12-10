@@ -72,5 +72,24 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
                 return new SuccessResponse<List<Marker>>(result);
             });
         }
+
+        public Task<BaseResponse> DeleteMarker(Guid markerId, string userId)
+        {
+            return Task.Run<BaseResponse>(() =>
+            {
+                var markerToDelete = _markerRepository.GetMarker(markerId);
+                if(markerToDelete == null || markerToDelete.ApplicationUserId != userId)
+                {
+                    return new ErrorResponse(new CustomApplicationException("You do not have privileges to delete this event!"));
+                }
+
+                var result = LocalMapper.Map<Marker>(markerToDelete);
+
+                result.Images.ForEach(i => _imageService.DeleteImage(i));
+                _markerRepository.DeleteMarker(markerToDelete);
+
+                return new SuccessResponse<Marker>(result);
+            });
+        }
     }
 }
