@@ -25,16 +25,20 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
                 var directory = Directory.CreateDirectory(pathWithFolderName);
             }
 
-            var bytes = Convert.FromBase64String(base64Image);
-            File.Create(imagePath).Dispose();
-
-            using (var writer = new BinaryWriter(File.OpenWrite(imagePath)))
+            if (TryGetFromBase64String(base64Image, out byte[] bytes))
             {
-                writer.Write(bytes);
-                writer.Flush();
+                File.Create(imagePath).Dispose();
+
+                using (var writer = new BinaryWriter(File.OpenWrite(imagePath)))
+                {
+                    writer.Write(bytes);
+                    writer.Flush();
+                }
+
+                return $"assets/{location}/{imageName}.jpg";
             }
 
-            return $"assets/{location}/{imageName}.jpg";
+            return null;
         }
 
         public bool DeleteImage(string path)
@@ -54,6 +58,20 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
             var indexOfFormatEnd = base64Image.IndexOf(',') + 1;
             var formatString = base64Image.Substring(0, indexOfFormatEnd);
             return base64Image.Replace(formatString, "");
+        }
+
+        private bool TryGetFromBase64String(string input, out byte[] output)
+        {
+            output = null;
+            try
+            {
+                output = Convert.FromBase64String(input);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
     }
 }

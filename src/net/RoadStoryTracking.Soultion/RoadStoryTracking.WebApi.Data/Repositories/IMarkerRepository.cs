@@ -15,5 +15,9 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
         List<Marker> GetUsersMarkers(string userId);
 
         Marker DeleteMarker(Marker marker);
+
+        Marker UpdateMarker(Marker marker);
+
+        List<MarkerImage> DeleteMarkerImages(List<MarkerImage> markerImages);
     }
 }

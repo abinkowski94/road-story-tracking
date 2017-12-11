@@ -11,12 +11,14 @@ import { environment } from './../../environments/environment.keys';
 import { MarkerApiService } from './services/marker-api.service';
 import { MarkerService } from './services/marker.service';
 import { ImageService } from './../shared/services/image-services/image.service';
+import { AuthGuard } from './../shared/services/user/auth-guard.service';
 
 import { HomeComponent } from './components/home/home.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { MarkerComponent } from './components/marker/marker.component';
 import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { NewMarkerDialogComponent } from './components/new-marker/new-marker-dialog.component';
+import { MyMarkersComponent } from './components/my-markers/my-markers.component';
 
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
     {
@@ -30,6 +32,11 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
     {
         path: 'marker/:id',
         component: MarkerComponent
+    },
+    {
+        path: 'my-markers',
+        component: MyMarkersComponent,
+        canActivate: [AuthGuard]
     }
 ]);
 
@@ -50,7 +57,8 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
         NavigationMenuComponent,
         FilterComponent,
         NewMarkerDialogComponent,
-        MarkerComponent
+        MarkerComponent,
+        MyMarkersComponent
     ],
     entryComponents: [
         NewMarkerDialogComponent
@@ -58,7 +66,8 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
     providers: [
         MarkerApiService,
         MarkerService,
-        ImageService
+        ImageService,
+        AuthGuard
     ]
 })
 export class HomeModule { }

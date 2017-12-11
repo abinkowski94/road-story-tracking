@@ -59,5 +59,15 @@ namespace RoadStoryTracking.WebApi.Controllers
             var response = await _markerService.DeleteMarker(markerId, Requestor.User.Id);
             return response.GetActionResult<BMM.Marker, Marker>(this);
         }
+
+        [Authorize]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> DeleteMarker([FromBody] Marker marker)
+        {
+            var mappedMarker = LocalMapper.Map<BMM.Marker>(marker);
+            var response = await _markerService.UpdateMarker(mappedMarker, Requestor.User.Id);
+
+            return response.GetActionResult<BMM.Marker, Marker>(this);
+        }
     }
 }

@@ -41,4 +41,18 @@ export class MarkerApiService extends BaseHttpService {
 
         return result;
     }
+
+    public getMyMarkers(): Observable<Marker[]> {
+        let result = this.get<Marker[]>('GetMyMarkers');
+
+        if (environment.production === false) {
+            result = result.do((resultMarkers: Marker[]) => {
+                for (const marker of resultMarkers) {
+                    marker.images = marker.images.map(i => environment.backendHotst + i);
+                }
+            });
+        }
+
+        return result;
+    }
 }

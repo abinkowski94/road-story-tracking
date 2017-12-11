@@ -16,5 +16,7 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
         Task<BaseResponse> GetUsersMarkers(string userId);
 
         Task<BaseResponse> DeleteMarker(Guid markerId, string userId);
+
+        Task<BaseResponse> UpdateMarker(Marker marker, string userId);
     }
 }

@@ -55,10 +55,28 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
 
         public Marker DeleteMarker(Marker marker)
         {
+            if (marker.Images.Any())
+            {
+                _dbContext.MarkerImages.RemoveRange(marker.Images);
+            }
             _dbContext.Markers.Remove(marker);
             _dbContext.SaveChanges();
 
             return marker;
+        }
+
+        public Marker UpdateMarker(Marker marker)
+        {
+            _dbContext.SaveChanges();
+            return marker;
+        }
+
+        public List<MarkerImage> DeleteMarkerImages(List<MarkerImage> markerImages)
+        {
+            _dbContext.MarkerImages.RemoveRange(markerImages);
+            _dbContext.SaveChanges();
+
+            return markerImages;
         }
     }
 }
