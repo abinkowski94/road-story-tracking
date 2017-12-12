@@ -1,3 +1,10 @@
 <mat-form-field class="search-input">
-    <input matInput placeholder="Search...">
+    <input matInput placeholder="Search..." [matAutocomplete]="auto" [formControl]="markerCtrl">
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let marker of filteredMarkers | async" [value]="marker.name" [routerLink]="'/marker/' + marker.id">
+            <span>{{ marker.name }}</span>
+            <span *ngIf="marker.description"> | </span>
+            <small *ngIf="marker.description">{{ turncateDescription(marker.description) }}...</small>
+        </mat-option>
+    </mat-autocomplete>
 </mat-form-field>

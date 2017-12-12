@@ -1,7 +1,7 @@
 <app-filter></app-filter>
 <app-navigation-menu (refreshMapClick)="refreshMap()"></app-navigation-menu>
 <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClicked($event)">
-    <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude" [iconUrl]="marker.iconUrl">
+    <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude" [iconUrl]="translateTypeToIcon(marker.type)">
         <agm-info-window *ngIf="marker.name">
             <h3>{{ marker.name }}</h3>
             <p class="styled-description">{{ marker.description }}</p>

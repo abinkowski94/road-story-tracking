@@ -5,6 +5,7 @@ import { MarkerService } from './../../services/marker.service';
 import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.component';
 
 import { Marker } from './../../../shared/models/data/map/marker.model';
+import { MarkerType } from './../../../shared/models/data/map/marker-type.enum.model';
 import { MarkerServiceState } from './../../services/marker-service-state.enum';
 
 @Component({
@@ -41,6 +42,8 @@ export class HomeComponent implements AfterContentInit {
                     latitude: $event.coords.lat,
                     longitude: $event.coords.lng
                 }
+            }).afterClosed().subscribe((result) => {
+                this.markerService.setState(MarkerServiceState.None);
             });
         }
     }
@@ -73,5 +76,16 @@ export class HomeComponent implements AfterContentInit {
         }
         this.zoom = 15;
         this.markerService.getMarkers();
+    }
+
+    public translateTypeToIcon(type: MarkerType): string {
+        if (type === MarkerType.NeedARide) {
+            return 'assets/icons/car-marker.png';
+        } else if (type === MarkerType.CashRelated) {
+            return 'assets/icons/cash-marker.png';
+        } else if (type === MarkerType.Party) {
+            return 'assets/icons/party-marker.png';
+        }
+        return '';
     }
 }
