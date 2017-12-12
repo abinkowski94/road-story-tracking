@@ -80,7 +80,7 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
                 var markerToDelete = _markerRepository.GetMarker(markerId);
                 if (markerToDelete == null || markerToDelete.ApplicationUserId != userId)
                 {
-                    return new ErrorResponse(new CustomApplicationException("You do not have privileges to delete this event!"));
+                    return new ErrorResponse(new CustomApplicationException($"Marker with id: {markerId} not found"));
                 }
 
                 var result = LocalMapper.Map<Marker>(markerToDelete);
@@ -118,7 +118,7 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
             markerToUpdate.Type = (Data.Models.MarkerType) ((int) updateModel.Type);
 
             var existingImages = markerToUpdate.Images.Where(img => updateModel.Images.Any(umi => umi == img.Image)).ToList();
-            var imagesToRemove = markerToUpdate.Images.Where(img => existingImages.Any(ei => ei.Id == img.Id)).ToList();
+            var imagesToRemove = markerToUpdate.Images.Where(img => !existingImages.Any(ei => ei.Id == img.Id)).ToList();
             var imagesToCreate = updateModel.Images.Where(img => !existingImages.Any(ei => ei.Image == img)).ToList();
 
             // Remove old images

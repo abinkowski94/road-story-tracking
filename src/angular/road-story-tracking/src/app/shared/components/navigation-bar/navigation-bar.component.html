@@ -3,11 +3,11 @@
         <button mat-icon-button routerLink="/home" routerLinkActive="active">
             <mat-icon>home</mat-icon>
         </button>
-        <button *ngIf="isAuthenticated" mat-button routerLink="/my-markers" routerLinkActive="active">
+        <button *ngIf="isAuthenticated && !isMobile" mat-button routerLink="/my-markers" routerLinkActive="active">
             <i class="material-icons">book</i> My events
         </button>
         <span class="fill-remaining-space"></span>
-        <div *ngIf="isAuthenticated">
+        <div *ngIf="isAuthenticated && !isMobile">
             <button mat-button routerLink="/account/manage" routerLinkActive="active">
                 <i class="material-icons">account_circle</i> My account
             </button>
@@ -15,12 +15,38 @@
                 <i class="material-icons">exit_to_app</i> Log off
             </button>
         </div>
-        <div *ngIf="!isAuthenticated">
+        <div *ngIf="!isAuthenticated && !isMobile">
             <button mat-button routerLink="/account/login" routerLinkActive="active">
                 <i class="material-icons">forward</i> Login
             </button>
             <button mat-button routerLink="/account/register" routerLinkActive="active">
                 <i class="material-icons">person</i> Register
+            </button>
+        </div>
+        <div *ngIf="isMobile">
+            <mat-menu #appMenu="matMenu">
+                <button *ngIf="isAuthenticated" mat-button routerLink="/my-markers" routerLinkActive="active">
+                    <i class="material-icons">book</i> My events
+                </button>
+                <br *ngIf="isAuthenticated">
+                <button *ngIf="isAuthenticated" mat-button routerLink="/account/manage" routerLinkActive="active">
+                    <i class="material-icons">account_circle</i> My account
+                </button>
+                <br *ngIf="isAuthenticated">
+                <button *ngIf="isAuthenticated" mat-button (click)="logOff()">
+                    <i class="material-icons">exit_to_app</i> Log off
+                </button>
+                <br *ngIf="isAuthenticated">
+                <button *ngIf="!isAuthenticated" mat-button routerLink="/account/login" routerLinkActive="active">
+                    <i class="material-icons">forward</i> Login
+                </button>
+                <br *ngIf="!isAuthenticated">
+                <button *ngIf="!isAuthenticated" mat-button routerLink="/account/register" routerLinkActive="active">
+                    <i class="material-icons">person</i> Register
+                </button>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-icon>more_vert</mat-icon>
             </button>
         </div>
     </mat-toolbar-row>

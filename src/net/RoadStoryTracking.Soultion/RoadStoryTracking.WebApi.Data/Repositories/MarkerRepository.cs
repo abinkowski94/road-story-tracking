@@ -49,6 +49,7 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
         public List<Marker> GetUsersMarkers(string userId)
         {
             return _dbContext.Markers
+                .Include(m => m.Images)
                 .Where(m => m.ApplicationUserId == userId)
                 .ToList();
         }

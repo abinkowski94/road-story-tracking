@@ -55,8 +55,9 @@ namespace RoadStoryTracking.WebApi.Business
 
                 cfg.CreateMap<Data.Models.ApplicationUser, MarkerOwner>()
                     .ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.UserName))
-                    .ForMember(dst => dst.FirsName, opt => opt.MapFrom(src => src.FirstName))
+                    .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src => src.FirstName))
                     .ForMember(dst => dst.LastName, opt => opt.MapFrom(src => src.LastName))
+                    .ForMember(dst => dst.Image, opt => opt.MapFrom(src => src.ImageUrl))
                     .ForAllOtherMembers(dst => dst.Ignore());
 
                 cfg.CreateMap<Data.Models.Marker, Marker>()

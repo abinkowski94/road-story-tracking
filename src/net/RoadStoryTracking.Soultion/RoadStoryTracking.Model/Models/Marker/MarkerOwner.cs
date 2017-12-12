@@ -4,13 +4,16 @@ namespace RoadStoryTracking.Model.Models.Marker
 {
     public class MarkerOwner
     {
-        [JsonProperty("firsName")]
-        public string FirsName { get; set; }
+        [JsonProperty("firstName")]
+        public string FirstName { get; set; }
 
         [JsonProperty("lastName")]
         public string LastName { get; set; }
 
         [JsonProperty("userName")]
         public string UserName { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
     }
 }

@@ -25,6 +25,7 @@ export class HomeComponent implements AfterContentInit {
         this.longitude = 0;
         this.zoom = 15;
 
+        this.markerService.getMarkers();
         this.markerService.markers.subscribe((markers: Marker[]) => this.markers = markers);
         this.markerService.state.subscribe((state: MarkerServiceState) => this.state = state);
     }
@@ -71,5 +72,6 @@ export class HomeComponent implements AfterContentInit {
             });
         }
         this.zoom = 15;
+        this.markerService.getMarkers();
     }
 }

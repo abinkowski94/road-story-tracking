@@ -1,5 +1,5 @@
-<h2 mat-dialog-title>New event</h2>
-<form #addMarkerForm="ngForm" (submit)="saveMarker()">
+<h2 mat-dialog-title>Update event</h2>
+<form #updateMarkerForm="ngForm" (submit)="updateMarker()">
     <mat-dialog-content>
         <mat-form-field class="new-marker-full-width">
             <input matInput placeholder="Name" [(ngModel)]="marker.name" name="Marker-name" #markerNameInput="ngModel" required>
@@ -27,7 +27,7 @@
         <ngx-gallery *ngIf="galleryImages.length > 0" [options]="galleryOptions" [images]="galleryImages" #gallery></ngx-gallery>
     </mat-dialog-content>
     <mat-dialog-actions class="pull-right">
-        <button mat-raised-button color="primary" type="submit" [disabled]='addMarkerForm.invalid'>Save</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]='updateMarkerForm.invalid'>Update</button>
         <button mat-raised-button mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
 </form>

@@ -55,4 +55,34 @@ export class MarkerApiService extends BaseHttpService {
 
         return result;
     }
+
+    public deleteMarker(markerId: string): Observable<Marker> {
+        const params = new HttpParams().set('markerId', markerId);
+        let result = this.delete<Marker>('DeleteMarker', params);
+
+        if (environment.production === false) {
+            result = result.do((resultMarker: Marker) => {
+                resultMarker.images = resultMarker.images.map(i => environment.backendHotst + i);
+            });
+        }
+
+        return result;
+    }
+
+    public updateMarker(marker: Marker): Observable<Marker> {
+
+        if (environment.production === false) {
+            marker.images = marker.images.map(i => i.replace(environment.backendHotst, ''));
+        }
+
+        let result = this.put<Marker>('UpdateMarker', marker);
+
+        if (environment.production === false) {
+            result = result.do((resultMarker: Marker) => {
+                resultMarker.images = resultMarker.images.map(i => environment.backendHotst + i);
+            });
+        }
+
+        return result;
+    }
 }

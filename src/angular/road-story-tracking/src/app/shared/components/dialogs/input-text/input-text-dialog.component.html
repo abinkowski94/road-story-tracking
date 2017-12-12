@@ -1,0 +1,8 @@
+﻿<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+    <input class="full-width" matInput placeholder="{{ placeholder }}" #userInput (keyup.enter)="closeWithResponse(userInput.value)">
+</mat-dialog-content>
+<mat-dialog-actions class="pull-right">
+    <button mat-button (click)="closeWithResponse(userInput.value)">Ok</button>
+    <button mat-button (click)="dialogRef.close(null)">Cancel</button>
+</mat-dialog-actions>

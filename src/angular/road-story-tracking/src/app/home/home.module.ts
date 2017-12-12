@@ -12,6 +12,7 @@ import { MarkerApiService } from './services/marker-api.service';
 import { MarkerService } from './services/marker.service';
 import { ImageService } from './../shared/services/image-services/image.service';
 import { AuthGuard } from './../shared/services/user/auth-guard.service';
+import { DialogService } from './../shared/services/dialog/dialog.service';
 
 import { HomeComponent } from './components/home/home.component';
 import { FilterComponent } from './components/filter/filter.component';
@@ -19,6 +20,7 @@ import { MarkerComponent } from './components/marker/marker.component';
 import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { NewMarkerDialogComponent } from './components/new-marker/new-marker-dialog.component';
 import { MyMarkersComponent } from './components/my-markers/my-markers.component';
+import { UpdateMarkerDialogComponent } from './components/modify-marker/update-marker-dialog.component';
 
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
     {
@@ -58,16 +60,19 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
         FilterComponent,
         NewMarkerDialogComponent,
         MarkerComponent,
-        MyMarkersComponent
+        MyMarkersComponent,
+        UpdateMarkerDialogComponent
     ],
     entryComponents: [
-        NewMarkerDialogComponent
+        NewMarkerDialogComponent,
+        UpdateMarkerDialogComponent
     ],
     providers: [
         MarkerApiService,
         MarkerService,
         ImageService,
-        AuthGuard
+        AuthGuard,
+        DialogService
     ]
 })
 export class HomeModule { }

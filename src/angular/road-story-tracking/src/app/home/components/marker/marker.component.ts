@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { MarkerApiService } from './../../services/marker-api.service';
 import { Marker } from './../../../shared/models/data/map/marker.model';
+import { MarkerOwner } from './../../../shared/models/data/map/marker-owner.model';
 import { BackendErrorResponse } from './../../../shared/models/responses/error-response.model';
 
 @Component({
@@ -25,6 +26,7 @@ export class MarkerComponent implements OnInit, OnDestroy {
 
     public constructor(private markerApiService: MarkerApiService, private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar) {
         this.marker = new Marker();
+        this.marker.markerOwner = new MarkerOwner();
         this.galleryOptions = [{ thumbnails: false, height: '400px', width: '100%' }];
         this.galleryImages = [];
     }
