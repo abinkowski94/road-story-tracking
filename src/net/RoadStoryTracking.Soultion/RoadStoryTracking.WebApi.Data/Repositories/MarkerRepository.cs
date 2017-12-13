@@ -24,11 +24,6 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return marker;
         }
 
-        public void Dispose()
-        {
-            _dbContext.Dispose();
-        }
-
         public Marker GetMarker(Guid markerId)
         {
             return _dbContext.Markers
@@ -78,6 +73,11 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             _dbContext.SaveChanges();
 
             return markerImages;
+        }
+
+        public void Dispose()
+        {
+            _dbContext.Dispose();
         }
     }
 }

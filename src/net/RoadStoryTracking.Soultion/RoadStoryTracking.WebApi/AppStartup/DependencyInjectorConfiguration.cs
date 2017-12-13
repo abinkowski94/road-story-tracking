@@ -17,6 +17,7 @@ namespace RoadStoryTracking.WebApi.AppStartup
             services.AddTransient<IMarkerRepository, MarkerRepository>();
             services.AddTransient<IMarkerService, MarkerService>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddSingleton(configuration);
         }
     }
