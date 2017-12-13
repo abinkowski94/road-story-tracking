@@ -9,6 +9,7 @@ namespace RoadStoryTracking.WebApi.Data.Context
     {
         public DbSet<MarkerImage> MarkerImages { get; set; }
         public DbSet<Marker> Markers { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public RoadStoryTrackingDbContext(DbContextOptions<RoadStoryTrackingDbContext> options) : base(options)
         {

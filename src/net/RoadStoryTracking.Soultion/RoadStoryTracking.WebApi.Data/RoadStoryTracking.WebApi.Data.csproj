@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20171213163831_Comments.cs" />
+    <Compile Remove="Migrations\20171213164233_CommentsFKCascade.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Models\ApplicationUser.cs" />
   </ItemGroup>
 
