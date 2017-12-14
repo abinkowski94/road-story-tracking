@@ -8,6 +8,7 @@ namespace RoadStoryTracking.WebApi
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseSetting("detailedErrors", "true")
                 .Build();
 
         public static void Main(string[] args)
