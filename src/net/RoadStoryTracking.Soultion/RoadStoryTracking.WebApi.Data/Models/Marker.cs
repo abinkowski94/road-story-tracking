@@ -22,7 +22,6 @@ namespace RoadStoryTracking.WebApi.Data.Models
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
 
-        public List<Marker> Markers { get; set; }
         public List<MarkerImage> Images { get; set; }
     }
 }
