@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using RoadStoryTracking.Model.Models.Comment;
+using RoadStoryTracking.Model.Models.Marker;
 using RoadStoryTracking.Model.Models.User;
 using RoadStoryTracking.Model.Responses;
 using RoadStoryTracking.WebApi.Data.Context;
@@ -10,10 +12,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using BMU = RoadStoryTracking.WebApi.Business.BusinessModels.User;
+using BMC = RoadStoryTracking.WebApi.Business.BusinessModels.Comment;
 using BMM = RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
 using BMR = RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
-using RoadStoryTracking.Model.Models.Marker;
+using BMU = RoadStoryTracking.WebApi.Business.BusinessModels.User;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -73,6 +75,9 @@ namespace RoadStoryTracking.WebApi.Controllers
 
                 cfg.CreateMap<BMM.Marker, Marker>().ReverseMap();
                 cfg.CreateMap<BMM.MarkerOwner, MarkerOwner>().ReverseMap();
+
+                cfg.CreateMap<BMC.Comment, Comment>().ReverseMap();
+                cfg.CreateMap<BMC.CommentAuthor, CommentAuthor>().ReverseMap();
             });
 
             configuration.AssertConfigurationIsValid();

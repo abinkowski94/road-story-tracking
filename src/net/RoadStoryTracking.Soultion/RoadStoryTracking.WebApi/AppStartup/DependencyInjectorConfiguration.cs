@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RoadStoryTracking.WebApi.Business.CommentService;
 using RoadStoryTracking.WebApi.Business.EmailService;
 using RoadStoryTracking.WebApi.Business.ImageService;
 using RoadStoryTracking.WebApi.Business.MarkerService;
@@ -18,6 +19,7 @@ namespace RoadStoryTracking.WebApi.AppStartup
             services.AddTransient<IMarkerService, MarkerService>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<ICommentService, CommentService>();
             services.AddSingleton(configuration);
         }
     }

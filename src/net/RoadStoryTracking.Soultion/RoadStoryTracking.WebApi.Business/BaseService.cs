@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using RoadStoryTracking.WebApi.Business.BusinessModels.User;
+using RoadStoryTracking.WebApi.Business.BusinessModels.Comment;
+using RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
 using RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
+using RoadStoryTracking.WebApi.Business.BusinessModels.User;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using BME = RoadStoryTracking.WebApi.Business.BusinessModels.Exceptions;
-using RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
 using System.Linq;
-using System;
+using BME = RoadStoryTracking.WebApi.Business.BusinessModels.Exceptions;
 
 namespace RoadStoryTracking.WebApi.Business
 {
@@ -81,6 +82,28 @@ namespace RoadStoryTracking.WebApi.Business
                     .ForMember(dst => dst.CreateDate, opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
                     .ForMember(dst => dst.Images, opt => opt.ResolveUsing(src => src.Images
                         .Select(img => new Data.Models.MarkerImage { Image = img, CreateDate = DateTimeOffset.UtcNow }).ToList()))
+                    .ForAllOtherMembers(dst => dst.Ignore());
+
+                cfg.CreateMap<Data.Models.ApplicationUser, CommentAuthor>()
+                    .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                    .ForMember(dst => dst.Image, opt => opt.MapFrom(src => src.ImageUrl))
+                    .ForMember(dst => dst.LastName, opt => opt.MapFrom(src => src.LastName))
+                    .ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.UserName))
+                    .ForAllOtherMembers(dst => dst.Ignore());
+
+                cfg.CreateMap<Data.Models.Comment, Comment>()
+                    .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(dst => dst.MarkerId, opt => opt.MapFrom(src => src.MarkerId))
+                    .ForMember(dst => dst.ModificationDate, opt => opt.MapFrom(src => src.ModificationDate))
+                    .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
+                    .ForMember(dst => dst.CreateDate, opt => opt.MapFrom(src => src.CreateDate))
+                    .ForMember(dst => dst.CommentAuthor, opt => opt.MapFrom(src => src.ApplicationUser))
+                    .ForAllOtherMembers(dst => dst.Ignore());
+
+                cfg.CreateMap<Comment, Data.Models.Comment>()
+                    .ForMember(dst => dst.MarkerId, opt => opt.MapFrom(src => src.MarkerId))
+                    .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
+                    .ForMember(dst => dst.CreateDate, opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
                     .ForAllOtherMembers(dst => dst.Ignore());
             });
 

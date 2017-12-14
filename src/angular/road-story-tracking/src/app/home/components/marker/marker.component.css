@@ -1,4 +1,8 @@
 .styled-description {
-    white-space: pre;
+    white-space: pre-wrap;
     text-align: justify;
+}
+
+.comments{
+    margin-top: 10px;
 }

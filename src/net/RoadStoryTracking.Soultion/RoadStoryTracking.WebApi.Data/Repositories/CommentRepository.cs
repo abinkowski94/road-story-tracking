@@ -21,7 +21,7 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return _dbContext.Comments
                 .Include(c => c.ApplicationUser)
                 .Where(c => c.MarkerId == markerId)
-                .OrderBy(c => c.CreateDate)
+                .OrderByDescending(c => c.CreateDate)
                 .ToList();
         }
 
@@ -46,6 +46,11 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             _dbContext.SaveChanges();
 
             return comment;
+        }
+
+        public Comment GetCommentForUser(Guid commentId, string userId)
+        {
+            return _dbContext.Comments.FirstOrDefault(c => c.Id == commentId && c.ApplicationUserId == userId);
         }
 
         public void Dispose()

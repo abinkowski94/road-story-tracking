@@ -1,0 +1,13 @@
+.new-comment{
+    width: 100%;
+}
+
+mat-form-field{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.comment{
+    margin-top: 30px;
+}

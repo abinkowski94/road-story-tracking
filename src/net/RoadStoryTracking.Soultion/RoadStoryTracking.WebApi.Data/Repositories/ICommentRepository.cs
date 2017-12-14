@@ -13,5 +13,7 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
         Comment RemoveComment(Comment comment);
 
         Comment UpdateComment(Comment comment);
+
+        Comment GetCommentForUser(Guid markerId, string userId);
     }
 }
