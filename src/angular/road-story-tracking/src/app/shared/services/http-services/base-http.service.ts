@@ -1,18 +1,18 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { environment } from './../../../../environments/environment';
-import { TokenInfo } from './../../models/data/token/token-info.model';
-import { BackendSuccessResponse } from './../../models/responses/success-response.model';
+
+import { environment } from 'environments/environment';
+import { TokenInfo } from 'shared/models/data/token/token-info.model';
+import { BackendSuccessResponse } from 'shared/models/responses/success-response.model';
 
 @Injectable()
 export abstract class BaseHttpService {
 
     private httpEndpoint: string;
 
-    protected constructor(private client: HttpClient, controllerName: string) {
+    protected constructor(private client: HttpClient, private controllerName: string) {
         this.httpEndpoint = `${environment.backendHotst}api/${controllerName}/`;
     }
 

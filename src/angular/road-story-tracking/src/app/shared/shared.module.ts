@@ -3,6 +3,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from './modules/material.module';
 
+import { TokenService } from './services/user/token.service';
 import { DialogService } from './services/dialog/dialog.service';
 import { UserService } from './services/user/user.service';
 import { UserApiService } from './services/user/user-api.service';
@@ -35,6 +36,7 @@ const sharedRouting: ModuleWithProviders = RouterModule.forChild([
         sharedRouting
     ],
     providers: [
+        TokenService,
         UserService,
         UserApiService,
         {

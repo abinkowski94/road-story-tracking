@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
 
+import { TokenService } from './token.service';
 import { UserApiService } from './user-api.service';
 import { environment } from '../../../../environments/environment';
 import { TokenInfo } from './../../models/data/token/token-info.model';
@@ -15,8 +16,8 @@ export class UserService {
     private _tokenInfo: BehaviorSubject<TokenInfo>;
     public readonly tokenInfo: Observable<TokenInfo>;
 
-    public constructor(private userApiService: UserApiService) {
-        this._tokenInfo = new BehaviorSubject<TokenInfo>(this.getTokenInfo());
+    public constructor(private userApiService: UserApiService, private tokenService: TokenService) {
+        this._tokenInfo = new BehaviorSubject<TokenInfo>(this.tokenService.tokenInfo);
         this.tokenInfo = this._tokenInfo.asObservable();
     }
 
@@ -27,45 +28,23 @@ export class UserService {
     }
 
     public get isAuthenticated(): Observable<boolean> {
-        return this.tokenInfo.map((tokenInfo: TokenInfo) => {
-
-            if (tokenInfo && tokenInfo.expirationDate) {
-                tokenInfo.expirationDate = new Date(tokenInfo.expirationDate);
-            }
-
-            return tokenInfo
-                && tokenInfo.token
-                && tokenInfo.expirationDate
-                && tokenInfo.userName
-                && tokenInfo.expirationDate.getTime
-                && tokenInfo.expirationDate.getTime() > Date.now();
-        });
+        return this.tokenInfo.map(token => this.tokenService.isAuthenticated);
     }
 
     public login(userName: string, password: string): Observable<TokenInfo> {
         return this.userApiService.getToken(userName, password)
             .do((tokenInfo: TokenInfo) => {
-                localStorage.setItem(environment.localStorageTokenKey, JSON.stringify(tokenInfo));
+                this.tokenService.saveToken(tokenInfo);
                 this._tokenInfo.next(tokenInfo);
             });
     }
 
     public logOff(): void {
-        localStorage.setItem(environment.localStorageTokenKey, null);
+        this.tokenService.clearToken();
         this._tokenInfo.next(null);
     }
 
     public register(user: RegisterUser): Observable<ApplicationUser> {
         return this.userApiService.registerUser(user);
-    }
-
-    private getTokenInfo(): TokenInfo {
-        const tokenInfo: TokenInfo = JSON.parse(localStorage.getItem(environment.localStorageTokenKey));
-
-        if (tokenInfo && tokenInfo.expirationDate) {
-            tokenInfo.expirationDate = new Date(tokenInfo.expirationDate);
-        }
-
-        return tokenInfo;
     }
 }

@@ -17,5 +17,6 @@ export class Marker extends BaseMarker {
         super();
         this.type = MarkerType.Other;
         this.images = [];
+        this.markerOwner = new MarkerOwner();
     }
 }
