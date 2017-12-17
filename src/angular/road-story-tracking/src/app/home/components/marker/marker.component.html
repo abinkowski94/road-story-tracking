@@ -5,10 +5,10 @@
                 <img [src]="marker.markerOwner.image" onError="this.onerror = null; this.src = this.src='assets/images/account-image.svg';"
                     width="64px" height="64px" style="margin-right: 16px">
                 <h1 class="pull-right">
-                    {{ marker.markerOwner.firstName }} {{ marker.markerOwner.lastName }} | {{ marker.createDate | date:'d.M.yy, h:mm a'}}
+                    {{ marker.markerOwner.firstName }} {{ marker.markerOwner.lastName }} | {{ marker.createDate | date:'d.M.yy, h:mm a' }}
                 </h1>
                 <h1 class="pull-right" *ngIf="marker.markerOwner.firstName === '' && marker.markerOwner.lastName === ''">
-                    {{ marker.markerOwner.userName }} | {{ marker.createDate | date:'d.M.yy, h:mm a'}}
+                    {{ marker.markerOwner.userName }} | {{ marker.createDate | date:'d.M.yy, h:mm a' }}
                 </h1>
             </mat-card-title>
         </mat-card-header>

@@ -19,10 +19,10 @@
             <img [src]="comment.commentAuthor.image" onError="this.onerror = null; this.src = this.src='assets/images/account-image.svg';"
                 width="32px" height="32px" style="margin-right: 8px" class="pull-left">
             <small class="pull-left" style="margin-top: 8px;">
-                {{comment.commentAuthor.firstName}} {{ comment.commentAuthor.lastName }} | {{comment.createDate | date:'d.M.yy, h:mm a'}}
+                {{ comment.commentAuthor.firstName }} {{ comment.commentAuthor.lastName }} | {{ comment.createDate | date:'d.M.yy, h:mm a' }}
             </small>
             <small class="pull-left" style="margin-top: 8px;" *ngIf="comment.commentAuthor.firstName === '' && comment.commentAuthor.lastName === ''">
-                {{ comment.commentAuthor.userName }} | {{comment.createDate | date:'d.M.yy, h:mm a'}}
+                {{ comment.commentAuthor.userName }} | {{ comment.createDate | date:'d.M.yy, h:mm a' }}
             </small>
             <br>
             <button *ngIf="userName === comment.commentAuthor.userName" class="pull-right" mat-button (click)="removeComment(comment.id)">X</button>
