@@ -2,7 +2,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AngularMaterialModule } from 'shared/modules/material.module';
+import { AngularMaterialModule } from './modules/material.module';
 
 import { TokenService } from 'shared/services/user/token.service';
 import { DialogService } from 'shared/services/dialog/dialog.service';
