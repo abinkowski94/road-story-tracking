@@ -34,6 +34,9 @@ export class ApllicationInterceptor implements HttpInterceptor {
                 { duration: 3000, horizontalPosition: 'right' });
         } else if (error.status === 404) {
             this.router.navigate(['not-found']);
+        } else {
+            this.snackBar.open('Cannot communicate with server.', 'Error!',
+                { duration: 3000, horizontalPosition: 'right' });
         }
     }
 }
