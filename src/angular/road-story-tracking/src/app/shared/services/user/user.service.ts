@@ -3,12 +3,12 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
 
-import { TokenService } from './token.service';
-import { UserApiService } from './user-api.service';
-import { environment } from '../../../../environments/environment';
-import { TokenInfo } from './../../models/data/token/token-info.model';
-import { ApplicationUser } from './../../models/data/user/application-user.model';
-import { RegisterUser } from './../../models/data/user/register-user.model';
+import { TokenService } from 'shared/services/user/token.service';
+import { UserApiService } from 'shared/services/user/user-api.service';
+import { environment } from 'environments/environment';
+import { TokenInfo } from 'shared/models/data/token/token-info.model';
+import { ApplicationUser } from 'shared/models/data/user/application-user.model';
+import { RegisterUser } from 'shared/models/data/user/register-user.model';
 
 @Injectable()
 export class UserService {

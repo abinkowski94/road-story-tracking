@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ImageService {
+
     public loadImage(input: any, assign: Function, width?: number, height?: number): void {
 
         const reader = new FileReader();

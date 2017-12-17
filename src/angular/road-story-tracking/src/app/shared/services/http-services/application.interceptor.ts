@@ -7,6 +7,7 @@ import 'rxjs/add/operator/do';
 import { environment } from 'environments/environment';
 import { TokenService } from 'shared/services/user/token.service';
 import { BackendErrorResponse } from 'shared/models/responses/error-response.model';
+import { snackbarConfiguration } from 'shared/configurations/snackbar.config';
 
 @Injectable()
 export class ApllicationInterceptor implements HttpInterceptor {
@@ -26,19 +27,15 @@ export class ApllicationInterceptor implements HttpInterceptor {
         return headers.set('Content-Type', 'application/json');
     }
 
-    private onErrorResponse = (error: HttpErrorResponse) => {
+    private onErrorResponse = (error: HttpErrorResponse): void => {
         if (error.status === 401) {
             this.router.navigate(['auth-required']);
         } else if (error.status === 400) {
-            this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!',
-                { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', snackbarConfiguration);
         } else if (error.status === 404) {
             this.router.navigate(['not-found']);
         } else {
-            this.snackBar.open('Cannot communicate with server.', 'Error!',
-                { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open('Cannot communicate with server.', 'Error!', snackbarConfiguration);
         }
     }
 }
-
-

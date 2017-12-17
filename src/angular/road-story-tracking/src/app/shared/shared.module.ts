@@ -1,19 +1,20 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AngularMaterialModule } from './modules/material.module';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { TokenService } from './services/user/token.service';
-import { DialogService } from './services/dialog/dialog.service';
-import { UserService } from './services/user/user.service';
-import { UserApiService } from './services/user/user-api.service';
-import { ApllicationInterceptor } from './services/http-services/application.interceptor';
+import { AngularMaterialModule } from 'shared/modules/material.module';
 
-import { AuthRequiredComponent } from './components/auth-required/auth-required.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { AlertDialogComponent } from './components/dialogs/alert/alert-dialog.component';
-import { ConfirmDialogComponent } from './components/dialogs/confirm/confirm-dialog.component';
-import { InputTextDialogComponent } from './components/dialogs/input-text/input-text-dialog.component';
+import { TokenService } from 'shared/services/user/token.service';
+import { DialogService } from 'shared/services/dialog/dialog.service';
+import { UserService } from 'shared/services/user/user.service';
+import { UserApiService } from 'shared/services/user/user-api.service';
+import { ApllicationInterceptor } from 'shared/services/http-services/application.interceptor';
+
+import { AuthRequiredComponent } from 'shared/components/auth-required/auth-required.component';
+import { NotFoundComponent } from 'shared/components/not-found/not-found.component';
+import { AlertDialogComponent } from 'shared/components/dialogs/alert/alert-dialog.component';
+import { ConfirmDialogComponent } from 'shared/components/dialogs/confirm/confirm-dialog.component';
+import { InputTextDialogComponent } from 'shared/components/dialogs/input-text/input-text-dialog.component';
 
 const sharedRouting: ModuleWithProviders = RouterModule.forChild([
     {

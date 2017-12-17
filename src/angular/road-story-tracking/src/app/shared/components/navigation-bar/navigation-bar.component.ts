@@ -19,8 +19,4 @@ export class NavigationBarComponent {
         this.userService.logOff();
         window.location.reload();
     }
-
-    public get isMobile(): boolean {
-        return window.screen.width < 600;
-    }
 }
