@@ -16,6 +16,24 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public Comment AddComment(Comment comment)
+        {
+            _dbContext.Comments.Add(comment);
+            _dbContext.SaveChanges();
+
+            return comment;
+        }
+
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+        }
+
+        public Comment GetCommentForUser(Guid commentId, string userId)
+        {
+            return _dbContext.Comments.FirstOrDefault(c => c.Id == commentId && c.ApplicationUserId == userId);
+        }
+
         public List<Comment> GetCommentsForMarker(Guid markerId)
         {
             return _dbContext.Comments
@@ -23,14 +41,6 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .Where(c => c.MarkerId == markerId)
                 .OrderByDescending(c => c.CreateDate)
                 .ToList();
-        }
-
-        public Comment AddComment(Comment comment)
-        {
-            _dbContext.Comments.Add(comment);
-            _dbContext.SaveChanges();
-
-            return comment;
         }
 
         public Comment RemoveComment(Comment comment)
@@ -46,16 +56,6 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             _dbContext.SaveChanges();
 
             return comment;
-        }
-
-        public Comment GetCommentForUser(Guid commentId, string userId)
-        {
-            return _dbContext.Comments.FirstOrDefault(c => c.Id == commentId && c.ApplicationUserId == userId);
-        }
-
-        public void Dispose()
-        {
-            _dbContext.Dispose();
         }
     }
 }

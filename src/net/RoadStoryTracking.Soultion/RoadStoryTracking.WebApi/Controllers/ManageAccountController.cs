@@ -28,9 +28,9 @@ namespace RoadStoryTracking.WebApi.Controllers
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateUserData([FromBody] ApplicationUser ApplicationUser)
+        public async Task<IActionResult> UpdateUserData([FromBody] ApplicationUser applicationUser)
         {
-            var mappedUser = LocalMapper.Map<BM.ApplicationUser>(ApplicationUser);
+            var mappedUser = LocalMapper.Map<BM.ApplicationUser>(applicationUser);
             var response = await _userService.UpdateUser(Requestor.UserName, mappedUser);
             return response.GetActionResult<BM.ApplicationUser, ApplicationUser>(this);
         }

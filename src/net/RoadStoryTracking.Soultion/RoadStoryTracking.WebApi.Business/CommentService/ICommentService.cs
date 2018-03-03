@@ -7,9 +7,9 @@ namespace RoadStoryTracking.WebApi.Business.CommentService
 {
     public interface ICommentService
     {
-        Task<BaseResponse> GetCommentsForMarker(Guid markerId);
-
         Task<BaseResponse> AddComment(Comment comment, string userId);
+
+        Task<BaseResponse> GetCommentsForMarker(Guid markerId);
 
         Task<BaseResponse> RemoveComment(Guid commentId, string userId);
 

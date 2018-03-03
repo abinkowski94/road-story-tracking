@@ -13,8 +13,8 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
     public class MarkerService : BaseService, IMarkerService
     {
         private const string _markerImagesLocation = "markers/images";
-        private readonly IMarkerRepository _markerRepository;
         private readonly IImageService _imageService;
+        private readonly IMarkerRepository _markerRepository;
 
         public MarkerService(IMarkerRepository markerRepository, IImageService imageService)
         {
@@ -32,6 +32,25 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
                 dbMarker = _markerRepository.AddMarker(dbMarker);
 
                 var result = LocalMapper.Map<Marker>(dbMarker);
+                return new SuccessResponse<Marker>(result);
+            });
+        }
+
+        public Task<BaseResponse> DeleteMarker(Guid markerId, string userId)
+        {
+            return Task.Run<BaseResponse>(() =>
+            {
+                var markerToDelete = _markerRepository.GetMarker(markerId);
+                if (markerToDelete == null || markerToDelete.ApplicationUserId != userId)
+                {
+                    return new ErrorResponse(new CustomApplicationException($"Marker with id: {markerId} not found"));
+                }
+
+                var result = LocalMapper.Map<Marker>(markerToDelete);
+
+                result.Images.ForEach(i => _imageService.DeleteImage(i));
+                _markerRepository.DeleteMarker(markerToDelete);
+
                 return new SuccessResponse<Marker>(result);
             });
         }
@@ -73,25 +92,6 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
             });
         }
 
-        public Task<BaseResponse> DeleteMarker(Guid markerId, string userId)
-        {
-            return Task.Run<BaseResponse>(() =>
-            {
-                var markerToDelete = _markerRepository.GetMarker(markerId);
-                if (markerToDelete == null || markerToDelete.ApplicationUserId != userId)
-                {
-                    return new ErrorResponse(new CustomApplicationException($"Marker with id: {markerId} not found"));
-                }
-
-                var result = LocalMapper.Map<Marker>(markerToDelete);
-
-                result.Images.ForEach(i => _imageService.DeleteImage(i));
-                _markerRepository.DeleteMarker(markerToDelete);
-
-                return new SuccessResponse<Marker>(result);
-            });
-        }
-
         public Task<BaseResponse> UpdateMarker(Marker marker, string userId)
         {
             return Task.Run<BaseResponse>(() =>
@@ -111,11 +111,11 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
         private Data.Models.Marker UpdateDatabaseMarker(Marker updateModel, Data.Models.Marker markerToUpdate)
         {
             markerToUpdate.Description = updateModel.Description;
-            markerToUpdate.Latitude = (double) updateModel.Latitude;
-            markerToUpdate.Longitude = (double) updateModel.Longitude;
+            markerToUpdate.Latitude = (double)updateModel.Latitude;
+            markerToUpdate.Longitude = (double)updateModel.Longitude;
             markerToUpdate.ModificationDate = DateTimeOffset.UtcNow;
             markerToUpdate.Name = updateModel.Name;
-            markerToUpdate.Type = (Data.Models.MarkerType) ((int) updateModel.Type);
+            markerToUpdate.Type = (Data.Models.MarkerType)((int)updateModel.Type);
 
             var existingImages = markerToUpdate.Images.Where(img => updateModel.Images.Any(umi => umi == img.Image)).ToList();
             var imagesToRemove = markerToUpdate.Images.Where(img => !existingImages.Any(ei => ei.Id == img.Id)).ToList();

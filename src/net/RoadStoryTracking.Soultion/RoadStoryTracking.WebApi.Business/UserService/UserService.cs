@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using RoadStoryTracking.WebApi.Business.BusinessModels.User;
 using RoadStoryTracking.WebApi.Business.BusinessModels.Exceptions;
 using RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
+using RoadStoryTracking.WebApi.Business.BusinessModels.User;
 using RoadStoryTracking.WebApi.Business.EmailService;
 using System;
 using System.IdentityModel.Tokens.Jwt;

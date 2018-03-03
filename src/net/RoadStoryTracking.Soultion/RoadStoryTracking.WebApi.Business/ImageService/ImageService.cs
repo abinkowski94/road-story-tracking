@@ -13,6 +13,18 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
             _enviroment = enviroment;
         }
 
+        public bool DeleteImage(string path)
+        {
+            var fullPath = Path.Combine(_enviroment.WebRootPath, path);
+            if (File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+                return true;
+            }
+
+            return false;
+        }
+
         public string SaveImage(string base64Image, string imageName, string location)
         {
             base64Image = ClearBase64Fromat(base64Image);
@@ -39,18 +51,6 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
             }
 
             return null;
-        }
-
-        public bool DeleteImage(string path)
-        {
-            var fullPath = Path.Combine(_enviroment.WebRootPath, path);
-            if (File.Exists(fullPath))
-            {
-                File.Delete(fullPath);
-                return true;
-            }
-
-            return false;
         }
 
         private string ClearBase64Fromat(string base64Image)

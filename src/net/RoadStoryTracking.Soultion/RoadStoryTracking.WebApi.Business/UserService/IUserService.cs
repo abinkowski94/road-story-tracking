@@ -1,5 +1,5 @@
-﻿using RoadStoryTracking.WebApi.Business.BusinessModels.User;
-using RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
+﻿using RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
+using RoadStoryTracking.WebApi.Business.BusinessModels.User;
 using System;
 using System.Threading.Tasks;
 

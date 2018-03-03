@@ -11,7 +11,6 @@ namespace RoadStoryTracking.WebApi.AppStartup
     {
         public static void ConfigureJwtAuthService(IServiceCollection services, IConfiguration configuration)
         {
-            var audienceConfig = configuration.GetSection("Audience");
             var symmetricKeyAsBase64 = configuration["Tokens:Key"];
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
             var signingKey = new SymmetricSecurityKey(keyByteArray);

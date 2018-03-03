@@ -30,6 +30,14 @@ namespace RoadStoryTracking.WebApi.Controllers
             return response.GetActionResult<BMM.Marker, Marker>(this);
         }
 
+        [Authorize]
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteMarker(Guid markerId)
+        {
+            var response = await _markerService.DeleteMarker(markerId, Requestor.User.Id);
+            return response.GetActionResult<BMM.Marker, Marker>(this);
+        }
+
         [HttpGet("[action]")]
         public async Task<IActionResult> GetMarker(Guid markerId)
         {
@@ -50,14 +58,6 @@ namespace RoadStoryTracking.WebApi.Controllers
         {
             var response = await _markerService.GetUsersMarkers(Requestor.User.Id);
             return response.GetActionResult<List<BMM.Marker>, List<Marker>>(this);
-        }
-
-        [Authorize]
-        [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteMarker(Guid markerId)
-        {
-            var response = await _markerService.DeleteMarker(markerId, Requestor.User.Id);
-            return response.GetActionResult<BMM.Marker, Marker>(this);
         }
 
         [Authorize]

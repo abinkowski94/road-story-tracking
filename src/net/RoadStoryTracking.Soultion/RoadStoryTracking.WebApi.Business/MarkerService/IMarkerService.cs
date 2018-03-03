@@ -9,13 +9,13 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
     {
         Task<BaseResponse> AddMarker(Marker marker, string userId);
 
+        Task<BaseResponse> DeleteMarker(Guid markerId, string userId);
+
         Task<BaseResponse> GetMarker(Guid markerId);
 
         Task<BaseResponse> GetMarkers();
 
         Task<BaseResponse> GetUsersMarkers(string userId);
-
-        Task<BaseResponse> DeleteMarker(Guid markerId, string userId);
 
         Task<BaseResponse> UpdateMarker(Marker marker, string userId);
     }

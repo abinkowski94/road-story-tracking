@@ -20,11 +20,14 @@ namespace RoadStoryTracking.WebApi.Models
             FillRequestorAsync().Wait();
         }
 
-        private async Task FillRequestorAsync()
+        private Task FillRequestorAsync()
         {
-            var userService = (_serviceProvider.GetService(typeof(IUserService)) as IUserService);
-            var response = await userService.GetUser(UserName) as SuccessResponse<ApplicationUser>;
-            User = response.Result;
+            return Task.Run(async () =>
+            {
+                var userService = (_serviceProvider.GetService(typeof(IUserService)) as IUserService);
+                var response = await userService.GetUser(UserName) as SuccessResponse<ApplicationUser>;
+                User = response.Result;
+            });
         }
     }
 }

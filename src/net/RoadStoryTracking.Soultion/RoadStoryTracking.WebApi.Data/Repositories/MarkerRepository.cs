@@ -24,6 +24,31 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return marker;
         }
 
+        public Marker DeleteMarker(Marker marker)
+        {
+            if (marker.Images.Any())
+            {
+                _dbContext.MarkerImages.RemoveRange(marker.Images);
+            }
+            _dbContext.Markers.Remove(marker);
+            _dbContext.SaveChanges();
+
+            return marker;
+        }
+
+        public List<MarkerImage> DeleteMarkerImages(List<MarkerImage> markerImages)
+        {
+            _dbContext.MarkerImages.RemoveRange(markerImages);
+            _dbContext.SaveChanges();
+
+            return markerImages;
+        }
+
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+        }
+
         public Marker GetMarker(Guid markerId)
         {
             return _dbContext.Markers
@@ -49,35 +74,10 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .ToList();
         }
 
-        public Marker DeleteMarker(Marker marker)
-        {
-            if (marker.Images.Any())
-            {
-                _dbContext.MarkerImages.RemoveRange(marker.Images);
-            }
-            _dbContext.Markers.Remove(marker);
-            _dbContext.SaveChanges();
-
-            return marker;
-        }
-
         public Marker UpdateMarker(Marker marker)
         {
             _dbContext.SaveChanges();
             return marker;
-        }
-
-        public List<MarkerImage> DeleteMarkerImages(List<MarkerImage> markerImages)
-        {
-            _dbContext.MarkerImages.RemoveRange(markerImages);
-            _dbContext.SaveChanges();
-
-            return markerImages;
-        }
-
-        public void Dispose()
-        {
-            _dbContext.Dispose();
         }
     }
 }

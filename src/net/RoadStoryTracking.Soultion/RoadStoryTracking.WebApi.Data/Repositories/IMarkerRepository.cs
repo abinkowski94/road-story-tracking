@@ -8,16 +8,16 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
     {
         Marker AddMarker(Marker marker);
 
+        Marker DeleteMarker(Marker marker);
+
+        List<MarkerImage> DeleteMarkerImages(List<MarkerImage> markerImages);
+
         Marker GetMarker(Guid markerId);
 
         List<Marker> GetMarkers();
 
         List<Marker> GetUsersMarkers(string userId);
 
-        Marker DeleteMarker(Marker marker);
-
         Marker UpdateMarker(Marker marker);
-
-        List<MarkerImage> DeleteMarkerImages(List<MarkerImage> markerImages);
     }
 }

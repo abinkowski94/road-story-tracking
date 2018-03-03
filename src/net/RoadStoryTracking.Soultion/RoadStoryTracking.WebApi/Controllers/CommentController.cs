@@ -20,13 +20,6 @@ namespace RoadStoryTracking.WebApi.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetCommentsForMarker(Guid markerId)
-        {
-            var response = await _commentService.GetCommentsForMarker(markerId);
-            return response.GetActionResult<List<BMC.Comment>, List<Comment>>(this);
-        }
-
         [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> AddComment([FromBody] Comment comment)
@@ -37,15 +30,11 @@ namespace RoadStoryTracking.WebApi.Controllers
             return response.GetActionResult<BMC.Comment, Comment>(this);
         }
 
-        [Authorize]
-        [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateComment([FromBody] Comment comment)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetCommentsForMarker(Guid markerId)
         {
-            var mappedComment = LocalMapper.Map<BMC.Comment>(comment);
-            var response = await _commentService.UpdateComment(mappedComment, Requestor.User.Id);
-
-            return response.GetActionResult<BMC.Comment, Comment>(this);
-
+            var response = await _commentService.GetCommentsForMarker(markerId);
+            return response.GetActionResult<List<BMC.Comment>, List<Comment>>(this);
         }
 
         [Authorize]
@@ -53,6 +42,16 @@ namespace RoadStoryTracking.WebApi.Controllers
         public async Task<IActionResult> RemoveComment(Guid commentId)
         {
             var response = await _commentService.RemoveComment(commentId, Requestor.User.Id);
+            return response.GetActionResult<BMC.Comment, Comment>(this);
+        }
+
+        [Authorize]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateComment([FromBody] Comment comment)
+        {
+            var mappedComment = LocalMapper.Map<BMC.Comment>(comment);
+            var response = await _commentService.UpdateComment(mappedComment, Requestor.User.Id);
+
             return response.GetActionResult<BMC.Comment, Comment>(this);
         }
     }
