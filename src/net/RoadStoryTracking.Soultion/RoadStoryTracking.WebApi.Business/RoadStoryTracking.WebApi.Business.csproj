@@ -11,11 +11,15 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="Sendgrid" Version="9.9.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.5" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RoadStoryTracking.WebApi.Data\RoadStoryTracking.WebApi.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NETCore.App" Version="2.0.6" />
   </ItemGroup>
 
 </Project>

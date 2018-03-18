@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-    <PackageReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +22,10 @@
     <ProjectReference Include="..\RoadStoryTracking.Model\RoadStoryTracking.Model.csproj" />
     <ProjectReference Include="..\RoadStoryTracking.WebApi.Business\RoadStoryTracking.WebApi.Business.csproj" />
     <ProjectReference Include="..\RoadStoryTracking.WebApi.Data\RoadStoryTracking.WebApi.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NETCore.App" Version="2.0.6" />
   </ItemGroup>
 
 </Project>

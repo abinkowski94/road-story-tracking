@@ -17,59 +17,47 @@ namespace RoadStoryTracking.WebApi.Business.CommentService
             _commentRepository = commentRepository;
         }
 
-        public Task<BaseResponse> AddComment(Comment comment, string userId)
+        public BaseResponse AddComment(Comment comment, string userId)
         {
-            return Task.Run<BaseResponse>(() =>
-            {
-                var dbComment = LocalMapper.Map<Data.Models.Comment>(comment);
-                dbComment.ApplicationUserId = userId;
-                dbComment = _commentRepository.AddComment(dbComment);
+            var dbComment = LocalMapper.Map<Data.Models.Comment>(comment);
+            dbComment.ApplicationUserId = userId;
+            dbComment = _commentRepository.AddComment(dbComment);
 
-                return new SuccessResponse<Comment>(LocalMapper.Map<Comment>(dbComment));
-            });
+            return new SuccessResponse<Comment>(LocalMapper.Map<Comment>(dbComment));
         }
 
-        public Task<BaseResponse> GetCommentsForMarker(Guid markerId)
+        public BaseResponse GetCommentsForMarker(Guid markerId)
         {
-            return Task.Run<BaseResponse>(() =>
-            {
-                var comments = _commentRepository.GetCommentsForMarker(markerId);
+            var comments = _commentRepository.GetCommentsForMarker(markerId);
 
-                return new SuccessResponse<List<Comment>>(LocalMapper.Map<List<Comment>>(comments));
-            });
+            return new SuccessResponse<List<Comment>>(LocalMapper.Map<List<Comment>>(comments));
         }
 
-        public Task<BaseResponse> RemoveComment(Guid commentId, string userId)
+        public BaseResponse RemoveComment(Guid commentId, string userId)
         {
-            return Task.Run<BaseResponse>(() =>
+            var comment = _commentRepository.GetCommentForUser(commentId, userId);
+            if (comment == null)
             {
-                var comment = _commentRepository.GetCommentForUser(commentId, userId);
-                if (comment == null)
-                {
-                    return new ErrorResponse(new CustomApplicationException($"Cannot find comment with id: {commentId}"));
-                }
+                return new ErrorResponse(new CustomApplicationException($"Cannot find comment with id: {commentId}"));
+            }
 
-                var result = _commentRepository.RemoveComment(comment);
-                return new SuccessResponse<Comment>(LocalMapper.Map<Comment>(result));
-            });
+            var result = _commentRepository.RemoveComment(comment);
+            return new SuccessResponse<Comment>(LocalMapper.Map<Comment>(result));
         }
 
-        public Task<BaseResponse> UpdateComment(Comment comment, string userId)
+        public BaseResponse UpdateComment(Comment comment, string userId)
         {
-            return Task.Run<BaseResponse>(() =>
+            var dbComment = _commentRepository.GetCommentForUser(comment.Id, userId);
+            if (dbComment == null)
             {
-                var dbComment = _commentRepository.GetCommentForUser(comment.Id, userId);
-                if (dbComment == null)
-                {
-                    return new ErrorResponse(new CustomApplicationException($"Cannot find comment with id: {comment.Id}"));
-                }
+                return new ErrorResponse(new CustomApplicationException($"Cannot find comment with id: {comment.Id}"));
+            }
 
-                dbComment.Text = comment.Text;
-                dbComment.ModificationDate = DateTimeOffset.UtcNow;
+            dbComment.Text = comment.Text;
+            dbComment.ModificationDate = DateTimeOffset.UtcNow;
 
-                var result = _commentRepository.UpdateComment(dbComment);
-                return new SuccessResponse<Comment>(LocalMapper.Map<Comment>(result));
-            });
+            var result = _commentRepository.UpdateComment(dbComment);
+            return new SuccessResponse<Comment>(LocalMapper.Map<Comment>(result));
         }
     }
 }

@@ -5,6 +5,7 @@ using RoadStoryTracking.Model.Models.Comment;
 using RoadStoryTracking.Model.Models.Marker;
 using RoadStoryTracking.Model.Models.User;
 using RoadStoryTracking.Model.Responses;
+using RoadStoryTracking.WebApi.Controllers.MappingProfiles;
 using RoadStoryTracking.WebApi.Data.Context;
 using RoadStoryTracking.WebApi.Models;
 using System;
@@ -21,19 +22,20 @@ namespace RoadStoryTracking.WebApi.Controllers
 {
     public abstract class BaseController : Controller
     {
+        protected readonly IServiceProvider _serviceProvider;
+
         public IMapper LocalMapper { get; private set; }
         protected Requestor Requestor { get; private set; }
-        protected IServiceProvider ServiceProvider { get; private set; }
 
         protected BaseController(IServiceProvider serviceProvider)
         {
             LocalMapper = ConfigureMapper().CreateMapper();
-            ServiceProvider = serviceProvider;
+            _serviceProvider = serviceProvider;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var dbContext = (RoadStoryTrackingDbContext)ServiceProvider.GetService(typeof(RoadStoryTrackingDbContext));
+            var dbContext = (RoadStoryTrackingDbContext)_serviceProvider.GetService(typeof(RoadStoryTrackingDbContext));
             using (var transaction = dbContext.Database.BeginTransaction())
             {
                 try
@@ -62,22 +64,10 @@ namespace RoadStoryTracking.WebApi.Controllers
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap(typeof(BMR.BaseResponse), typeof(BaseResponse));
-                cfg.CreateMap(typeof(BMR.SuccessResponse<>), typeof(SuccessResponse<>));
-                cfg.CreateMap(typeof(BMR.ErrorResponse), typeof(ErrorResponse));
-
-                cfg.CreateMap<BMU.TokenInfo, TokenInfo>();
-
-                cfg.CreateMap<BMU.ApplicationUser, ApplicationUser>();
-                cfg.CreateMap<ApplicationUser, BMU.ApplicationUser>()
-                    .ForMember(p => p.UserName, p => p.MapFrom(d => d.Email))
-                    .ForMember(p => p.Id, p => p.Ignore());
-
-                cfg.CreateMap<BMM.Marker, Marker>().ReverseMap();
-                cfg.CreateMap<BMM.MarkerOwner, MarkerOwner>().ReverseMap();
-
-                cfg.CreateMap<BMC.Comment, Comment>().ReverseMap();
-                cfg.CreateMap<BMC.CommentAuthor, CommentAuthor>().ReverseMap();
+                cfg.AddProfile<CommentProfile>();
+                cfg.AddProfile<MarkerProfile>();
+                cfg.AddProfile<TechnicalProfile>();
+                cfg.AddProfile<UserProfile>();
             });
 
             configuration.AssertConfigurationIsValid();

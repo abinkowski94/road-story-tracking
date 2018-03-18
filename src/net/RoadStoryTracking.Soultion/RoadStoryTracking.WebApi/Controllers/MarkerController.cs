@@ -5,7 +5,6 @@ using RoadStoryTracking.WebApi.Business.MarkerService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using BMM = RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
 
 namespace RoadStoryTracking.WebApi.Controllers
@@ -22,50 +21,50 @@ namespace RoadStoryTracking.WebApi.Controllers
 
         [Authorize]
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddMarker([FromBody] Marker marker)
+        public IActionResult AddMarker([FromBody] Marker marker)
         {
             var mappedMarker = LocalMapper.Map<BMM.Marker>(marker);
-            var response = await _markerService.AddMarker(mappedMarker, Requestor.User.Id);
+            var response = _markerService.AddMarker(mappedMarker, Requestor.User.Id);
 
             return response.GetActionResult<BMM.Marker, Marker>(this);
         }
 
         [Authorize]
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteMarker(Guid markerId)
+        public IActionResult DeleteMarker(Guid markerId)
         {
-            var response = await _markerService.DeleteMarker(markerId, Requestor.User.Id);
+            var response = _markerService.DeleteMarker(markerId, Requestor.User.Id);
             return response.GetActionResult<BMM.Marker, Marker>(this);
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetMarker(Guid markerId)
+        public IActionResult GetMarker(Guid markerId)
         {
-            var response = await _markerService.GetMarker(markerId);
+            var response = _markerService.GetMarker(markerId);
             return response.GetActionResult<BMM.Marker, Marker>(this);
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetMarkers()
+        public IActionResult GetMarkers()
         {
-            var response = await _markerService.GetMarkers();
+            var response = _markerService.GetMarkers();
             return response.GetActionResult<List<BMM.Marker>, List<Marker>>(this);
         }
 
         [Authorize]
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetMyMarkers()
+        public IActionResult GetMyMarkers()
         {
-            var response = await _markerService.GetUsersMarkers(Requestor.User.Id);
+            var response = _markerService.GetUsersMarkers(Requestor.User.Id);
             return response.GetActionResult<List<BMM.Marker>, List<Marker>>(this);
         }
 
         [Authorize]
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateMarker([FromBody] Marker marker)
+        public IActionResult UpdateMarker([FromBody] Marker marker)
         {
             var mappedMarker = LocalMapper.Map<BMM.Marker>(marker);
-            var response = await _markerService.UpdateMarker(mappedMarker, Requestor.User.Id);
+            var response = _markerService.UpdateMarker(mappedMarker, Requestor.User.Id);
 
             return response.GetActionResult<BMM.Marker, Marker>(this);
         }
