@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material';
 import { HttpHeaders, HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/do';
 
-import { environment } from 'environments/environment';
-import { TokenService } from 'shared/services/user/token.service';
-import { BackendErrorResponse } from 'shared/models/responses/error-response.model';
-import { snackbarConfiguration } from 'shared/configurations/snackbar.config';
+import { environment } from '../../../../environments/environment';
+import { TokenService } from '../../../shared/services/user/token.service';
+import { BackendErrorResponse } from '../../../shared/models/responses/error-response.model';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
 
 @Injectable()
 export class ApllicationInterceptor implements HttpInterceptor {

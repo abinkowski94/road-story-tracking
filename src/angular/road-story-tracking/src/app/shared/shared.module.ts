@@ -4,11 +4,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AngularMaterialModule } from './modules/material.module';
 
-import { TokenService } from 'shared/services/user/token.service';
-import { DialogService } from 'shared/services/dialog/dialog.service';
-import { UserService } from 'shared/services/user/user.service';
-import { UserApiService } from 'shared/services/user/user-api.service';
-import { ApllicationInterceptor } from 'shared/services/http-services/application.interceptor';
+import { TokenService } from './services/user/token.service';
+import { DialogService } from './services/dialog/dialog.service';
+import { UserService } from './services/user/user.service';
+import { UserApiService } from './services/user/user-api.service';
+import { ApllicationInterceptor } from './services/http-services/application.interceptor';
 
 import { AuthRequiredComponent } from './components/auth-required/auth-required.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';

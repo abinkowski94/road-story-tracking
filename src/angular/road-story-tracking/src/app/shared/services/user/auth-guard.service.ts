@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { environment } from 'environments/environment';
+import { environment } from '../../../../environments/environment';
 
-import { TokenService } from 'shared/services/user/token.service';
-import { TokenInfo } from 'shared/models/data/token/token-info.model';
+import { TokenService } from '../../../shared/services/user/token.service';
+import { TokenInfo } from '../../../shared/models/data/token/token-info.model';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
-import { AlertDialogComponent } from 'shared/components/dialogs/alert/alert-dialog.component';
-import { ConfirmDialogComponent } from 'shared/components/dialogs/confirm/confirm-dialog.component';
-import { InputTextDialogComponent } from 'shared/components/dialogs/input-text/input-text-dialog.component';
+import { AlertDialogComponent } from '../../../shared/components/dialogs/alert/alert-dialog.component';
+import { ConfirmDialogComponent } from '../../../shared/components/dialogs/confirm/confirm-dialog.component';
+import { InputTextDialogComponent } from '../../../shared/components/dialogs/input-text/input-text-dialog.component';
 
 @Injectable()
 export class DialogService {

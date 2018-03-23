@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { environment } from 'environments/environment';
-import { TokenInfo } from 'shared/models/data/token/token-info.model';
+import { environment } from '../../../../environments/environment';
+import { TokenInfo } from '../../../shared/models/data/token/token-info.model';
 
 @Injectable()
 export class TokenService {

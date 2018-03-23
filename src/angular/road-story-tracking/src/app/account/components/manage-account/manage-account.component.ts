@@ -7,46 +7,44 @@ import { ApplicationUser } from '../../../shared/models/data/user/application-us
 import { BackendErrorResponse } from './../../../shared/models/responses/error-response.model';
 
 @Component({
-    templateUrl: './manage-account.component.html',
-    styleUrls: ['./manage-account.component.css']
+  templateUrl: './manage-account.component.html',
+  styleUrls: ['./manage-account.component.css']
 })
 export class ManageAccountComponent implements OnInit {
 
-    public applicationUser: ApplicationUser;
-    public pendingRequest: boolean;
+  public applicationUser: ApplicationUser;
+  public pendingRequest: boolean;
 
-    public constructor(private manageAccountApiService: ManageAccountApiService, private snackBar: MatSnackBar) {
-        this.applicationUser = new ApplicationUser();
-    }
+  public constructor(private manageAccountApiService: ManageAccountApiService, private snackBar: MatSnackBar) {
+    this.applicationUser = new ApplicationUser();
+  }
 
-    public ngOnInit(): void {
-        this.manageAccountApiService.getUserData()
-            .subscribe((user: ApplicationUser) => {
-                this.applicationUser = user;
-            },
-            (error: HttpErrorResponse) => {
-                this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', {
-                    duration: 3000,
-                    horizontalPosition: 'right'
-                });
-            });
+  public async ngOnInit(): Promise<void> {
+    try {
+      this.applicationUser = await this.manageAccountApiService.getUserData().toPromise();
+    } catch (error) {
+      this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', {
+        duration: 3000,
+        horizontalPosition: 'right'
+      });
     }
+  }
 
-    public updateUserInfo(): void {
-        this.pendingRequest = true;
-        this.manageAccountApiService.updateUserData(this.applicationUser)
-            .subscribe((response: ApplicationUser) => {
-                this.applicationUser = response;
-                this.snackBar.open('Data has been updated successfully.', 'Success!', {
-                    duration: 3000,
-                    horizontalPosition: 'right'
-                });
-            }, (error: HttpErrorResponse) => {
-                this.pendingRequest = false;
-                this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', {
-                    duration: 3000,
-                    horizontalPosition: 'right'
-                });
-            }, () => this.pendingRequest = false);
-    }
+  public updateUserInfo(): void {
+    this.pendingRequest = true;
+    this.manageAccountApiService.updateUserData(this.applicationUser)
+      .subscribe((response: ApplicationUser) => {
+        this.applicationUser = response;
+        this.snackBar.open('Data has been updated successfully.', 'Success!', {
+          duration: 3000,
+          horizontalPosition: 'right'
+        });
+      }, (error: HttpErrorResponse) => {
+        this.pendingRequest = false;
+        this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', {
+          duration: 3000,
+          horizontalPosition: 'right'
+        });
+      }, () => this.pendingRequest = false);
+  }
 }
