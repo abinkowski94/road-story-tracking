@@ -15,6 +15,8 @@ import { ImageService } from './../shared/services/image-services/image.service'
 import { AuthGuard } from './../shared/services/user/auth-guard.service';
 import { DialogService } from './../shared/services/dialog/dialog.service';
 
+import { MarkerResolver } from './resolvers/marker-resolver.service';
+
 import { HomeComponent } from './components/home/home.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { MarkerComponent } from './components/marker/marker.component';
@@ -35,7 +37,8 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
     },
     {
         path: 'marker/:id',
-        component: MarkerComponent
+        component: MarkerComponent,
+        resolve: { marker: MarkerResolver }
     },
     {
         path: 'my-markers',
@@ -76,7 +79,8 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
         ImageService,
         AuthGuard,
         DialogService,
-        CommentApiService
+        CommentApiService,
+        MarkerResolver
     ]
 })
 export class HomeModule { }

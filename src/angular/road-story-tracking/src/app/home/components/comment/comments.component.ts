@@ -6,8 +6,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommentApiService } from '../../services/comment-api.service';
 import { UserService } from './../../../shared/services/user/user.service';
 import { DialogService } from './../../../shared/services/dialog/dialog.service';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
 import { MarkerComment } from '../../../shared/models/data/comment/comment.model';
 import { BackendErrorResponse } from './../../../shared/models/responses/error-response.model';
+import { Marker } from '../../../shared/models/data/map/marker.model';
 
 @Component({
     templateUrl: './comments.component.html',
@@ -27,17 +29,13 @@ export class CommentsComponent implements OnInit, OnDestroy {
     public constructor(private commentApiService: CommentApiService, private activatedRoute: ActivatedRoute,
         private snackBar: MatSnackBar, private userService: UserService, private dialogService: DialogService) {
         this.subscriptions = [];
-        this.comments = [];
     }
 
     public ngOnInit(): void {
-        let subscription = this.activatedRoute.paramMap.subscribe(params => {
-            this.markerId = params.get('id');
-            this.getComments();
-        });
-        this.subscriptions.push(subscription);
+        this.markerId = (this.activatedRoute.snapshot.data['marker'] as Marker).id;
+        this.getComments();
 
-        subscription = this.userService.userName.subscribe((result: string) => this.userName = result);
+        let subscription = this.userService.userName.subscribe((result: string) => this.userName = result);
         this.subscriptions.push(subscription);
 
         subscription = this.userService.isAuthenticated.subscribe((result: boolean) => this.isAuthenticated = result);
@@ -58,7 +56,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
             this.text = '';
             this.getComments();
         } catch (error) {
-
+            const errorMessage = (error.error as BackendErrorResponse).exception.message;
+            this.snackBar.open(errorMessage, 'Error!', snackbarConfiguration);
         }
 
         this.waitForRequest = false;
@@ -66,8 +65,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
     public async removeComment(commentId: string): Promise<void> {
         const dialogResult = await this.dialogService
-            .confirm('Delete comment', 'Do you want to delete this comment?')
-            .toPromise();
+            .confirm('Delete comment', 'Do you want to delete this comment?').toPromise();
 
         if (dialogResult === true) {
             await this.commentApiService.removeComment(commentId).toPromise();

@@ -16,36 +16,16 @@ import { snackbarConfiguration } from '../../../shared/configurations/snackbar.c
     templateUrl: './marker.component.html',
     styleUrls: ['./marker.component.css']
 })
-export class MarkerComponent implements OnInit, OnDestroy {
+export class MarkerComponent implements OnInit {
 
-    private subscription: Subscription;
-
-    @ViewChild('gallery') public gallery: NgxGalleryComponent;
     public marker: Marker;
-    public galleryOptions: NgxGalleryOptions[];
     public galleryImages: NgxGalleryImage[];
 
-    public constructor(private markerApiService: MarkerApiService, private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar) {
-        this.marker = new Marker();
-        this.marker.markerOwner = new MarkerOwner();
-        this.galleryOptions = [{ thumbnails: false, height: '400px', width: '100%' }];
-        this.galleryImages = [];
-    }
+    public constructor(private markerApiService: MarkerApiService, private activatedRoute: ActivatedRoute,
+        private snackBar: MatSnackBar) { }
 
     public ngOnInit(): void {
-        this.subscription = this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
-            this.markerApiService.getMarker(params.get('id')).subscribe((result: Marker) => {
-                this.marker = result;
-                this.galleryImages = result.images.map((img: string) => ({ big: img, small: img, medium: img }));
-            }, (error: HttpErrorResponse) => {
-                const errorMessage = (error.error as BackendErrorResponse).exception.message;
-                this.marker.name = errorMessage;
-                this.snackBar.open(errorMessage, 'Error!', snackbarConfiguration);
-            });
-        });
-    }
-
-    public ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.marker = this.activatedRoute.snapshot.data['marker'];
+        this.galleryImages = this.marker.images.map((img: string) => ({ big: img, small: img, medium: img }));
     }
 }

@@ -6,6 +6,7 @@ import 'rxjs/add/operator/do';
 import { MarkerApiService } from './marker-api.service';
 import { MarkerServiceState } from './marker-service-state.enum';
 import { Marker } from './../../shared/models/data/map/marker.model';
+import { MarkerType } from '../../shared/models/data/map/marker-type.enum.model';
 
 @Injectable()
 export class MarkerService {
@@ -44,5 +45,16 @@ export class MarkerService {
             this._markers.next(this._staticMarkers);
             this.setState(MarkerServiceState.None);
         });
+    }
+
+    public translateTypeToIcon(type: MarkerType): string {
+        if (type === MarkerType.NeedARide) {
+            return 'assets/icons/car-marker.png';
+        } else if (type === MarkerType.CashRelated) {
+            return 'assets/icons/cash-marker.png';
+        } else if (type === MarkerType.Party) {
+            return 'assets/icons/party-marker.png';
+        }
+        return '';
     }
 }

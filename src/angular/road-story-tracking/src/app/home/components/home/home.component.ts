@@ -1,5 +1,5 @@
 import { MatSnackBar, MatDialog } from '@angular/material';
-import { Component, AfterContentInit } from '@angular/core';
+import { Component, AfterContentInit, OnInit } from '@angular/core';
 
 import { MarkerService } from './../../services/marker.service';
 import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.component';
@@ -7,12 +7,13 @@ import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.comp
 import { Marker } from './../../../shared/models/data/map/marker.model';
 import { MarkerType } from './../../../shared/models/data/map/marker-type.enum.model';
 import { MarkerServiceState } from './../../services/marker-service-state.enum';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
 
 @Component({
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterContentInit {
+export class HomeComponent implements OnInit, AfterContentInit {
 
     public state: MarkerServiceState;
 
@@ -25,7 +26,9 @@ export class HomeComponent implements AfterContentInit {
         this.latitude = 0;
         this.longitude = 0;
         this.zoom = 15;
+    }
 
+    public ngOnInit(): void {
         this.markerService.getMarkers();
         this.markerService.markers.subscribe((markers: Marker[]) => this.markers = markers);
         this.markerService.state.subscribe((state: MarkerServiceState) => this.state = state);
@@ -35,16 +38,17 @@ export class HomeComponent implements AfterContentInit {
         this.getLocation();
     }
 
-    public mapClicked($event: any): void {
+    public async mapClicked($event: any): Promise<void> {
         if (this.state === MarkerServiceState.AddMarker) {
-            this.materialdialogService.open(NewMarkerDialogComponent, {
+            const dialogData = {
                 data: {
                     latitude: $event.coords.lat,
                     longitude: $event.coords.lng
                 }
-            }).afterClosed().subscribe((result) => {
-                this.markerService.setState(MarkerServiceState.None);
-            });
+            };
+
+            await this.materialdialogService.open(NewMarkerDialogComponent, dialogData).afterClosed().toPromise();
+            this.markerService.setState(MarkerServiceState.None);
         }
     }
 
@@ -54,38 +58,20 @@ export class HomeComponent implements AfterContentInit {
                 this.latitude = position.coords.latitude;
                 this.longitude = position.coords.longitude;
             }, (error: any) => {
-                this.snackBar.open('Browser does not allow to get your location.', 'Error!', {
-                    duration: 3000,
-                    horizontalPosition: 'right'
-                });
+                this.snackBar.open('Browser does not allow to get your location.', 'Error!', snackbarConfiguration);
             });
         } else {
-            this.snackBar.open('Browser does not allow to get your location.', 'Error!', {
-                duration: 3000,
-                horizontalPosition: 'right'
-            });
+            this.snackBar.open('Browser does not allow to get your location.', 'Error!', snackbarConfiguration);
         }
     }
 
     public refreshMap(): void {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position: Position) => {
-                this.latitude = position.coords.latitude;
-                this.longitude = position.coords.longitude;
-            });
-        }
+        this.getLocation();
         this.zoom = 15;
         this.markerService.getMarkers();
     }
 
     public translateTypeToIcon(type: MarkerType): string {
-        if (type === MarkerType.NeedARide) {
-            return 'assets/icons/car-marker.png';
-        } else if (type === MarkerType.CashRelated) {
-            return 'assets/icons/cash-marker.png';
-        } else if (type === MarkerType.Party) {
-            return 'assets/icons/party-marker.png';
-        }
-        return '';
+        return this.markerService.translateTypeToIcon(type);
     }
 }

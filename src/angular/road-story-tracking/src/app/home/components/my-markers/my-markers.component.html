@@ -5,62 +5,60 @@
                 <h1>My events</h1>
             </mat-card-title>
         </mat-card-header>
-        <mat-card-content>
-            <div class="mat-elevation-z8">
-                <mat-table [dataSource]="markersData" *ngIf="!isMobile">
+        <div>
+            <mat-table [dataSource]="markersData" *ngIf="!isMobile">
 
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row class="pointer" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row class="pointer" *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-                    <ng-container matColumnDef="name">
-                        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                        <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ element.name }}</mat-cell>
-                    </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ element.name }}</mat-cell>
+                </ng-container>
 
-                    <ng-container matColumnDef="type">
-                        <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
-                        <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ getTypeName(element.type) }} </mat-cell>
-                    </ng-container>
+                <ng-container matColumnDef="type">
+                    <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ getTypeName(element.type) }} </mat-cell>
+                </ng-container>
 
-                    <ng-container matColumnDef="created">
-                        <mat-header-cell *matHeaderCellDef> Created on </mat-header-cell>
-                        <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ element.createDate | date:'EEEE, MMMM d, y | H:mm:ss zzzz' }}</mat-cell>
-                    </ng-container>
+                <ng-container matColumnDef="created">
+                    <mat-header-cell *matHeaderCellDef> Created on </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ element.createDate | date:'EEEE, MMMM d, y | H:mm:ss zzzz' }}</mat-cell>
+                </ng-container>
 
-                    <ng-container matColumnDef="actions">
-                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                        <mat-cell *matCellDef="let element">
-                            <div class="action-buttons">
-                                <button mat-button (click)="modify(element)">Modify</button>
-                                <button mat-button (click)="delete(element)">Delete</button>
-                            </div>
-                        </mat-cell>
-                    </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <div class="action-buttons">
+                            <button mat-button (click)="modify(element)">Modify</button>
+                            <button mat-button (click)="delete(element)">Delete</button>
+                        </div>
+                    </mat-cell>
+                </ng-container>
 
-                </mat-table>
+            </mat-table>
 
-                <mat-table [dataSource]="markersData" *ngIf="isMobile">
+            <mat-table [dataSource]="markersData" *ngIf="isMobile">
 
-                    <mat-header-row *matHeaderRowDef="displayedColumnsMobile"></mat-header-row>
-                    <mat-row class="pointer" *matRowDef="let row; columns: displayedColumnsMobile;"></mat-row>
+                <mat-header-row *matHeaderRowDef="displayedColumnsMobile"></mat-header-row>
+                <mat-row class="pointer" *matRowDef="let row; columns: displayedColumnsMobile;"></mat-row>
 
-                    <ng-container matColumnDef="name">
-                        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                        <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ element.name }}</mat-cell>
-                    </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [routerLink]="'/marker/' + element.id " routerLinkActive="active">{{ element.name }}</mat-cell>
+                </ng-container>
 
-                    <ng-container matColumnDef="actions">
-                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                        <mat-cell *matCellDef="let element">
-                            <div class="action-buttons">
-                                <button mat-button (click)="modify(element)">Modify</button>
-                                <button mat-button (click)="delete(element)">Delete</button>
-                            </div>
-                        </mat-cell>
-                    </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <div class="action-buttons">
+                            <button mat-button (click)="modify(element)">Modify</button>
+                            <button mat-button (click)="delete(element)">Delete</button>
+                        </div>
+                    </mat-cell>
+                </ng-container>
 
-                </mat-table>
-            </div>
-        </mat-card-content>
+            </mat-table>
+        </div>
     </mat-card>
 </div>
