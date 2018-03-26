@@ -16,9 +16,9 @@
             </mat-form-field>
         </div>
         <div *ngFor="let comment of comments" class="comment">
-            <img [src]="comment.commentAuthor.image" onError="this.onerror = null; this.src = this.src='assets/images/account-image.svg';"
+            <img [src]="comment.commentAuthor.image || 'assets/images/account-image.svg'"
                 width="32px" height="32px" style="margin-right: 8px" class="pull-left">
-            <small class="pull-left" style="margin-top: 8px;">
+            <small class="pull-left" style="margin-top: 8px;" *ngIf="comment.commentAuthor.firstName !== '' || comment.commentAuthor.lastName !== ''">
                 {{ comment.commentAuthor.firstName }} {{ comment.commentAuthor.lastName }} | {{ comment.createDate | date:'d.M.yy, h:mm a' }}
             </small>
             <small class="pull-left" style="margin-top: 8px;" *ngIf="comment.commentAuthor.firstName === '' && comment.commentAuthor.lastName === ''">

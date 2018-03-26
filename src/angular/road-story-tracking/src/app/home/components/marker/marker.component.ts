@@ -10,6 +10,7 @@ import { MarkerApiService } from './../../services/marker-api.service';
 import { Marker } from './../../../shared/models/data/map/marker.model';
 import { MarkerOwner } from './../../../shared/models/data/map/marker-owner.model';
 import { BackendErrorResponse } from './../../../shared/models/responses/error-response.model';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
 
 @Component({
     templateUrl: './marker.component.html',
@@ -37,12 +38,9 @@ export class MarkerComponent implements OnInit, OnDestroy {
                 this.marker = result;
                 this.galleryImages = result.images.map((img: string) => ({ big: img, small: img, medium: img }));
             }, (error: HttpErrorResponse) => {
-                const errorMessage = (error.error as BackendErrorResponse).exception.Message;
+                const errorMessage = (error.error as BackendErrorResponse).exception.message;
                 this.marker.name = errorMessage;
-                this.snackBar.open(errorMessage, 'Error!', {
-                    duration: 3000,
-                    horizontalPosition: 'right'
-                });
+                this.snackBar.open(errorMessage, 'Error!', snackbarConfiguration);
             });
         });
     }

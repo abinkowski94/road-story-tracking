@@ -31,7 +31,7 @@ export class ApllicationInterceptor implements HttpInterceptor {
         if (error.status === 401) {
             this.router.navigate(['auth-required']);
         } else if (error.status === 400) {
-            this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', snackbarConfiguration);
+            this.snackBar.open((error.error as BackendErrorResponse).exception.message, 'Error!', snackbarConfiguration);
         } else if (error.status === 404) {
             this.router.navigate(['not-found']);
         } else {

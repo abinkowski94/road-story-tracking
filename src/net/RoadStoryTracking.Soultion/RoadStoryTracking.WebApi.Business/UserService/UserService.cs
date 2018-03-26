@@ -132,7 +132,7 @@ namespace RoadStoryTracking.WebApi.Business.UserService
             else
             {
                 var exceptions = createdUser.Errors.Select(e => new CustomApplicationException(e.Description));
-                return new ErrorResponse(new CustomAggregatedException("Exceptions occured during creating new user.", exceptions.ToArray()));
+                return new ErrorResponse(new CustomAggregatedException("Exceptions occurred during creating new user.", exceptions.ToArray()));
             }
         }
 

@@ -16,7 +16,7 @@ import { BackendErrorResponse } from './../../../shared/models/responses/error-r
 })
 export class CommentsComponent implements OnInit, OnDestroy {
 
-    private subscription: Subscription;
+    public subscriptions: Subscription[];
     public markerId: string;
     public userName: string;
     public isAuthenticated: boolean;
@@ -25,55 +25,57 @@ export class CommentsComponent implements OnInit, OnDestroy {
     public text: string;
 
     public constructor(private commentApiService: CommentApiService, private activatedRoute: ActivatedRoute,
-        private snackBar: MatSnackBar, private userService: UserService, private dialogService: DialogService) { }
+        private snackBar: MatSnackBar, private userService: UserService, private dialogService: DialogService) {
+        this.subscriptions = [];
+        this.comments = [];
+    }
 
     public ngOnInit(): void {
-        this.subscription = this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+        let subscription = this.activatedRoute.paramMap.subscribe(params => {
             this.markerId = params.get('id');
             this.getComments();
         });
+        this.subscriptions.push(subscription);
 
-        this.userService.userName.subscribe((result: string) => this.userName = result);
-        this.userService.isAuthenticated.subscribe((result: boolean) => this.isAuthenticated = result);
+        subscription = this.userService.userName.subscribe((result: string) => this.userName = result);
+        this.subscriptions.push(subscription);
+
+        subscription = this.userService.isAuthenticated.subscribe((result: boolean) => this.isAuthenticated = result);
+        this.subscriptions.push(subscription);
     }
 
     public ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
-    public addComment() {
-        const newComment = new MarkerComment();
-        newComment.markerId = this.markerId;
-        newComment.text = this.text;
+    public async addComment(): Promise<void> {
+        const newComment = new MarkerComment(this.markerId, this.text);
 
         this.waitForRequest = true;
 
-        this.commentApiService.addComment(newComment).subscribe((comment: MarkerComment) => {
+        try {
+            await this.commentApiService.addComment(newComment).toPromise();
             this.text = '';
             this.getComments();
-        }, error => this.waitForRequest = false,
-            () => this.waitForRequest = false);
+        } catch (error) {
+
+        }
+
+        this.waitForRequest = false;
     }
 
-    public updateComment(comment: MarkerComment) {
-        this.commentApiService.addComment(comment).subscribe((resultComment: MarkerComment) => {
+    public async removeComment(commentId: string): Promise<void> {
+        const dialogResult = await this.dialogService
+            .confirm('Delete comment', 'Do you want to delete this comment?')
+            .toPromise();
+
+        if (dialogResult === true) {
+            await this.commentApiService.removeComment(commentId).toPromise();
             this.getComments();
-        });
+        }
     }
 
-    public removeComment(commentId: string) {
-        this.dialogService.confirm('Delete comment', 'Do you want to delete this comment?').subscribe(result => {
-            if (result === true) {
-                this.commentApiService.removeComment(commentId).subscribe((comment: MarkerComment) => {
-                    this.getComments();
-                });
-            }
-        });
-    }
-
-    public getComments(): void {
-        this.commentApiService.getCommentsForMarker(this.markerId).subscribe((comments: MarkerComment[]) => {
-            this.comments = comments;
-        });
+    public async getComments(): Promise<void> {
+        this.comments = await this.commentApiService.getCommentsForMarker(this.markerId).toPromise();
     }
 }

@@ -5,46 +5,35 @@ import { Component, OnInit } from '@angular/core';
 import { ManageAccountApiService } from './../../services/manage-account-api.service';
 import { ApplicationUser } from '../../../shared/models/data/user/application-user.model';
 import { BackendErrorResponse } from './../../../shared/models/responses/error-response.model';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
 
 @Component({
-  templateUrl: './manage-account.component.html',
-  styleUrls: ['./manage-account.component.css']
+    templateUrl: './manage-account.component.html',
+    styleUrls: ['./manage-account.component.css']
 })
 export class ManageAccountComponent implements OnInit {
 
-  public applicationUser: ApplicationUser;
-  public pendingRequest: boolean;
+    public applicationUser: ApplicationUser;
+    public pendingRequest: boolean;
 
-  public constructor(private manageAccountApiService: ManageAccountApiService, private snackBar: MatSnackBar) {
-    this.applicationUser = new ApplicationUser();
-  }
+    public constructor(private manageAccountApiService: ManageAccountApiService, private snackBar: MatSnackBar) { }
 
-  public async ngOnInit(): Promise<void> {
-    try {
-      this.applicationUser = await this.manageAccountApiService.getUserData().toPromise();
-    } catch (error) {
-      this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', {
-        duration: 3000,
-        horizontalPosition: 'right'
-      });
+    public ngOnInit(): void {
+        this.manageAccountApiService.getUserData().subscribe(applicationUser => {
+            this.applicationUser = applicationUser;
+        }, error => this.snackBar.open((error.error as BackendErrorResponse).exception.message, 'Error!', snackbarConfiguration));
     }
-  }
 
-  public updateUserInfo(): void {
-    this.pendingRequest = true;
-    this.manageAccountApiService.updateUserData(this.applicationUser)
-      .subscribe((response: ApplicationUser) => {
-        this.applicationUser = response;
-        this.snackBar.open('Data has been updated successfully.', 'Success!', {
-          duration: 3000,
-          horizontalPosition: 'right'
-        });
-      }, (error: HttpErrorResponse) => {
+    public async updateUserInfo(): Promise<void> {
+        this.pendingRequest = true;
+
+        try {
+            this.applicationUser = await this.manageAccountApiService.updateUserData(this.applicationUser).toPromise();
+            this.snackBar.open('Data has been updated successfully.', 'Success!', snackbarConfiguration);
+        } catch (error) {
+            this.snackBar.open((error.error as BackendErrorResponse).exception.message, 'Error!', snackbarConfiguration);
+        }
+
         this.pendingRequest = false;
-        this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error!', {
-          duration: 3000,
-          horizontalPosition: 'right'
-        });
-      }, () => this.pendingRequest = false);
-  }
+    }
 }

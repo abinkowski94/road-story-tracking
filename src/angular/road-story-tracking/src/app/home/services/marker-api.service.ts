@@ -14,15 +14,7 @@ export class MarkerApiService extends BaseHttpService {
     }
 
     public addMarker(marker: Marker): Observable<Marker> {
-        let result = this.post<Marker>('AddMarker', marker);
-
-        if (environment.production === false) {
-            result = result.do((resultMarker: Marker) => {
-                resultMarker.images = resultMarker.images.map(i => environment.backendHotst + i);
-            });
-        }
-
-        return result;
+        return this.post<Marker>('AddMarker', marker);
     }
 
     public getMarkers(): Observable<Marker[]> {
@@ -31,58 +23,19 @@ export class MarkerApiService extends BaseHttpService {
 
     public getMarker(markerId: string): Observable<Marker> {
         const params = new HttpParams().set('markerId', markerId);
-        let result = this.get<Marker>('GetMarker', params);
-
-        if (environment.production === false) {
-            result = result.do((resultMarker: Marker) => {
-                resultMarker.images = resultMarker.images.map(i => environment.backendHotst + i);
-            });
-        }
-
-        return result;
+        return this.get<Marker>('GetMarker', params);
     }
 
     public getMyMarkers(): Observable<Marker[]> {
-        let result = this.get<Marker[]>('GetMyMarkers');
-
-        if (environment.production === false) {
-            result = result.do((resultMarkers: Marker[]) => {
-                for (const marker of resultMarkers) {
-                    marker.images = marker.images.map(i => environment.backendHotst + i);
-                }
-            });
-        }
-
-        return result;
+        return this.get<Marker[]>('GetMyMarkers');
     }
 
     public deleteMarker(markerId: string): Observable<Marker> {
         const params = new HttpParams().set('markerId', markerId);
-        let result = this.delete<Marker>('DeleteMarker', params);
-
-        if (environment.production === false) {
-            result = result.do((resultMarker: Marker) => {
-                resultMarker.images = resultMarker.images.map(i => environment.backendHotst + i);
-            });
-        }
-
-        return result;
+        return this.delete<Marker>('DeleteMarker', params);
     }
 
     public updateMarker(marker: Marker): Observable<Marker> {
-
-        if (environment.production === false) {
-            marker.images = marker.images.map(i => i.replace(environment.backendHotst, ''));
-        }
-
-        let result = this.put<Marker>('UpdateMarker', marker);
-
-        if (environment.production === false) {
-            result = result.do((resultMarker: Marker) => {
-                resultMarker.images = resultMarker.images.map(i => environment.backendHotst + i);
-            });
-        }
-
-        return result;
+        return this.put<Marker>('UpdateMarker', marker);
     }
 }

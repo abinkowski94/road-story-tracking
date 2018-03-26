@@ -6,9 +6,9 @@
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <div class="manage-content">
+            <div class="manage-content" *ngIf="applicationUser">
                 <div class="manage-image">
-                    <img [src]="applicationUser.imageUrl" onError="this.onerror = null; this.src = this.src='assets/images/account-image.svg';">
+                    <img [src]="applicationUser.imageUrl || 'assets/images/account-image.svg'">
                 </div>
                 <div class="manage-data">
                     <form class="manage-form" #manageForm="ngForm" (submit)="updateUserInfo()">

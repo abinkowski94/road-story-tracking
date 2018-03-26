@@ -26,20 +26,21 @@ export class RegisterAccountComponent {
         this.errors = [];
     }
 
-    public register(): void {
+    public async register(): Promise<void> {
         if (this.registerUserModel.password !== this.registerUserModel.confirmPassword) {
             this.errors = ['Passwords do not match!'];
         } else {
             this.pendingRequest = true;
-            this.userService.register(this.registerUserModel)
-                .subscribe((result: ApplicationUser) => {
-                    this.router.navigate(['account/register/complete']);
-                }, (error: HttpErrorResponse) => {
-                    this.pendingRequest = false;
-                    const exceptions = ((error.error as BackendErrorResponse).exception as CustomAggregatedBackendException)
-                        .Exceptions;
-                    this.errors = exceptions.map(e => e.Message);
-                });
+
+            try {
+                await this.userService.register(this.registerUserModel).toPromise();
+                this.router.navigate(['account/register/complete']);
+            } catch (error) {
+                const exceptions = ((error.error as BackendErrorResponse).exception as CustomAggregatedBackendException).exceptions;
+                this.errors = exceptions.map(e => e.message);
+            }
+
+            this.pendingRequest = false;
         }
     }
 }

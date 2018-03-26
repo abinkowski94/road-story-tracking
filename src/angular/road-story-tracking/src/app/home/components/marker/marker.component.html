@@ -2,9 +2,9 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>
-                <img [src]="marker.markerOwner.image" onError="this.onerror = null; this.src = this.src='assets/images/account-image.svg';"
+                <img [src]="marker.markerOwner.image || 'assets/images/account-image.svg'"
                     width="64px" height="64px" style="margin-right: 16px">
-                <h1 class="pull-right">
+                <h1 class="pull-right" *ngIf="marker.markerOwner.firstName !== '' || marker.markerOwner.lastName !== ''">
                     {{ marker.markerOwner.firstName }} {{ marker.markerOwner.lastName }} | {{ marker.createDate | date:'d.M.yy, h:mm a' }}
                 </h1>
                 <h1 class="pull-right" *ngIf="marker.markerOwner.firstName === '' && marker.markerOwner.lastName === ''">

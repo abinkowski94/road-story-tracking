@@ -8,6 +8,7 @@ import { UpdateMarkerDialogComponent } from './../modify-marker/update-marker-di
 import { Marker } from '../../../shared/models/data/map/marker.model';
 import { MarkerType } from '../../../shared/models/data/map/marker-type.enum.model';
 import { BackendErrorResponse } from '../../../shared/models/responses/error-response.model';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
 
 @Component({
     templateUrl: 'my-markers.component.html',
@@ -54,10 +55,7 @@ export class MyMarkersComponent {
                         });
 
                     }, (error: HttpErrorResponse) => {
-                        this.snackBar.open((error.error as BackendErrorResponse).exception.Message, 'Error', {
-                            duration: 3000,
-                            horizontalPosition: 'right'
-                        });
+                        this.snackBar.open((error.error as BackendErrorResponse).exception.message, 'Error', snackbarConfiguration);
                     });
                 }
             });

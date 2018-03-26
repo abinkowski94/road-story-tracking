@@ -15,17 +15,7 @@ export class CommentApiService extends BaseHttpService {
 
     public getCommentsForMarker(markerId: string): Observable<MarkerComment[]> {
         const params = new HttpParams().set('markerId', markerId);
-        let result = this.get<MarkerComment[]>('GetCommentsForMarker', params);
-
-        if (environment.production === false) {
-            result = result.do((resultComments: MarkerComment[]) => {
-                resultComments.forEach(comment => {
-                    comment.commentAuthor.image = environment.backendHotst + comment.commentAuthor.image;
-                });
-            });
-        }
-
-        return result;
+        return this.get<MarkerComment[]>('GetCommentsForMarker', params);
     }
 
     public addComment(comment: MarkerComment): Observable<MarkerComment> {
