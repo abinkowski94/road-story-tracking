@@ -11,6 +11,7 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
         public ImageService(IHostingEnvironment enviroment)
         {
             _enviroment = enviroment;
+            CheckAndSetWebRootPath();
         }
 
         public bool DeleteImage(string path)
@@ -47,10 +48,18 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
                     writer.Flush();
                 }
 
-                return $"assets/{location}/{imageName}.jpg";
+                return imagePath;
             }
 
             return null;
+        }
+
+        private void CheckAndSetWebRootPath()
+        {
+            if (string.IsNullOrWhiteSpace(_enviroment.WebRootPath))
+            {
+                _enviroment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            }
         }
 
         private string ClearBase64Fromat(string base64Image)

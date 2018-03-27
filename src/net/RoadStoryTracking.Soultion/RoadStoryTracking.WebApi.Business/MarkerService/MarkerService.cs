@@ -11,7 +11,7 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
 {
     public class MarkerService : BaseService, IMarkerService
     {
-        private const string _markerImagesLocation = "markers/images";
+        private const string _markerImagesLocation = "markers\\images";
         private readonly IImageService _imageService;
         private readonly IMarkerRepository _markerRepository;
 
