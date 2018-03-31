@@ -13,7 +13,10 @@ import {
     MatSelectModule,
     MatTableModule,
     MatMenuModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatListModule
 } from '@angular/material';
 
 @NgModule({
@@ -31,7 +34,10 @@ import {
         MatSelectModule,
         MatTableModule,
         MatMenuModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatTabsModule,
+        MatExpansionModule,
+        MatListModule
     ],
     exports: [
         MatButtonModule,
@@ -47,7 +53,10 @@ import {
         MatSelectModule,
         MatTableModule,
         MatMenuModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatTabsModule,
+        MatExpansionModule,
+        MatListModule
     ]
 })
 export class AngularMaterialModule { }

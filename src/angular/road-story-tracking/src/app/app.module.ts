@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 import { ManageAccountModule } from './account/account.module';
+import { FriendsModule } from './friends/friends.module';
 import { AngularMaterialModule } from './shared/modules/material.module';
 
 import { AppComponent } from './main/app.component';
@@ -24,6 +25,7 @@ import { NavigationBarComponent } from './shared/components/navigation-bar/navig
         HttpClientModule,
         HomeModule,
         ManageAccountModule,
+        FriendsModule,
         SharedModule,
         RouterModule.forRoot([], { useHash: false })
     ],

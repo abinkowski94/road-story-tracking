@@ -6,6 +6,9 @@
         <button *ngIf="isAuthenticated" class="desktop" mat-button routerLink="/my-markers" routerLinkActive="active">
             <i class="material-icons">book</i> My events
         </button>
+        <button *ngIf="isAuthenticated" class="desktop" mat-button routerLink="/my-friends" routerLinkActive="active">
+            <i class="material-icons">people</i> My friends
+        </button>
         <span class="fill-remaining-space"></span>
         <div *ngIf="isAuthenticated" class="desktop">
             <button mat-button routerLink="/account/manage" routerLinkActive="active">
@@ -27,6 +30,10 @@
             <mat-menu #appMenu="matMenu">
                 <button *ngIf="isAuthenticated" mat-button routerLink="/my-markers" routerLinkActive="active">
                     <i class="material-icons">book</i> My events
+                </button>
+                <br *ngIf="isAuthenticated">
+                <button *ngIf="isAuthenticated" mat-button routerLink="/my-friends" routerLinkActive="active">
+                    <i class="material-icons">people</i> My friends
                 </button>
                 <br *ngIf="isAuthenticated">
                 <button *ngIf="isAuthenticated" mat-button routerLink="/account/manage" routerLinkActive="active">
