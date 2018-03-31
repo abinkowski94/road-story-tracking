@@ -23,7 +23,7 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
 
         public BaseResponse AddMarker(Marker marker, string userId)
         {
-            marker.Images = marker.Images.Select(i => _imageService.SaveImage(i, Guid.NewGuid().ToString(), _markerImagesLocation)).ToList();
+            marker.Images = marker.Images.Select(i => _imageService.SaveImageAsync(i, Guid.NewGuid().ToString(), _markerImagesLocation).Result).ToList();
             var dbMarker = LocalMapper.Map<Data.Models.Marker>(marker);
             dbMarker.ApplicationUserId = userId;
             dbMarker = _markerRepository.AddMarker(dbMarker);
@@ -42,7 +42,7 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
 
             var result = LocalMapper.Map<Marker>(markerToDelete);
 
-            result.Images.ForEach(i => _imageService.DeleteImage(i));
+            result.Images.ForEach(i => _imageService.DeleteImageAsync(i));
             _markerRepository.DeleteMarker(markerToDelete);
 
             return new SuccessResponse<Marker>(result);
@@ -103,13 +103,13 @@ namespace RoadStoryTracking.WebApi.Business.MarkerService
             var imagesToCreate = updateModel.Images.Where(img => !existingImages.Any(ei => ei.Image == img)).ToList();
 
             // Remove old images
-            imagesToRemove.ForEach(img => _imageService.DeleteImage(img.Image));
+            imagesToRemove.ForEach(img => _imageService.DeleteImageAsync(img.Image));
             _markerRepository.DeleteMarkerImages(imagesToRemove);
 
             // Create new images
             var imagesToAppend = imagesToCreate.Select(img => new Data.Models.MarkerImage
             {
-                Image = _imageService.SaveImage(img, Guid.NewGuid().ToString(), _markerImagesLocation),
+                Image = _imageService.SaveImageAsync(img, Guid.NewGuid().ToString(), _markerImagesLocation).Result,
                 CreateDate = DateTimeOffset.UtcNow
             }).ToList();
             markerToUpdate.Images.AddRange(imagesToAppend);

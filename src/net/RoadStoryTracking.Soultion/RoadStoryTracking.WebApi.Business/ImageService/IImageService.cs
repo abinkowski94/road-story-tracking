@@ -1,9 +1,11 @@
-﻿namespace RoadStoryTracking.WebApi.Business.ImageService
+﻿using System.Threading.Tasks;
+
+namespace RoadStoryTracking.WebApi.Business.ImageService
 {
     public interface IImageService
     {
-        bool DeleteImage(string path);
+        Task<bool> DeleteImageAsync(string path);
 
-        string SaveImage(string base64Image, string imageName, string location);
+        Task<string> SaveImageAsync(string base64Image, string imageName, string location);
     }
 }

@@ -1,72 +1,86 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace RoadStoryTracking.WebApi.Business.ImageService
 {
     public class ImageService : IImageService
     {
-        private readonly IHostingEnvironment _enviroment;
+        private readonly string _defaultContrainerName;
+        private readonly string _storageConnectionString;
 
-        public ImageService(IHostingEnvironment enviroment)
+        public ImageService(IConfiguration configuration)
         {
-            _enviroment = enviroment;
-            CheckAndSetWebRootPath();
-        }
-
-        public bool DeleteImage(string path)
-        {
-            var fullPath = Path.Combine(_enviroment.WebRootPath, path);
-            if (File.Exists(fullPath))
+            if (string.IsNullOrEmpty(configuration["Storage:DefaultContainerName"])
+                || string.IsNullOrEmpty(configuration["Storage:ConnectionString"]))
             {
-                File.Delete(fullPath);
-                return true;
+                throw new ApplicationException("Image service has bad configuration. Missing configuration keys");
             }
 
-            return false;
+            _defaultContrainerName = configuration["Storage:DefaultContainerName"];
+            _storageConnectionString = configuration["Storage:ConnectionString"];
         }
 
-        public string SaveImage(string base64Image, string imageName, string location)
+        public Task<bool> DeleteImageAsync(string path)
         {
-            base64Image = ClearBase64Fromat(base64Image);
-
-            var pathWithFolderName = Path.Combine(_enviroment.WebRootPath, $"assets\\{location}");
-            var imagePath = $"{pathWithFolderName}\\{imageName}.jpg";
-
-            if (!Directory.Exists(pathWithFolderName))
+            return Task.Run(async () =>
             {
-                var directory = Directory.CreateDirectory(pathWithFolderName);
-            }
+                var cloudBlockBlob = new CloudBlockBlob(new Uri(path), GetBlobClient());
+                return await cloudBlockBlob.DeleteIfExistsAsync();
+            });
+        }
 
-            if (TryGetFromBase64String(base64Image, out byte[] bytes))
+        public Task<string> SaveImageAsync(string base64Image, string imageName, string location)
+        {
+            return Task.Run(async () =>
             {
-                File.Create(imagePath).Dispose();
+                base64Image = ClearBase64Fromat(base64Image);
 
-                using (var writer = new BinaryWriter(File.OpenWrite(imagePath)))
+                if (TryGetFromBase64String(base64Image, out byte[] bytes))
                 {
-                    writer.Write(bytes);
-                    writer.Flush();
+                    var imageFullPath = $"assets\\{location}\\{imageName}.jpg";
+                    var container = await GetDefaultContainer();
+                    var cloudBlockBlob = container.GetBlockBlobReference(imageFullPath);
+                    await cloudBlockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
+                    cloudBlockBlob.Properties.ContentType = "image/jpeg";
+
+                    return cloudBlockBlob.Uri.ToString();
                 }
 
-                return imagePath;
-            }
-
-            return null;
-        }
-
-        private void CheckAndSetWebRootPath()
-        {
-            if (string.IsNullOrWhiteSpace(_enviroment.WebRootPath))
-            {
-                _enviroment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            }
+                return null;
+            });
         }
 
         private string ClearBase64Fromat(string base64Image)
         {
             var indexOfFormatEnd = base64Image.IndexOf(',') + 1;
             var formatString = base64Image.Substring(0, indexOfFormatEnd);
+
             return base64Image.Replace(formatString, "");
+        }
+
+        private CloudBlobClient GetBlobClient()
+        {
+            var storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
+            var client = storageAccount.CreateCloudBlobClient();
+
+            return client;
+        }
+
+        private async Task<CloudBlobContainer> GetDefaultContainer()
+        {
+            var client = GetBlobClient();
+            var container = client.GetContainerReference(_defaultContrainerName);
+
+            await container.CreateIfNotExistsAsync();
+            await container.SetPermissionsAsync(new BlobContainerPermissions
+            {
+                PublicAccess = BlobContainerPublicAccessType.Blob
+            });
+
+            return container;
         }
 
         private bool TryGetFromBase64String(string input, out byte[] output)
