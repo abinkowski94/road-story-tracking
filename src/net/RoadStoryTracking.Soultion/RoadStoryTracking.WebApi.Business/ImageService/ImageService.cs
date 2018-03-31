@@ -45,6 +45,7 @@ namespace RoadStoryTracking.WebApi.Business.ImageService
                     var cloudBlockBlob = container.GetBlockBlobReference(imageFullPath);
                     await cloudBlockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
                     cloudBlockBlob.Properties.ContentType = "image/jpeg";
+                    await cloudBlockBlob.SetPropertiesAsync();
 
                     return cloudBlockBlob.Uri.ToString();
                 }
