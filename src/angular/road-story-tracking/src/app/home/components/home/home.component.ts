@@ -1,5 +1,5 @@
 import { MatSnackBar, MatDialog } from '@angular/material';
-import { Component, AfterContentInit, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { MarkerService } from './../../services/marker.service';
 import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.component';
@@ -13,29 +13,26 @@ import { snackbarConfiguration } from '../../../shared/configurations/snackbar.c
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, AfterContentInit {
+export class HomeComponent implements OnInit {
 
     public state: MarkerServiceState;
 
+    public mapLatitude: number;
+    public mapLongitude: number;
     public latitude: number;
     public longitude: number;
-    public zoom: number;
     public markers: Marker[];
+    public zoom = 15;
 
-    public constructor(private snackBar: MatSnackBar, private markerService: MarkerService, private materialdialogService: MatDialog) {
-        this.latitude = 0;
-        this.longitude = 0;
-        this.zoom = 15;
-    }
+    public constructor(private snackBar: MatSnackBar, private markerService: MarkerService,
+        private materialdialogService: MatDialog) { }
 
     public ngOnInit(): void {
+        this.getLocation();
+        this.trackPosition();
         this.markerService.getMarkers();
         this.markerService.markers.subscribe((markers: Marker[]) => this.markers = markers);
         this.markerService.state.subscribe((state: MarkerServiceState) => this.state = state);
-    }
-
-    public ngAfterContentInit(): void {
-        this.getLocation();
     }
 
     public async mapClicked($event: any): Promise<void> {
@@ -53,8 +50,23 @@ export class HomeComponent implements OnInit, AfterContentInit {
     }
 
     public getLocation(): void {
+        this.readPositionsFromCache();
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position: Position) => {
+                this.mapLatitude = position.coords.latitude;
+                this.mapLongitude = position.coords.longitude;
+                this.savePositionsIntoCache();
+            }, (error: any) => {
+                this.snackBar.open('Browser does not allow to get your location.', 'Error!', snackbarConfiguration);
+            });
+        } else {
+            this.snackBar.open('Browser does not allow to get your location.', 'Error!', snackbarConfiguration);
+        }
+    }
+
+    public trackPosition(): void {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition((position: Position) => {
                 this.latitude = position.coords.latitude;
                 this.longitude = position.coords.longitude;
             }, (error: any) => {
@@ -67,11 +79,23 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
     public refreshMap(): void {
         this.getLocation();
-        this.zoom = 15;
         this.markerService.getMarkers();
+        this.zoom = 15;
     }
 
     public translateTypeToIcon(type: MarkerType): string {
         return this.markerService.translateTypeToIcon(type);
+    }
+
+    private savePositionsIntoCache() {
+        localStorage.setItem('CityStoryTracking.mapLatitude', this.mapLatitude.toString());
+        localStorage.setItem('CityStoryTracking.mapLongitude', this.mapLongitude.toString());
+    }
+
+    private readPositionsFromCache() {
+        if (localStorage.getItem) {
+            this.mapLatitude = parseFloat(localStorage.getItem('CityStoryTracking.mapLatitude') || '0');
+            this.mapLongitude = parseFloat(localStorage.getItem('CityStoryTracking.mapLongitude') || '0');
+        }
     }
 }
