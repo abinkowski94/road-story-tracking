@@ -1,12 +1,3 @@
-.scrollable-list{
-    height: 400px;
-    overflow-y: auto;
-}
-
-.search-input{
-    width: 100%;
-}
-
 .under-navigation-bar{
     z-index: 0;
 }

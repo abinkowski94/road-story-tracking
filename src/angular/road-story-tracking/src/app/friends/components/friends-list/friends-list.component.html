@@ -1,0 +1,11 @@
+<mat-list class="scrollable-list" flex *ngIf="friends">
+    <div *ngFor="let friend of friends">
+        <mat-list-item>
+            <img mat-list-icon [src]="friend.image || './assets/images/account-image.svg'" />
+            <h4 mat-line>{{ friend.firstName }} {{ friend.lastName }}</h4>
+            <p mat-line> {{ friend.userName }} </p>
+            <button class="pull-right" mat-button (click)="removeFriend(friend)">Remove</button>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </div>
+</mat-list>

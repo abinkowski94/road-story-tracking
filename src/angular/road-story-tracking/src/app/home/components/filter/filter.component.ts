@@ -23,7 +23,7 @@ export class FilterComponent {
         this.markers = [];
         this.markerCtrl = new FormControl();
         this.filteredMarkers = this.markerCtrl.valueChanges.pipe(startWith(''),
-            map(state => state ? this.filterMarkers(state) : this.markers.slice()));
+            map(markerName => markerName ? this.filterMarkers(markerName) : this.markers.slice()));
 
         this.markerService.markers.subscribe((markers: Marker[]) => this.markers = markers);
     }

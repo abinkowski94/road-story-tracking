@@ -27,6 +27,11 @@
     padding: 2%;
 }
 
+.the-image{
+    width: 100%;
+    height: 100%;
+}
+
 .manage-data{
     width: calc(100% * 2/3);
     padding: 2%;

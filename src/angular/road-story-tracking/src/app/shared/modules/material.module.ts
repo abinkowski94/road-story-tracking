@@ -16,7 +16,7 @@ import {
     MatAutocompleteModule,
     MatTabsModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
 } from '@angular/material';
 
 @NgModule({

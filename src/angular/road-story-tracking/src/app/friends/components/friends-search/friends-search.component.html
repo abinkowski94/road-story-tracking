@@ -1,0 +1,20 @@
+<div class="container" *ngIf="potentionalFriends">
+    <mat-grid-list cols="8" rowHeight="80px">
+        <mat-grid-tile [colspan]="6">
+            <mat-form-field class="container">
+                <input type="text" matInput [matAutocomplete]="auto" [formControl]="friendsCtrl" placeholder="Search for friends via email...">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2">
+            <button [disabled]="!(friendsCtrl.value)" class="container" mat-button (click)="sendInvitation(friendsCtrl.value)">Send invitation</button>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let friend of filtratedFriends | async" [value]="friend.userName">
+            <img style="vertical-align:middle;" aria-hidden [src]="friend.image || './assets/images/account-image.svg'" height="25" />
+            <span>{{ friend.firstName }} {{ friend.lastName }}</span> |
+            <small>{{ friend.userName }}</small>
+        </mat-option>
+    </mat-autocomplete>
+</div>

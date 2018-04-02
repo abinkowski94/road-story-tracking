@@ -1,0 +1,16 @@
+<mat-list flex *ngIf="invitations">
+    <div *ngFor="let invitation of invitations">
+        <mat-list-item>
+            <img mat-list-icon [src]="invitation.user.image || './assets/images/account-image.svg'" />
+            <h4 mat-line>{{ invitation.user.firstName }} {{ invitation.user.lastName }}</h4>
+            <p mat-line> {{ invitation.user.userName }} </p>
+            <div>
+                <button class="pull-right" mat-button (click)="acceptInvitation(invitation)">
+                    <i class="material-icons">done</i> Accept</button>
+                <button class="pull-right" mat-button (click)="declineInvitation(invitation)">
+                    <i class="material-icons">clear</i> Decline</button>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </div>
+</mat-list>
