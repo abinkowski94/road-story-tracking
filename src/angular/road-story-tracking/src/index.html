@@ -3,16 +3,74 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="theme-color" content="#3f51b5" />
+    <meta name="description" content="'City story tracking' is an application that allows
+         you to track your position and nearby events in your city." />
     <title>City story tracking</title>
     <base href="/">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        noscript {
+            width: 100%;
+            height: 100%;
+            background-color: #3f51b5;
+            color: #ffffff;
+            text-align: center;
+            display: block;
+        }
+
+        .loading-container {
+            display: none;
+        }
+
+        .js-enabled .loading-container {
+            display: block;
+        }
+
+        .no-script-container {
+            position: relative;
+            display: block;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .no-script-message {
+            font: 2em 'Roboto', sans-serif;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <app-root></app-root>
+    <app-root>
+        <div class="loading-container">
+            <div class="loader">
+                <h1 class="simple-loading-text">Loading</h1>
+                <div id="loading"></div>
+            </div>
+        </div>
+    </app-root>
+    <noscript>
+        <div class="no-script-container">
+            <h1 class="no-script-message"> Sorry, but app is not available without javascript </h1>
+        </div>
+    </noscript>
 </body>
+
+<script>
+    document.body.classList.add('js-enabled');
+</script>
 
 </html>
