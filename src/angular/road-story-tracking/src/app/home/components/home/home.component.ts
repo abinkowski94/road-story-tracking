@@ -1,5 +1,5 @@
 import { MatSnackBar, MatDialog } from '@angular/material';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MarkerService } from './../../services/marker.service';
 import { NewMarkerDialogComponent } from './../new-marker/new-marker-dialog.component';
@@ -13,7 +13,7 @@ import { snackbarConfiguration } from '../../../shared/configurations/snackbar.c
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
     public state: MarkerServiceState;
 
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
     public longitude: number;
     public markers: Marker[];
     public zoom = 15;
+    public geolocationWatchId?: number;
 
     public constructor(private snackBar: MatSnackBar, private markerService: MarkerService,
         private materialdialogService: MatDialog) { }
@@ -33,6 +34,12 @@ export class HomeComponent implements OnInit {
         this.markerService.getMarkers();
         this.markerService.markers.subscribe((markers: Marker[]) => this.markers = markers);
         this.markerService.state.subscribe((state: MarkerServiceState) => this.state = state);
+    }
+
+    public ngOnDestroy(): void {
+        if (navigator.geolocation && this.geolocationWatchId) {
+            navigator.geolocation.clearWatch(this.geolocationWatchId);
+        }
     }
 
     public async mapClicked($event: any): Promise<void> {
@@ -66,7 +73,7 @@ export class HomeComponent implements OnInit {
 
     public trackPosition(): void {
         if (navigator.geolocation) {
-            navigator.geolocation.watchPosition((position: Position) => {
+            this.geolocationWatchId = navigator.geolocation.watchPosition((position: Position) => {
                 this.latitude = position.coords.latitude;
                 this.longitude = position.coords.longitude;
             }, (error: any) => {
