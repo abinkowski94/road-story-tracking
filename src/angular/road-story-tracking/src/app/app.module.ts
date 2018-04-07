@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
@@ -12,6 +13,7 @@ import { AngularMaterialModule } from './shared/modules/material.module';
 
 import { AppComponent } from './main/app.component';
 import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
+import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [
@@ -27,7 +29,8 @@ import { NavigationBarComponent } from './shared/components/navigation-bar/navig
         ManageAccountModule,
         FriendsModule,
         SharedModule,
-        RouterModule.forRoot([], { useHash: false })
+        RouterModule.forRoot([], { useHash: false }),
+        environment.production ? ServiceWorkerModule.register('ngsw-worker.js') : []
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -21,7 +21,7 @@ export class ManageAccountComponent implements OnInit {
     public ngOnInit(): void {
         this.manageAccountApiService.getUserData().subscribe(applicationUser => {
             this.applicationUser = applicationUser;
-        }, error => this.snackBar.open((error.error as BackendErrorResponse).exception.message, 'Error!', snackbarConfiguration));
+        }, error => this.showError(error));
     }
 
     public async updateUserInfo(): Promise<void> {
@@ -31,9 +31,15 @@ export class ManageAccountComponent implements OnInit {
             this.applicationUser = await this.manageAccountApiService.updateUserData(this.applicationUser).toPromise();
             this.snackBar.open('Data has been updated successfully.', 'Success!', snackbarConfiguration);
         } catch (error) {
-            this.snackBar.open((error.error as BackendErrorResponse).exception.message, 'Error!', snackbarConfiguration);
+            this.showError(error);
         }
 
         this.pendingRequest = false;
+    }
+
+    private showError = (error: BackendErrorResponse) => {
+        if (error && error.exception && error.exception.message) {
+            this.snackBar.open(error.exception.message, 'Error!', snackbarConfiguration);
+        }
     }
 }
