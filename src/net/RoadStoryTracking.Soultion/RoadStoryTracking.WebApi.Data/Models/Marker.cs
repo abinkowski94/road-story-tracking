@@ -20,10 +20,21 @@ namespace RoadStoryTracking.WebApi.Data.Models
         public Guid Id { get; set; }
 
         public List<MarkerImage> Images { get; set; }
+
+        public bool IsPrivate { get; set; }
+
         public double Latitude { get; set; }
+
         public double Longitude { get; set; }
+
         public DateTimeOffset? ModificationDate { get; set; }
+
         public string Name { get; set; }
+
+        public DateTimeOffset StartDate { get; set; }
+
         public MarkerType Type { get; set; }
+
+        public DateTimeOffset ValidOnMapTo { get; set; }
     }
 }

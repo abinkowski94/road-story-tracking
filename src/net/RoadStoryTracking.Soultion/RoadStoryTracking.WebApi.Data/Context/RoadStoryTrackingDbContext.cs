@@ -8,7 +8,11 @@ namespace RoadStoryTracking.WebApi.Data.Context
     public class RoadStoryTrackingDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Friend> Friends { get; set; }
+
         public DbSet<MarkerImage> MarkerImages { get; set; }
+
         public DbSet<Marker> Markers { get; set; }
 
         public RoadStoryTrackingDbContext(DbContextOptions<RoadStoryTrackingDbContext> options) : base(options)
@@ -26,6 +30,14 @@ namespace RoadStoryTracking.WebApi.Data.Context
             modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim", "dbo");
             modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin", "dbo");
             modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserToken", "dbo");
+
+            modelBuilder.Entity<Friend>()
+                .HasIndex(f => new { f.RequestedById, f.RequestedToId })
+                .IsUnique();
+
+            modelBuilder.Entity<Friend>()
+                .HasOne(f => f.RequestedBy)
+                .WithMany(u => u.Friends);
         }
     }
 }

@@ -12,9 +12,10 @@ using System;
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     [DbContext(typeof(RoadStoryTrackingDbContext))]
-    partial class RoadStoryTrackingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180408102016_FriendsAndInvitations")]
+    partial class FriendsAndInvitations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,11 +227,9 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RequestedToId");
+                    b.HasIndex("RequestedById");
 
-                    b.HasIndex("RequestedById", "RequestedToId")
-                        .IsUnique()
-                        .HasFilter("[RequestedById] IS NOT NULL AND [RequestedToId] IS NOT NULL");
+                    b.HasIndex("RequestedToId");
 
                     b.ToTable("Friends");
                 });
