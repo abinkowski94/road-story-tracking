@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoadStoryTracking.Model.Models.User;
-using RoadStoryTracking.WebApi.Business.UserService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Threading.Tasks;
-using BM = RoadStoryTracking.WebApi.Business.BusinessModels.User;
-using BMR = RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
+using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
+using RoadStoryTracking.WebApi.Business.Models.Responses;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -23,7 +22,7 @@ namespace RoadStoryTracking.WebApi.Controllers
         public async Task<IActionResult> ConfirmEmailAddress(string userName, string token)
         {
             var response = await _userService.ConfirmUserEmailAddress(userName, token);
-            if (response is BMR.SuccessResponse<object>)
+            if (response is SuccessResponse<object>)
             {
                 return Redirect("~/account/register/confirmed");
             }
@@ -37,16 +36,16 @@ namespace RoadStoryTracking.WebApi.Controllers
         public async Task<IActionResult> CreateToken(string userName, string password)
         {
             var response = await _userService.CreateToken(userName, password);
-            return response.GetActionResult<BM.TokenInfo, TokenInfo>(this);
+            return response.GetActionResult<Business.Models.User.TokenInfo, TokenInfo>(this);
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Register([FromBody] ApplicationUser ApplicationUser)
         {
             var callbackUri = new Uri($"{Request.Scheme}://{Request.Host}{Url.Action(nameof(ConfirmEmailAddress))}", UriKind.Absolute);
-            var user = LocalMapper.Map<BM.ApplicationUser>(ApplicationUser);
+            var user = LocalMapper.Map<Business.Models.User.ApplicationUser>(ApplicationUser);
             var response = await _userService.RegisterNewUser(user, callbackUri);
-            return response.GetActionResult<BM.ApplicationUser, ApplicationUser>(this);
+            return response.GetActionResult<Business.Models.User.ApplicationUser, ApplicationUser>(this);
         }
     }
 }

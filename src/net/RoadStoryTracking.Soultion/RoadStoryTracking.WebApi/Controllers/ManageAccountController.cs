@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RoadStoryTracking.Model.Models.User;
-using RoadStoryTracking.WebApi.Business.UserService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Threading.Tasks;
-using BM = RoadStoryTracking.WebApi.Business.BusinessModels.User;
+using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -24,15 +23,15 @@ namespace RoadStoryTracking.WebApi.Controllers
         public async Task<IActionResult> GetUserData()
         {
             var response = await _userService.GetUser(Requestor.UserName);
-            return response.GetActionResult<BM.ApplicationUser, ApplicationUser>(this);
+            return response.GetActionResult<Business.Models.User.ApplicationUser, ApplicationUser>(this);
         }
 
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateUserData([FromBody] ApplicationUser applicationUser)
         {
-            var mappedUser = LocalMapper.Map<BM.ApplicationUser>(applicationUser);
+            var mappedUser = LocalMapper.Map<Business.Models.User.ApplicationUser>(applicationUser);
             var response = await _userService.UpdateUser(Requestor.UserName, mappedUser);
-            return response.GetActionResult<BM.ApplicationUser, ApplicationUser>(this);
+            return response.GetActionResult<Business.Models.User.ApplicationUser, ApplicationUser>(this);
         }
 
         [HttpPut("[action]")]

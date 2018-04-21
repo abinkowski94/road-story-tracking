@@ -9,7 +9,7 @@ namespace RoadStoryTracking.WebApi.Data.Context
     {
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Friend> Friends { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         public DbSet<MarkerImage> MarkerImages { get; set; }
 
@@ -31,13 +31,13 @@ namespace RoadStoryTracking.WebApi.Data.Context
             modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin", "dbo");
             modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserToken", "dbo");
 
-            modelBuilder.Entity<Friend>()
+            modelBuilder.Entity<Contact>()
                 .HasIndex(f => new { f.RequestedById, f.RequestedToId })
                 .IsUnique();
 
-            modelBuilder.Entity<Friend>()
+            modelBuilder.Entity<Contact>()
                 .HasOne(f => f.RequestedBy)
-                .WithMany(u => u.Friends);
+                .WithMany(u => u.Contacts);
         }
     }
 }

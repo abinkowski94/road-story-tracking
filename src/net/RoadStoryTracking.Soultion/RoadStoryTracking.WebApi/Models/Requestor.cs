@@ -1,8 +1,8 @@
-﻿using RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
-using RoadStoryTracking.WebApi.Business.BusinessModels.User;
-using RoadStoryTracking.WebApi.Business.UserService;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
+using RoadStoryTracking.WebApi.Business.Models.Responses;
+using RoadStoryTracking.WebApi.Business.Models.User;
 
 namespace RoadStoryTracking.WebApi.Models
 {

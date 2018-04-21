@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="BusinessModels\Exceptions\CustomAggregatedException.cs" />
+    <None Include="Models\Exceptions\CustomAggregatedException.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +21,11 @@
 
   <ItemGroup>
     <PackageReference Update="Microsoft.NETCore.App" Version="2.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logic\MappingProfiles\" />
+    <Folder Include="Logic\Providers\" />
   </ItemGroup>
 
 </Project>

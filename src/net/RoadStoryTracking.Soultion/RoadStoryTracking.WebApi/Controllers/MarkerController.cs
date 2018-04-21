@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RoadStoryTracking.Model.Models.Marker;
-using RoadStoryTracking.WebApi.Business.MarkerService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Collections.Generic;
-using BMM = RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
+using RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -23,10 +22,10 @@ namespace RoadStoryTracking.WebApi.Controllers
         [HttpPost("[action]")]
         public IActionResult AddMarker([FromBody] Marker marker)
         {
-            var mappedMarker = LocalMapper.Map<BMM.Marker>(marker);
+            var mappedMarker = LocalMapper.Map<Business.Models.Marker.Marker>(marker);
             var response = _markerService.AddMarker(mappedMarker, Requestor.User.Id);
 
-            return response.GetActionResult<BMM.Marker, Marker>(this);
+            return response.GetActionResult<Business.Models.Marker.Marker, Marker>(this);
         }
 
         [Authorize]
@@ -34,21 +33,21 @@ namespace RoadStoryTracking.WebApi.Controllers
         public IActionResult DeleteMarker(Guid markerId)
         {
             var response = _markerService.DeleteMarker(markerId, Requestor.User.Id);
-            return response.GetActionResult<BMM.Marker, Marker>(this);
+            return response.GetActionResult<Business.Models.Marker.Marker, Marker>(this);
         }
 
         [HttpGet("[action]")]
         public IActionResult GetMarker(Guid markerId)
         {
             var response = _markerService.GetMarker(markerId);
-            return response.GetActionResult<BMM.Marker, Marker>(this);
+            return response.GetActionResult<Business.Models.Marker.Marker, Marker>(this);
         }
 
         [HttpGet("[action]")]
         public IActionResult GetMarkers()
         {
             var response = _markerService.GetMarkers();
-            return response.GetActionResult<List<BMM.Marker>, List<Marker>>(this);
+            return response.GetActionResult<List<Business.Models.Marker.Marker>, List<Marker>>(this);
         }
 
         [Authorize]
@@ -56,17 +55,17 @@ namespace RoadStoryTracking.WebApi.Controllers
         public IActionResult GetMyMarkers()
         {
             var response = _markerService.GetUsersMarkers(Requestor.User.Id);
-            return response.GetActionResult<List<BMM.Marker>, List<Marker>>(this);
+            return response.GetActionResult<List<Business.Models.Marker.Marker>, List<Marker>>(this);
         }
 
         [Authorize]
         [HttpPut("[action]")]
         public IActionResult UpdateMarker([FromBody] Marker marker)
         {
-            var mappedMarker = LocalMapper.Map<BMM.Marker>(marker);
+            var mappedMarker = LocalMapper.Map<Business.Models.Marker.Marker>(marker);
             var response = _markerService.UpdateMarker(mappedMarker, Requestor.User.Id);
 
-            return response.GetActionResult<BMM.Marker, Marker>(this);
+            return response.GetActionResult<Business.Models.Marker.Marker, Marker>(this);
         }
     }
 }

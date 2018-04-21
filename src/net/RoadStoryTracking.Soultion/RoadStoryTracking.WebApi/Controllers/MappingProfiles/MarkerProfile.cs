@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using RoadStoryTracking.Model.Models.Marker;
-using BMM = RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
 
 namespace RoadStoryTracking.WebApi.Controllers.MappingProfiles
 {
@@ -8,8 +7,8 @@ namespace RoadStoryTracking.WebApi.Controllers.MappingProfiles
     {
         public MarkerProfile()
         {
-            CreateMap<BMM.Marker, Marker>().ReverseMap();
-            CreateMap<BMM.MarkerOwner, MarkerOwner>().ReverseMap();
+            CreateMap<Business.Models.Marker.Marker, Marker>().ReverseMap();
+            CreateMap<Business.Models.Marker.MarkerOwner, MarkerOwner>().ReverseMap();
         }
     }
 }

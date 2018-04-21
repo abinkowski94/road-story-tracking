@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RoadStoryTracking.WebApi.Business.CommentService;
-using RoadStoryTracking.WebApi.Business.EmailService;
-using RoadStoryTracking.WebApi.Business.ImageService;
-using RoadStoryTracking.WebApi.Business.MarkerService;
-using RoadStoryTracking.WebApi.Business.UserService;
+using RoadStoryTracking.WebApi.Business.Logic.Services.CommentService;
+using RoadStoryTracking.WebApi.Business.Logic.Services.EmailService;
+using RoadStoryTracking.WebApi.Business.Logic.Services.ImageService;
+using RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService;
+using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
 using RoadStoryTracking.WebApi.Data.Repositories;
 
 namespace RoadStoryTracking.WebApi.AppStartup
@@ -20,6 +20,7 @@ namespace RoadStoryTracking.WebApi.AppStartup
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IContactsRepository, ContactsRepository>();
             services.AddSingleton(configuration);
         }
     }

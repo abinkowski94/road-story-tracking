@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RoadStoryTracking.WebApi.Data.Models
 {
@@ -8,9 +7,9 @@ namespace RoadStoryTracking.WebApi.Data.Models
     {
         public List<Comment> Comments { get; set; }
 
-        public string FirstName { get; set; }
+        public List<Contact> Contacts { get; set; }
 
-        public List<Friend> Friends { get; set; }
+        public string FirstName { get; set; }
 
         public string ImageUrl { get; set; }
 

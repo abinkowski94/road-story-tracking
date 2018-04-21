@@ -1,24 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoadStoryTracking.Model.Responses;
-using RoadStoryTracking.WebApi.Business.BusinessModels.Exceptions;
+using RoadStoryTracking.WebApi.Business.Models.Exceptions;
 using RoadStoryTracking.WebApi.Controllers;
-using BMR = RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
 
 namespace RoadStoryTracking.WebApi.Extensions
 {
     public static class ResponseExtensions
     {
-        public static IActionResult GetActionResult<TSource, TDestination>(this BMR.BaseResponse inputResponse, BaseController controller)
+        public static IActionResult GetActionResult<TSource, TDestination>(this Business.Models.Responses.BaseResponse inputResponse, BaseController controller)
             where TSource : class
             where TDestination : class
         {
             BaseResponse outputResponse;
 
-            if (inputResponse is BMR.ErrorResponse)
+            if (inputResponse is Business.Models.Responses.ErrorResponse)
             {
                 outputResponse = controller.LocalMapper.Map<ErrorResponse>(inputResponse);
             }
-            else if (inputResponse is BMR.SuccessResponse<TSource>)
+            else if (inputResponse is Business.Models.Responses.SuccessResponse<TSource>)
             {
                 outputResponse = controller.LocalMapper.Map<SuccessResponse<TDestination>>(inputResponse);
             }
@@ -33,15 +32,15 @@ namespace RoadStoryTracking.WebApi.Extensions
             };
         }
 
-        public static IActionResult GetActionResult(this BMR.BaseResponse inputResponse, BaseController controller)
+        public static IActionResult GetActionResult(this Business.Models.Responses.BaseResponse inputResponse, BaseController controller)
         {
             BaseResponse outputResponse;
 
-            if (inputResponse is BMR.ErrorResponse)
+            if (inputResponse is Business.Models.Responses.ErrorResponse)
             {
                 outputResponse = controller.LocalMapper.Map<ErrorResponse>(inputResponse);
             }
-            else if (inputResponse is BMR.SuccessResponse<object>)
+            else if (inputResponse is Business.Models.Responses.SuccessResponse<object>)
             {
                 outputResponse = controller.LocalMapper.Map<SuccessResponse<object>>(inputResponse);
             }

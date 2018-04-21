@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using RoadStoryTracking.Model.Models.Comment;
-using BMC = RoadStoryTracking.WebApi.Business.BusinessModels.Comment;
 
 namespace RoadStoryTracking.WebApi.Controllers.MappingProfiles
 {
@@ -8,8 +7,8 @@ namespace RoadStoryTracking.WebApi.Controllers.MappingProfiles
     {
         public CommentProfile()
         {
-            CreateMap<BMC.Comment, Comment>().ReverseMap();
-            CreateMap<BMC.CommentAuthor, CommentAuthor>().ReverseMap();
+            CreateMap<Business.Models.Comment.Comment, Comment>().ReverseMap();
+            CreateMap<Business.Models.Comment.CommentAuthor, CommentAuthor>().ReverseMap();
         }
     }
 }

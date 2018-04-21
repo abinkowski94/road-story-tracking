@@ -13,10 +13,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using BMC = RoadStoryTracking.WebApi.Business.BusinessModels.Comment;
-using BMM = RoadStoryTracking.WebApi.Business.BusinessModels.Marker;
-using BMR = RoadStoryTracking.WebApi.Business.BusinessModels.Responses;
-using BMU = RoadStoryTracking.WebApi.Business.BusinessModels.User;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
