@@ -12,14 +12,14 @@ using System;
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     [DbContext(typeof(RoadStoryTrackingDbContext))]
-    [Migration("20171213164403_Comments")]
-    partial class Comments
+    [Migration("20180501183143_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -211,6 +211,31 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("RoadStoryTracking.WebApi.Data.Models.Contact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("CreateDate");
+
+                    b.Property<string>("RequestedById")
+                        .IsRequired();
+
+                    b.Property<string>("RequestedToId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestedToId");
+
+                    b.HasIndex("RequestedById", "RequestedToId")
+                        .IsUnique()
+                        .HasFilter("[RequestedById] IS NOT NULL AND [RequestedToId] IS NOT NULL");
+
+                    b.ToTable("Contacts");
+                });
+
             modelBuilder.Entity("RoadStoryTracking.WebApi.Data.Models.Marker", b =>
                 {
                     b.Property<Guid>("Id")
@@ -222,23 +247,25 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("IsPrivate");
+
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
-
-                    b.Property<Guid?>("MarkerId");
 
                     b.Property<DateTimeOffset?>("ModificationDate");
 
                     b.Property<string>("Name");
 
+                    b.Property<DateTimeOffset>("StartDate");
+
                     b.Property<int>("Type");
+
+                    b.Property<DateTimeOffset>("ValidOnMapTo");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("MarkerId");
 
                     b.ToTable("Markers");
                 });
@@ -320,15 +347,23 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("RoadStoryTracking.WebApi.Data.Models.Contact", b =>
+                {
+                    b.HasOne("RoadStoryTracking.WebApi.Data.Models.ApplicationUser", "RequestedBy")
+                        .WithMany("Contacts")
+                        .HasForeignKey("RequestedById")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RoadStoryTracking.WebApi.Data.Models.ApplicationUser", "RequestedTo")
+                        .WithMany()
+                        .HasForeignKey("RequestedToId");
+                });
+
             modelBuilder.Entity("RoadStoryTracking.WebApi.Data.Models.Marker", b =>
                 {
                     b.HasOne("RoadStoryTracking.WebApi.Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Markers")
                         .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("RoadStoryTracking.WebApi.Data.Models.Marker")
-                        .WithMany("Markers")
-                        .HasForeignKey("MarkerId");
                 });
 
             modelBuilder.Entity("RoadStoryTracking.WebApi.Data.Models.MarkerImage", b =>

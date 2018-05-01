@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Logic\Providers\**" />
+    <EmbeddedResource Remove="Logic\Providers\**" />
+    <None Remove="Logic\Providers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Models\Exceptions\CustomAggregatedException.cs" />
   </ItemGroup>
 
@@ -21,11 +27,6 @@
 
   <ItemGroup>
     <PackageReference Update="Microsoft.NETCore.App" Version="2.0.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Logic\MappingProfiles\" />
-    <Folder Include="Logic\Providers\" />
   </ItemGroup>
 
 </Project>

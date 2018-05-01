@@ -5,19 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20171213163831_Comments.cs" />
-    <Compile Remove="Migrations\20171213164233_CommentsFKCascade.cs" />
-    <Compile Remove="Migrations\20180408093320_FriendsAndInvitations.cs" />
-    <Compile Remove="Migrations\20180408093722_FriendsAndInvitations.cs" />
-    <Compile Remove="Migrations\20180408094616_FriendsAndInvitations.cs" />
-    <Compile Remove="Migrations\20180408094901_FriendsAndInvitations.cs" />
-    <Compile Remove="Migrations\20180408100526_FriendsAndInvitations.cs" />
-    <Compile Remove="Migrations\20180408100640_FriendsAndInvitations.cs" />
-    <Compile Remove="Migrations\20180408100951_FriendsAndInvitations.cs" />
-    <Compile Remove="Migrations\20180408101145_FriendsAndInvitations.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Models\ApplicationUser.cs" />
   </ItemGroup>
 

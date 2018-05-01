@@ -4,7 +4,7 @@
     {
         None = 0,
 
-        Sent = 1,
+        PendingAcceptance = 1,
 
         Accepted = 2,
 
