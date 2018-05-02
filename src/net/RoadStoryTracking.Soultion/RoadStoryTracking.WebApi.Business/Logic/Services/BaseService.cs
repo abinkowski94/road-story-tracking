@@ -35,6 +35,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services
                 cfg.AddProfile<UserProfile>();
                 cfg.AddProfile<MarkerProfile>();
                 cfg.AddProfile<CommentProfile>();
+                cfg.AddProfile<ContactProfile>();
             });
 
             configuration.AssertConfigurationIsValid();

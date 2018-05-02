@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using RoadStoryTracking.Model.Models.Comment;
-using RoadStoryTracking.Model.Models.Marker;
-using RoadStoryTracking.Model.Models.User;
-using RoadStoryTracking.Model.Responses;
 using RoadStoryTracking.WebApi.Controllers.MappingProfiles;
 using RoadStoryTracking.WebApi.Data.Context;
 using RoadStoryTracking.WebApi.Models;
@@ -23,10 +19,14 @@ namespace RoadStoryTracking.WebApi.Controllers
         public IMapper LocalMapper { get; private set; }
         protected Requestor Requestor { get; private set; }
 
-        protected BaseController(IServiceProvider serviceProvider)
+        protected BaseController(IServiceProvider serviceProvider) : this()
+        {
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider), $"{nameof(IServiceProvider)} cannot be null");
+        }
+
+        private BaseController()
         {
             LocalMapper = ConfigureMapper().CreateMapper();
-            _serviceProvider = serviceProvider;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -56,7 +56,7 @@ namespace RoadStoryTracking.WebApi.Controllers
             }
         }
 
-        private MapperConfiguration ConfigureMapper()
+        private static MapperConfiguration ConfigureMapper()
         {
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -64,6 +64,7 @@ namespace RoadStoryTracking.WebApi.Controllers
                 cfg.AddProfile<MarkerProfile>();
                 cfg.AddProfile<TechnicalProfile>();
                 cfg.AddProfile<UserProfile>();
+                cfg.AddProfile<ContactProfile>();
             });
 
             configuration.AssertConfigurationIsValid();

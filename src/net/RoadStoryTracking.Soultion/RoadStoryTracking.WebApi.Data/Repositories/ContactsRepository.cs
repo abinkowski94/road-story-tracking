@@ -24,6 +24,14 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return friend;
         }
 
+        public Contact DeleteContact(Contact contact)
+        {
+            _dbContext.Contacts.Remove(contact);
+            _dbContext.SaveChanges();
+
+            return contact;
+        }
+
         public List<Contact> GetAcceptedContacts(string userId)
         {
             return _dbContext.Contacts
@@ -45,7 +53,10 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
 
         public Contact GetContact(Guid contactId)
         {
-            return _dbContext.Contacts.FirstOrDefault(c => c.Id == contactId);
+            return _dbContext.Contacts
+                .Include(c => c.RequestedBy)
+                .Include(c => c.RequestedTo)
+                .FirstOrDefault(c => c.Id == contactId);
         }
 
         public Contact UpdateContact(Contact contact)

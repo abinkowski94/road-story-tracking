@@ -30,13 +30,15 @@ export class FriendsSearchComponent implements OnInit {
                 firstName: 'John',
                 lastName: 'Doe',
                 userName: 'john.doe@test.ts',
-                image: null
+                image: null,
+                invitationId: null
             },
             {
                 firstName: 'Janusz',
                 lastName: 'Kowalski',
                 userName: 'janusz.kowalski@test.ts',
-                image: null
+                image: null,
+                invitationId: null
             }
         ];
 

@@ -8,6 +8,8 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
     {
         Contact AddContact(Contact friend);
 
+        Contact DeleteContact(Contact contact);
+
         List<Contact> GetAcceptedContacts(string userId);
 
         List<Contact> GetAllContacts(string userId);

@@ -21,7 +21,8 @@ export class IncomingInvitationsComponent implements OnInit {
                     firstName: 'John',
                     lastName: 'Doe',
                     userName: 'john.doe@test.ts',
-                    image: null
+                    image: null,
+                    invitationId: null
                 },
                 sendDate: new Date()
             },
@@ -30,7 +31,8 @@ export class IncomingInvitationsComponent implements OnInit {
                     firstName: 'Janusz',
                     lastName: 'Kowalski',
                     userName: 'janusz.kowalski@test.ts',
-                    image: null
+                    image: null,
+                    invitationId: null
                 },
                 sendDate: new Date()
             }

@@ -6,6 +6,7 @@ import { AngularMaterialModule } from './../shared/modules/material.module';
 
 
 import { UserService } from './../shared/services/user/user.service';
+import { FriendsApiService } from './services/friends-api.service';
 import { AuthGuard } from './../shared/services/user/auth-guard.service';
 import { FriendsComponent } from './components/friends/friends.component';
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
@@ -30,7 +31,8 @@ const friendsRouting: ModuleWithProviders = RouterModule.forChild([
     ],
     declarations: [FriendsComponent, FriendsListComponent, FriendsSearchComponent, IncomingInvitationsComponent],
     providers: [
-        AuthGuard
+        AuthGuard,
+        FriendsApiService
     ]
 })
 export class FriendsModule { }

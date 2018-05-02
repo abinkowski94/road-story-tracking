@@ -3,4 +3,5 @@ export class Friend {
     public firstName: string;
     public lastName: string;
     public image: string;
+    public invitationId: string;
 }
