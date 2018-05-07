@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { DialogService } from '../../../shared/services/dialog/dialog.service';
 import { Invitation } from '../../../shared/models/data/friends/invitation.model';
+import { FriendsApiService } from '../../services/friends-api.service';
 
 @Component({
     selector: 'app-incoming-invitations',
@@ -12,31 +13,10 @@ export class IncomingInvitationsComponent implements OnInit {
 
     public invitations: Invitation[];
 
-    public constructor(private dialogService: DialogService) { }
+    public constructor(private dialogService: DialogService, private friendsApiService: FriendsApiService) { }
 
     public ngOnInit(): void {
-        this.invitations = [
-            {
-                user: {
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    userName: 'john.doe@test.ts',
-                    image: null,
-                    invitationId: null
-                },
-                sendDate: new Date()
-            },
-            {
-                user: {
-                    firstName: 'Janusz',
-                    lastName: 'Kowalski',
-                    userName: 'janusz.kowalski@test.ts',
-                    image: null,
-                    invitationId: null
-                },
-                sendDate: new Date()
-            }
-        ];
+        this.friendsApiService.getInvitations().subscribe(invitations => this.invitations = invitations);
     }
 
     public async acceptInvitation(invitation: Invitation): Promise<void> {
@@ -44,7 +24,10 @@ export class IncomingInvitationsComponent implements OnInit {
             .confirm('Accept invitation', `Do you want to accept inviation from ${invitation.user.userName}?`).toPromise();
 
         if (result) {
-            this.removeInvitation(invitation);
+            try {
+                await this.friendsApiService.acceptInvitation(invitation.user.invitationId).toPromise();
+                this.removeInvitation(invitation);
+            } catch (exception) { }
         }
     }
 
@@ -53,7 +36,10 @@ export class IncomingInvitationsComponent implements OnInit {
             .confirm('Decline invitation', `Do you want to decline inviation from ${invitation.user.userName}?`).toPromise();
 
         if (result) {
-            this.removeInvitation(invitation);
+            try {
+                await this.friendsApiService.deleteFriend(invitation.user.invitationId).toPromise();
+                this.removeInvitation(invitation);
+            } catch (exception) { }
         }
     }
 

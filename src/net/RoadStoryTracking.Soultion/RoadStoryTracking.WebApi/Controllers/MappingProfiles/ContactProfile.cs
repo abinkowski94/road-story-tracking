@@ -8,6 +8,7 @@ namespace RoadStoryTracking.WebApi.Controllers.MappingProfiles
         public ContactProfile()
         {
             CreateMap<Business.Models.Contact.Contact, Contact>();
+            CreateMap<Business.Models.Contact.Inviation, Inviation>();
         }
     }
 }

@@ -16,7 +16,7 @@ export class FriendsListComponent implements OnInit {
     public constructor(private dialogService: DialogService, private friendsApiService: FriendsApiService) { }
 
     public ngOnInit(): void {
-        this.friendsApiService.getUserData().subscribe(friends => this.friends = friends);
+        this.friendsApiService.getFriends().subscribe(friends => this.friends = friends);
     }
 
     public async removeFriend(friend: Friend): Promise<void> {
@@ -26,15 +26,11 @@ export class FriendsListComponent implements OnInit {
             .toPromise();
 
         if (result) {
-            try {
-                const apiResponse = await this.friendsApiService.deleteFriend(friend.invitationId).toPromise();
+            const apiResponse = await this.friendsApiService.deleteFriend(friend.invitationId).toPromise();
 
-                const index = this.friends.indexOf(friend);
-                if (index > -1) {
-                    this.friends.splice(index, 1);
-                }
-            } catch (exception) {
-
+            const index = this.friends.indexOf(friend);
+            if (index > -1) {
+                this.friends.splice(index, 1);
             }
         }
     }

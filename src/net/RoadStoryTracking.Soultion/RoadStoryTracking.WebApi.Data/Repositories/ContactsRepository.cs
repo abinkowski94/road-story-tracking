@@ -59,6 +59,22 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .FirstOrDefault(c => c.Id == contactId);
         }
 
+        public List<ApplicationUser> GetPotentionalContacts(string userId, string userName)
+        {
+            var contacts = GetAllContacts(userId);
+
+            var users = _dbContext.Users
+                .Where(u => u.UserName.Contains(userName))
+                .ToList()
+                .Where(u => !contacts.Any(c => c.RequestedById == u.Id))
+                .Where(u => !contacts.Any(c => c.RequestedToId == u.Id))
+                .Where(u => u.Id != userId)
+                .Take(10)
+                .ToList();
+
+            return users;
+        }
+
         public Contact UpdateContact(Contact contact)
         {
             _dbContext.SaveChanges();

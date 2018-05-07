@@ -16,6 +16,8 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
 
         Contact GetContact(Guid contactId);
 
+        List<ApplicationUser> GetPotentionalContacts(string userId, string userName);
+
         Contact UpdateContact(Contact contact);
     }
 }
