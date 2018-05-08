@@ -13,6 +13,8 @@ namespace RoadStoryTracking.WebApi.Data.Context
 
         public DbSet<MarkerImage> MarkerImages { get; set; }
 
+        public DbSet<MarkerInvitation> MarkerInvitations { get; set; }
+
         public DbSet<Marker> Markers { get; set; }
 
         public RoadStoryTrackingDbContext(DbContextOptions<RoadStoryTrackingDbContext> options) : base(options)

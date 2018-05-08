@@ -25,6 +25,8 @@ namespace RoadStoryTracking.WebApi.Business.Logic.MappingProfiles
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dst => dst.MarkerOwner, opt => opt.MapFrom(src => src.ApplicationUser))
+                .ForMember(dst => dst.IsPrivate, opt => opt.MapFrom(src => src.IsPrivate))
+                .ForMember(dst => dst.MarkerInvitations, opt => opt.MapFrom(src => src.MarkerInvitations))
                 .ForMember(dst => dst.Images, opt => opt.ResolveUsing(src => src.Images?.Select(img => img.Image).ToList()))
                 .ForAllOtherMembers(dst => dst.Ignore());
 
@@ -34,9 +36,18 @@ namespace RoadStoryTracking.WebApi.Business.Logic.MappingProfiles
                 .ForMember(dst => dst.Longitude, opt => opt.MapFrom(src => src.Longitude))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.Type))
+                .ForMember(dst => dst.IsPrivate, opt => opt.MapFrom(src => src.IsPrivate))
                 .ForMember(dst => dst.CreateDate, opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
                 .ForMember(dst => dst.Images, opt => opt.ResolveUsing(src => src.Images
                     .Select(img => new Data.Models.MarkerImage { Image = img, CreateDate = DateTimeOffset.UtcNow }).ToList()))
+                .ForAllOtherMembers(dst => dst.Ignore());
+
+            CreateMap<Data.Models.MarkerInvitation, MarkerInvitation>()
+                .ForMember(dst => dst.InvitedUserFirstName, opt => opt.MapFrom(src => src.InvitedUser.FirstName))
+                .ForMember(dst => dst.InvitedUserImage, opt => opt.MapFrom(src => src.InvitedUser.ImageUrl))
+                .ForMember(dst => dst.InvitedUserLastName, opt => opt.MapFrom(src => src.InvitedUser.LastName))
+                .ForMember(dst => dst.InvitedUserUserName, opt => opt.MapFrom(src => src.InvitedUser.UserName))
+                .ForMember(dst => dst.IsAccepted, opt => opt.MapFrom(src => src.InvitationStatuses == Data.Models.InvitationStatuses.Accepted))
                 .ForAllOtherMembers(dst => dst.Ignore());
         }
     }

@@ -18,11 +18,17 @@ namespace RoadStoryTracking.Model.Models.Marker
         [JsonProperty("images")]
         public List<string> Images { get; set; }
 
+        [JsonProperty("isPrivate")]
+        public bool IsPrivate { get; set; }
+
         [JsonProperty("latitude")]
         public decimal Latitude { get; set; }
 
         [JsonProperty("longitude")]
         public decimal Longitude { get; set; }
+
+        [JsonProperty("invitations")]
+        public List<MarkerInvitation> MarkerInvitations { get; set; }
 
         [JsonProperty("markerOwner")]
         public MarkerOwner MarkerOwner { get; set; }

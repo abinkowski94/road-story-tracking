@@ -9,8 +9,10 @@ namespace RoadStoryTracking.WebApi.Business.Models.Marker
         public string Description { get; set; }
         public Guid Id { get; set; }
         public List<string> Images { get; set; }
+        public bool IsPrivate { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+        public List<MarkerInvitation> MarkerInvitations { get; set; }
         public MarkerOwner MarkerOwner { get; set; }
         public string Name { get; set; }
         public MarkerType Type { get; set; }

@@ -5,6 +5,7 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryComponent } from 'ngx-gal
 import { Marker } from './../../../shared/models/data/map/marker.model';
 import { MarkerService } from './../../services/marker.service';
 import { ImageService } from './../../../shared/services/image-services/image.service';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
 
 @Component({
     templateUrl: 'new-marker-dialog.component.html',
@@ -31,15 +32,13 @@ export class NewMarkerDialogComponent {
         ];
     }
 
-    public saveMarker(): void {
-        this.markerService.addMarker(this.marker).subscribe((result: Marker) => {
+    public async saveMarker(): Promise<void> {
+        try {
+            const result = await this.markerService.addMarker(this.marker).toPromise();
             this.dialogRef.close(result);
-        }, error => {
-            this.snackBar.open('Cannot save event at the server side.', 'Error!', {
-                duration: 3000,
-                horizontalPosition: 'right'
-            });
-        });
+        } catch (exception) {
+            this.snackBar.open('Cannot save event at the server side.', 'Error!', snackbarConfiguration);
+        }
     }
 
     public addImage(input: any): void {

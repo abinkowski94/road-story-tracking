@@ -24,11 +24,23 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return marker;
         }
 
+        public List<MarkerInvitation> AddMarkerInvitations(List<MarkerInvitation> markerInvitations)
+        {
+            _dbContext.MarkerInvitations.AddRange(markerInvitations);
+            _dbContext.SaveChanges();
+
+            return markerInvitations;
+        }
+
         public Marker DeleteMarker(Marker marker)
         {
             if (marker.Images.Any())
             {
                 _dbContext.MarkerImages.RemoveRange(marker.Images);
+            }
+            if (marker.MarkerInvitations.Any())
+            {
+                _dbContext.MarkerInvitations.RemoveRange(marker.MarkerInvitations);
             }
             _dbContext.Markers.Remove(marker);
             _dbContext.SaveChanges();
@@ -44,6 +56,14 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return markerImages;
         }
 
+        public List<MarkerInvitation> DeleteMarkerInvitations(List<MarkerInvitation> markerInvitations)
+        {
+            _dbContext.MarkerInvitations.RemoveRange(markerInvitations);
+            _dbContext.SaveChanges();
+
+            return markerInvitations;
+        }
+
         public void Dispose()
         {
             _dbContext.Dispose();
@@ -54,6 +74,8 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return _dbContext.Markers
                 .Include(m => m.Images)
                 .Include(m => m.ApplicationUser)
+                .Include(m => m.MarkerInvitations)
+                .ThenInclude(mi => mi.InvitedUser)
                 .FirstOrDefault(m => m.Id == markerId);
         }
 
@@ -62,14 +84,25 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return _dbContext.Markers
                 .Include(m => m.Images)
                 .Include(m => m.ApplicationUser)
+                .Include(m => m.MarkerInvitations)
+                .ThenInclude(mi => mi.InvitedUser)
                 .Where(m => m.CreateDate > DateTimeOffset.Now.AddDays(-1))
                 .ToList();
+        }
+
+        public Dictionary<string, ApplicationUser> GetUsersDictionary(List<string> userIds)
+        {
+            return _dbContext.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ToDictionary(u => u.Id, u => u);
         }
 
         public List<Marker> GetUsersMarkers(string userId)
         {
             return _dbContext.Markers
                 .Include(m => m.Images)
+                .Include(m => m.MarkerInvitations)
+                .ThenInclude(mi => mi.InvitedUser)
                 .Where(m => m.ApplicationUserId == userId)
                 .ToList();
         }

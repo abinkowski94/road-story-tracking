@@ -16,7 +16,7 @@ namespace RoadStoryTracking.WebApi.Data.Models
 
         public string InvitedUserId { get; set; }
 
-        public Guid MakerId { get; set; }
+        public Guid MarkerId { get; set; }
 
         public Marker Marker { get; set; }
     }
