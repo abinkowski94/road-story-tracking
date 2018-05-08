@@ -37,7 +37,7 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return _dbContext.Contacts
                 .Include(c => c.RequestedBy)
                 .Include(c => c.RequestedTo)
-                .Where(c => c.Status == ContactStatuses.Accepted)
+                .Where(c => c.Status == InvitationStatuses.Accepted)
                 .Where(c => c.RequestedById == userId || c.RequestedToId == userId)
                 .ToList();
         }

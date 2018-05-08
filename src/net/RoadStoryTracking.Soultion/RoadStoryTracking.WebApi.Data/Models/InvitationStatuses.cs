@@ -1,6 +1,6 @@
 ﻿namespace RoadStoryTracking.WebApi.Data.Models
 {
-    public enum ContactStatuses
+    public enum InvitationStatuses
     {
         None = 0,
 

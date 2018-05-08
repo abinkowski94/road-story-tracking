@@ -15,6 +15,8 @@ namespace RoadStoryTracking.WebApi.Data.Models
 
         public string LastName { get; set; }
 
+        public List<MarkerInvitation> MarkerInvitations { get; set; }
+
         public List<Marker> Markers { get; set; }
     }
 }

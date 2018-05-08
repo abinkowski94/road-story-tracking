@@ -29,7 +29,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ContctService
                 return new ErrorResponse(new ArgumentException($"User with id: {userId} does not own invitation with id ${contactId}"));
             }
 
-            contact.Status = Data.Models.ContactStatuses.Accepted;
+            contact.Status = Data.Models.InvitationStatuses.Accepted;
             _contactsRepository.UpdateContact(contact);
 
             var result = LocalMapper.Map<Contact>(contact.RequestedBy);
@@ -51,7 +51,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ContctService
         {
             var contactList = _contactsRepository.GetAllContacts(userId)
                 .Where(c => c.RequestedToId == userId)
-                .Where(c => c.Status == Data.Models.ContactStatuses.PendingAcceptance).ToList();
+                .Where(c => c.Status == Data.Models.InvitationStatuses.PendingAcceptance).ToList();
 
             var result = LocalMapper.Map<List<Inviation>>(contactList);
             result.ForEach(c => c.User.InvitationId = contactList.First(cl => cl.RequestedBy.UserName == c.User.UserName || cl.RequestedTo.UserName == c.User.UserName).Id);
@@ -116,7 +116,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ContctService
                 CreateDate = DateTimeOffset.UtcNow,
                 RequestedById = userId,
                 RequestedToId = invitedUser.Id,
-                Status = Data.Models.ContactStatuses.PendingAcceptance
+                Status = Data.Models.InvitationStatuses.PendingAcceptance
             };
             _contactsRepository.AddContact(newContact);
 

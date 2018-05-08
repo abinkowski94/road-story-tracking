@@ -27,6 +27,8 @@ namespace RoadStoryTracking.WebApi.Data.Models
 
         public double Longitude { get; set; }
 
+        public List<MarkerInvitation> MarkerInvitations { get; set; }
+
         public DateTimeOffset? ModificationDate { get; set; }
 
         public string Name { get; set; }

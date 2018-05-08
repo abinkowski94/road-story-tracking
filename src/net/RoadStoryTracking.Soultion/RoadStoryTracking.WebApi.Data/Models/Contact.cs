@@ -21,6 +21,6 @@ namespace RoadStoryTracking.WebApi.Data.Models
 
         public string RequestedToId { get; set; }
 
-        public ContactStatuses Status { get; set; }
+        public InvitationStatuses Status { get; set; }
     }
 }

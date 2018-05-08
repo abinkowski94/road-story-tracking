@@ -12,9 +12,10 @@ using System;
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     [DbContext(typeof(RoadStoryTrackingDbContext))]
-    partial class RoadStoryTrackingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180508111343_MarkerInvitations")]
+    partial class MarkerInvitations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
