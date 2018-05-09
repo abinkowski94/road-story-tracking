@@ -15,6 +15,8 @@ namespace RoadStoryTracking.WebApi.Data.Models
 
         public string Description { get; set; }
 
+        public DateTimeOffset EndDate { get; set; }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -36,7 +38,5 @@ namespace RoadStoryTracking.WebApi.Data.Models
         public DateTimeOffset StartDate { get; set; }
 
         public MarkerType Type { get; set; }
-
-        public DateTimeOffset ValidOnMapTo { get; set; }
     }
 }

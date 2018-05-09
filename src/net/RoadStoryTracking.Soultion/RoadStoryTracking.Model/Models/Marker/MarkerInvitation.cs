@@ -4,6 +4,9 @@ namespace RoadStoryTracking.Model.Models.Marker
 {
     public class MarkerInvitation
     {
+        [JsonProperty("invitationStatus")]
+        public InvitationStatuses InvitationStatus { get; set; }
+
         [JsonProperty("invitedUserFirstName")]
         public string InvitedUserFirstName { get; set; }
 
@@ -15,8 +18,5 @@ namespace RoadStoryTracking.Model.Models.Marker
 
         [JsonProperty("invitedUserUserName")]
         public string InvitedUserUserName { get; set; }
-
-        [JsonProperty("isAccepted")]
-        public bool IsAccepted { get; set; }
     }
 }

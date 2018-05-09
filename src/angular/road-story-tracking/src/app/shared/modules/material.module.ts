@@ -18,6 +18,10 @@ import {
     MatExpansionModule,
     MatListModule,
     MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MAT_DATE_LOCALE,
+    MatChipsModule
 } from '@angular/material';
 
 @NgModule({
@@ -39,7 +43,10 @@ import {
         MatTabsModule,
         MatExpansionModule,
         MatListModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatChipsModule
     ],
     exports: [
         MatButtonModule,
@@ -59,7 +66,13 @@ import {
         MatTabsModule,
         MatExpansionModule,
         MatListModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatChipsModule
+    ],
+    providers: [
+        {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
     ]
 })
 export class AngularMaterialModule { }

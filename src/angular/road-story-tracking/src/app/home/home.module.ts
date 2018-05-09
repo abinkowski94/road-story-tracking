@@ -25,6 +25,8 @@ import { NavigationMenuComponent } from './components/navigation-menu/navigation
 import { NewMarkerDialogComponent } from './components/new-marker/new-marker-dialog.component';
 import { MyMarkersComponent } from './components/my-markers/my-markers.component';
 import { UpdateMarkerDialogComponent } from './components/modify-marker/update-marker-dialog.component';
+import { MarkerInvitationMenuComponent } from './components/marker-invitation-menu/marker-invitation-menu.component';
+import { MarkerInvitedUsersComponent } from './components/marker-invited-users/marker-invited-users.component';
 
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
     {
@@ -67,11 +69,14 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
         MarkerComponent,
         MyMarkersComponent,
         UpdateMarkerDialogComponent,
-        CommentsComponent
+        CommentsComponent,
+        MarkerInvitationMenuComponent,
+        MarkerInvitedUsersComponent
     ],
     entryComponents: [
         NewMarkerDialogComponent,
-        UpdateMarkerDialogComponent
+        UpdateMarkerDialogComponent,
+        MarkerInvitationMenuComponent
     ],
     providers: [
         MarkerApiService,

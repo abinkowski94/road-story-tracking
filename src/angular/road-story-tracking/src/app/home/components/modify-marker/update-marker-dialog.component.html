@@ -19,6 +19,22 @@
             <textarea matInput placeholder="Description" [(ngModel)]="marker.description" name="Marker-description" matTextareaAutosize
                 matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
         </mat-form-field>
+        <mat-form-field class="new-marker-full-width">
+            <input matInput [matDatepicker]="spicker" placeholder="Choose a start date" [(ngModel)]="marker.startDate" name="Marker-startdate">
+            <mat-datepicker-toggle matSuffix [for]="spicker"></mat-datepicker-toggle>
+            <mat-datepicker #spicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="new-marker-full-width">
+            <input matInput [matDatepicker]="epicker" placeholder="Choose a end date" [(ngModel)]="marker.endDate" name="Marker-enddate">
+            <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+            <mat-datepicker #epicker></mat-datepicker>
+        </mat-form-field>
+        <div class="new-marker-full-width">
+            <mat-checkbox [(ngModel)]="marker.isPrivate" name="Marker-isprivate">Private event</mat-checkbox>
+        </div>
+        <div class="new-marker-full-width">
+            <button mat-raised-button (click)="manageInvitations()" type="button" color="primary" style="width: 100%;">Manage invitations ({{ marker.invitations.length }})</button>
+        </div>
         <div class="image-opetaion-buttons">
             <button *ngIf="galleryImages.length > 0" mat-raised-button (click)="removeImage()" type="button">Remove</button>
             <input type="file" class="input-file" accept="image/*" (change)="addImage(inputImageChange)" #inputImageChange />

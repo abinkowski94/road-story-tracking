@@ -12,9 +12,10 @@ using System;
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     [DbContext(typeof(RoadStoryTrackingDbContext))]
-    partial class RoadStoryTrackingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180509142701_endDateRenamed")]
+    partial class endDateRenamed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,7 +295,7 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("InvitationStatus");
+                    b.Property<int>("InvitationStatuses");
 
                     b.Property<string>("InvitedUserId");
 

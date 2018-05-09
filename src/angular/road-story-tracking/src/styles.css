@@ -15,6 +15,10 @@ html, body{
     min-width: 320px;
 }
 
+.clearfix{
+    clear: both;
+}
+
 .content .wrapper {
     padding: calc(64px + 2%) 2% 2% 2%;
 }

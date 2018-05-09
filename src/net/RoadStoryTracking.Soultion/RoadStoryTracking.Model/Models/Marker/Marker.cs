@@ -12,6 +12,9 @@ namespace RoadStoryTracking.Model.Models.Marker
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("endDate")]
+        public DateTimeOffset EndDate { get; set; }
+
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
@@ -36,7 +39,10 @@ namespace RoadStoryTracking.Model.Models.Marker
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("startDate")]
+        public DateTimeOffset StartDate { get; set; }
+
         [JsonProperty("type")]
-        public MarkerType Type { get; set; }
+        public MarkerTypes Type { get; set; }
     }
 }

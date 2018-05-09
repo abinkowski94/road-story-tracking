@@ -10,14 +10,13 @@ namespace RoadStoryTracking.WebApi.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public InvitationStatuses InvitationStatuses { get; set; }
+        public InvitationStatuses InvitationStatus { get; set; }
 
         public ApplicationUser InvitedUser { get; set; }
 
         public string InvitedUserId { get; set; }
 
-        public Guid MarkerId { get; set; }
-
         public Marker Marker { get; set; }
+        public Guid MarkerId { get; set; }
     }
 }

@@ -86,15 +86,16 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .Include(m => m.ApplicationUser)
                 .Include(m => m.MarkerInvitations)
                 .ThenInclude(mi => mi.InvitedUser)
-                .Where(m => m.CreateDate > DateTimeOffset.Now.AddDays(-1))
+                .Where(m => m.EndDate > DateTimeOffset.Now)
+                .Where(m => !m.IsPrivate)
                 .ToList();
         }
 
-        public Dictionary<string, ApplicationUser> GetUsersDictionary(List<string> userIds)
+        public Dictionary<string, ApplicationUser> GetUsersDictionary(List<string> userNames)
         {
             return _dbContext.Users
-                .Where(u => userIds.Contains(u.Id))
-                .ToDictionary(u => u.Id, u => u);
+                .Where(u => userNames.Contains(u.UserName))
+                .ToDictionary(u => u.UserName, u => u);
         }
 
         public List<Marker> GetUsersMarkers(string userId)

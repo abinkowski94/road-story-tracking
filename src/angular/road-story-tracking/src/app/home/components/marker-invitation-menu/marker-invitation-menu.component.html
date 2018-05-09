@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>Invite friends</h2>
+<mat-dialog-content>
+    <div class="container">
+        <mat-grid-list cols="10" rowHeight="80px">
+            <mat-grid-tile [colspan]="8">
+                <mat-form-field class="full-width">
+                    <input type="text" matInput [matAutocomplete]="auto" [formControl]="friendsCtrl" placeholder="Search for my friends via email...">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="2">
+                <button [disabled]="!(friendsCtrl.value)" class="full-width" mat-button (click)="invite(friendsCtrl.value)">Invite</button>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let friend of filtratedFriends | async" [value]="friend.userName">
+                <img style="vertical-align:middle;" aria-hidden [src]="friend.image || './assets/images/account-image.svg'" height="25" />
+                <span>{{ friend.firstName }} {{ friend.lastName }}</span> |
+                <small>{{ friend.userName }}</small>
+            </mat-option>
+        </mat-autocomplete>
+    </div>
+
+    <h3 style='font-family: Helvetica'>Invited friends:</h3>
+    <div *ngFor="let friend of invitedFriends">
+        <img style="vertical-align:middle;" [src]="friend.invitedUserImage || './assets/images/account-image.svg'" height="25" />
+        <span> {{ friend.invitedUserFirstName }} {{ friend.invitedUserLastName }}</span> |
+        <small>{{ friend.invitedUserUserName }}</small>
+        <div class="pull-right">
+            <button mat-raised-button (click)="remove(friend, invitedFriends)">Remove</button>
+        </div>
+        <div class="clearfix"></div>
+        <br>
+    </div>
+
+    <h3 style='font-family: Helvetica'>Friends accepted:</h3>
+    <div *ngFor="let friend of invitedFriendsAccepted">
+        <img style="vertical-align:middle;" [src]="friend.invitedUserImage || './assets/images/account-image.svg'" height="25" />
+        <span> {{ friend.invitedUserFirstName }} {{ friend.invitedUserLastName }}</span> |
+        <small>{{ friend.invitedUserUserName }}</small>
+        <div class="pull-right">
+            <button mat-raised-button (click)="remove(friend, invitedFriendsAccepted)">Remove</button>
+        </div>
+        <div class="clearfix"></div>
+        <br>
+    </div>
+
+    <h3 style='font-family: Helvetica'>Friends declined:</h3>
+    <div *ngFor="let friend of invitedFriendsDeclined">
+        <img style="vertical-align:middle;" [src]="friend.invitedUserImage || './assets/images/account-image.svg'" height="25" />
+        <span> {{ friend.invitedUserFirstName }} {{ friend.invitedUserLastName }}</span> |
+        <small>{{ friend.invitedUserUserName }}</small>
+        <div class="pull-right">
+            <button mat-raised-button (click)="remove(friend, invitedFriendsDeclined)">Remove</button>
+        </div>
+        <div class="clearfix"></div>
+        <br>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="pull-right">
+    <button mat-raised-button color="primary" (click)="acceptList()">Accept</button>
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

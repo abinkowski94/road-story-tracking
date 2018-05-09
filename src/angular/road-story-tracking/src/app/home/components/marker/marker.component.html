@@ -2,8 +2,7 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>
-                <img [src]="marker.markerOwner.image || 'assets/images/account-image.svg'"
-                    width="64px" height="64px" style="margin-right: 16px">
+                <img [src]="marker.markerOwner.image || 'assets/images/account-image.svg'" width="64px" height="64px" style="margin-right: 16px">
                 <h1 class="pull-right dont-break-out" *ngIf="marker.markerOwner.firstName !== '' || marker.markerOwner.lastName !== ''">
                     {{ marker.markerOwner.firstName }} {{ marker.markerOwner.lastName }} | {{ marker.createDate | date:'d.M.yy, h:mm a' }}
                 </h1>
@@ -13,12 +12,13 @@
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <ngx-gallery *ngIf="galleryImages && galleryImages.length > 0" [images]="galleryImages"
-                [options]="[{ thumbnails: false, height: '400px', width: '100%' }]"></ngx-gallery>
+            <ngx-gallery *ngIf="galleryImages && galleryImages.length > 0" [images]="galleryImages" [options]="[{ thumbnails: false, height: '400px', width: '100%' }]"></ngx-gallery>
             <h2>{{ marker.name }}</h2>
             <p class="styled-description">{{ marker.description }}</p>
         </mat-card-content>
     </mat-card>
+    <br>
+    <app-marker-invited-users [invitations]="marker.invitations"></app-marker-invited-users>
     <div class="comments">
         <app-comments></app-comments>
     </div>

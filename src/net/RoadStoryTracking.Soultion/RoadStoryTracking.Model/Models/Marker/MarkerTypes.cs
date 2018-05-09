@@ -1,6 +1,6 @@
 ﻿namespace RoadStoryTracking.Model.Models.Marker
 {
-    public enum MarkerType
+    public enum MarkerTypes
     {
         Other = 0,
         CashRelated = 1,

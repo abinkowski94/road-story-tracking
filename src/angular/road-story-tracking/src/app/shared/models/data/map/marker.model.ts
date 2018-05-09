@@ -13,14 +13,19 @@ export class Marker extends BaseMarker {
     public description: string;
     public images: string[];
     public markerOwner: MarkerOwner;
-    public markerInvitations: MarkerInvitation[];
+    public invitations: MarkerInvitation[];
     public isPrivate: boolean;
+    public startDate: Date;
+    public endDate: Date;
 
     public constructor() {
         super();
         this.type = MarkerType.Other;
         this.images = [];
         this.markerOwner = new MarkerOwner();
-        this.markerInvitations = [];
+        this.invitations = [];
+        this.isPrivate = false;
+        this.startDate = new Date();
+        this.endDate = new Date();
     }
 }

@@ -7,6 +7,7 @@ namespace RoadStoryTracking.WebApi.Business.Models.Marker
     {
         public DateTimeOffset CreateDate { get; set; }
         public string Description { get; set; }
+        public DateTimeOffset EndDate { get; set; }
         public Guid Id { get; set; }
         public List<string> Images { get; set; }
         public bool IsPrivate { get; set; }
@@ -15,6 +16,7 @@ namespace RoadStoryTracking.WebApi.Business.Models.Marker
         public List<MarkerInvitation> MarkerInvitations { get; set; }
         public MarkerOwner MarkerOwner { get; set; }
         public string Name { get; set; }
-        public MarkerType Type { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public MarkerTypes Type { get; set; }
     }
 }

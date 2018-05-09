@@ -57,6 +57,10 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             result.Images.ForEach(i => _imageService.DeleteImageAsync(i));
 
             _markerRepository.DeleteMarker(markerToDelete);
+            if (markerToDelete != null && markerToDelete.MarkerInvitations.Any())
+            {
+                _markerRepository.DeleteMarkerInvitations(markerToDelete.MarkerInvitations);
+            }
 
             return new SuccessResponse<Marker>(result);
         }
@@ -112,7 +116,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             {
                 result.Add(new Data.Models.MarkerInvitation
                 {
-                    InvitationStatuses = Data.Models.InvitationStatuses.PendingAcceptance,
+                    InvitationStatus = Data.Models.InvitationStatuses.PendingAcceptance,
                     Marker = dbMarker,
                     MarkerId = dbMarker.Id,
                     InvitedUser = invitedUsers[markerInvitation.InvitedUserUserName],
@@ -131,6 +135,9 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             markerToUpdate.ModificationDate = DateTimeOffset.UtcNow;
             markerToUpdate.Name = updateModel.Name;
             markerToUpdate.Type = (Data.Models.MarkerType)((int)updateModel.Type);
+            markerToUpdate.StartDate = updateModel.StartDate;
+            markerToUpdate.EndDate = updateModel.EndDate;
+            markerToUpdate.IsPrivate = updateModel.IsPrivate;
 
             var existingImages = markerToUpdate.Images.Where(img => updateModel.Images.Any(umi => umi == img.Image)).ToList();
             var imagesToRemove = markerToUpdate.Images.Where(img => !existingImages.Any(ei => ei.Id == img.Id)).ToList();
@@ -147,6 +154,19 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
                 CreateDate = DateTimeOffset.UtcNow
             }).ToList();
             markerToUpdate.Images.AddRange(imagesToAppend);
+
+            // Remove invitations that are not in the model
+            var invitationsToRemove = markerToUpdate.MarkerInvitations
+                .Where(i => !updateModel.MarkerInvitations.Any(mi => mi.InvitedUserUserName == i.InvitedUser.UserName))
+                .ToList();
+            _markerRepository.DeleteMarkerInvitations(invitationsToRemove);
+
+            // Add invitations that are new
+            var invatationsModelsToAdd = updateModel.MarkerInvitations
+                .Where(i => !markerToUpdate.MarkerInvitations.Any(mi => mi.InvitedUser.UserName == i.InvitedUserUserName))
+                .ToList();
+            var inviataionsToAdd = CreateMarkerInvitations(markerToUpdate, invatationsModelsToAdd);
+            _markerRepository.AddMarkerInvitations(inviataionsToAdd);
 
             return markerToUpdate;
         }

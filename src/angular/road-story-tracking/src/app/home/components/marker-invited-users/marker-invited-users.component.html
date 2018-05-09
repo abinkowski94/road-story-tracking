@@ -1,0 +1,19 @@
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <h3>Invited users:</h3>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-chip-list>
+            <mat-chip *ngFor="let invitation of invitations">
+                <img style="vertical-align:middle;" [src]="invitation.invitedUserImage || './assets/images/account-image.svg'" height="25"
+                />
+                <p style="white-space: pre;"> </p>
+                <span>{{ invitation.invitedUserFirstName }} {{ invitation.invitedUserLastName }}</span>
+                <p style="white-space: pre;"> | </p>
+                <small>{{ invitation.invitedUserUserName }}</small>
+            </mat-chip>
+        </mat-chip-list>
+    </mat-expansion-panel>
+</mat-accordion>

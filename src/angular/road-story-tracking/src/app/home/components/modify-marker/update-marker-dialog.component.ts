@@ -1,10 +1,13 @@
 import { Component, ViewChild, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatDialog, MatDialogConfig } from '@angular/material';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryComponent } from 'ngx-gallery';
 
 import { Marker } from './../../../shared/models/data/map/marker.model';
+import { MarkerInvitation } from './../../../shared/models/data/map/marker-invitation.model';
 import { MarkerApiService } from './../../services/marker-api.service';
 import { ImageService } from './../../../shared/services/image-services/image.service';
+import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';
+import { MarkerInvitationMenuComponent } from '../marker-invitation-menu/marker-invitation-menu.component';
 
 @Component({
     templateUrl: 'update-marker-dialog.component.html',
@@ -18,7 +21,8 @@ export class UpdateMarkerDialogComponent {
     public galleryImages: NgxGalleryImage[];
 
     public constructor(private imageService: ImageService, private dialogRef: MatDialogRef<UpdateMarkerDialogComponent>,
-        private markerApiService: MarkerApiService, @Inject(MAT_DIALOG_DATA) private data: Marker, private snackBar: MatSnackBar) {
+        private markerApiService: MarkerApiService, @Inject(MAT_DIALOG_DATA) private data: Marker, private snackBar: MatSnackBar,
+        private materialdialogService: MatDialog) {
 
         this.marker = this.data;
         this.galleryImages = this.data.images.map(i => ({ small: i, medium: i, big: i }));
@@ -29,15 +33,18 @@ export class UpdateMarkerDialogComponent {
         ];
     }
 
-    public updateMarker(): void {
-        this.markerApiService.updateMarker(this.marker).subscribe((result: Marker) => {
-            this.dialogRef.close(result);
-        }, error => {
-            this.snackBar.open('Cannot update event at the server side.', 'Error!', {
-                duration: 3000,
-                horizontalPosition: 'right'
-            });
-        });
+    public async updateMarker(): Promise<void> {
+        if (new Date(this.marker.startDate) > new Date(this.marker.endDate)) {
+            this.snackBar.open('The start date is lower than end date.', 'Error!', snackbarConfiguration);
+        } else {
+            try {
+                const result = await this.markerApiService.updateMarker(this.marker).toPromise();
+                this.dialogRef.close(result);
+                this.snackBar.open('Event has been updated.', 'Success!', snackbarConfiguration);
+            } catch (exception) {
+                this.snackBar.open('Cannot update event at the server side.', 'Error!', snackbarConfiguration);
+            }
+        }
     }
 
     public addImage(input: any): void {
@@ -59,5 +66,16 @@ export class UpdateMarkerDialogComponent {
             lastShown--;
         }
         this.gallery.show(lastShown);
+    }
+
+    public async manageInvitations(): Promise<void> {
+        const options: MatDialogConfig<MarkerInvitation[]> = {
+            data: this.marker.invitations,
+            width: '80%'
+        };
+        const result = await this.materialdialogService.open(MarkerInvitationMenuComponent, options).afterClosed().toPromise();
+        if (result) {
+            this.marker.invitations = result;
+        }
     }
 }
