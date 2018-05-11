@@ -54,7 +54,7 @@ namespace RoadStoryTracking.WebApi.Controllers
         [HttpGet("[action]")]
         public IActionResult GetMarkers()
         {
-            var response = _markerService.GetMarkers();
+            var response = _markerService.GetMarkers(Requestor?.User?.Id);
             return response.GetActionResult<List<Business.Models.Marker.Marker>, List<Marker>>(this);
         }
 

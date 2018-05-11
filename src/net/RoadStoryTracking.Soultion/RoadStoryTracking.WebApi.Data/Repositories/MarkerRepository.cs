@@ -112,7 +112,7 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .FirstOrDefault(m => m.Id == markerId);
         }
 
-        public List<Marker> GetMarkers()
+        public List<Marker> GetMarkers(string userId)
         {
             return _dbContext.Markers
                 .Include(m => m.Images)
@@ -120,7 +120,8 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .Include(m => m.MarkerInvitations)
                 .ThenInclude(mi => mi.InvitedUser)
                 .Where(m => m.EndDate > DateTimeOffset.Now)
-                .Where(m => !m.IsPrivate)
+                .Where(m => !m.IsPrivate || (m.IsPrivate && m.ApplicationUserId == userId)
+                    || (m.IsPrivate && m.MarkerInvitations.Any(mi => mi.InvitedUserId == userId)))
                 .ToList();
         }
 

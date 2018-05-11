@@ -96,9 +96,9 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             return new SuccessResponse<Marker>(result);
         }
 
-        public BaseResponse GetMarkers()
+        public BaseResponse GetMarkers(string userId)
         {
-            var dbMarkers = _markerRepository.GetMarkers();
+            var dbMarkers = _markerRepository.GetMarkers(userId);
             var result = LocalMapper.Map<List<Marker>>(dbMarkers);
 
             return new SuccessResponse<List<Marker>>(result);

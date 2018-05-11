@@ -24,7 +24,7 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
 
         Marker GetMarker(Guid markerId);
 
-        List<Marker> GetMarkers();
+        List<Marker> GetMarkers(string userId);
 
         Dictionary<string, ApplicationUser> GetUsersDictionary(List<string> userIds);
 

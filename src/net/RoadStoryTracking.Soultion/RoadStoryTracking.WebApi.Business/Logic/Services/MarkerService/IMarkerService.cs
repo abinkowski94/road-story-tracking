@@ -16,7 +16,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
 
         BaseResponse GetMarker(Guid markerId);
 
-        BaseResponse GetMarkers();
+        BaseResponse GetMarkers(string userId);
 
         BaseResponse GetUsersMarkers(string userId);
 
