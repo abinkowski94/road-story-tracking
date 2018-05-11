@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using RoadStoryTracking.WebApi.Business.Models.Responses;
+﻿using RoadStoryTracking.WebApi.Business.Models.Responses;
+using System.Threading.Tasks;
 
 namespace RoadStoryTracking.WebApi.Business.Logic.Services.EmailService
 {

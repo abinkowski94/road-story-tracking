@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using RoadStoryTracking.WebApi.Business.Models.Exceptions;
 using RoadStoryTracking.WebApi.Business.Models.Responses;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace RoadStoryTracking.WebApi.Business.Logic.Services.EmailService
 {
@@ -14,7 +14,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.EmailService
     {
         private readonly string _emailSenderServiceAddress;
         private readonly string _emailSenderServiceName;
-        private readonly string _sendGridAPIKey;
+        private readonly string _sendGridApiKey;
 
         public EmailService(IConfiguration configuration)
         {
@@ -27,7 +27,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.EmailService
 
             _emailSenderServiceAddress = configuration["SendGrid:EmailServiceAddress"];
             _emailSenderServiceName = configuration["SendGrid:EmailServiceName"];
-            _sendGridAPIKey = configuration["SendGrid:SendGridAPIKey"];
+            _sendGridApiKey = configuration["SendGrid:SendGridAPIKey"];
         }
 
         public async Task<BaseResponse> SendEmail(string emailTo, string fullName, string subject, string messageText, string messageHtml)
@@ -39,15 +39,13 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.EmailService
             {
                 return new SuccessResponse<bool>(true);
             }
-            else
-            {
-                return new ErrorResponse(new CustomApplicationException("SendGrid service could not send an email!", sendGridResponse));
-            }
+
+            return new ErrorResponse(new CustomApplicationException("SendGrid service could not send an email!", sendGridResponse));
         }
 
         protected async Task<Response> SendEmailAsync(SendGridMessage message)
         {
-            var client = new SendGridClient(_sendGridAPIKey);
+            var client = new SendGridClient(_sendGridApiKey);
             return await client.SendEmailAsync(message);
         }
 

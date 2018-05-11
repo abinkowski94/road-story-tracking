@@ -1,6 +1,6 @@
-﻿using System;
-using RoadStoryTracking.WebApi.Business.Models.Comment;
+﻿using RoadStoryTracking.WebApi.Business.Models.Comment;
 using RoadStoryTracking.WebApi.Business.Models.Responses;
+using System;
 
 namespace RoadStoryTracking.WebApi.Business.Logic.Services.CommentService
 {

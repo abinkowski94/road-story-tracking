@@ -11,7 +11,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
 {
     public class MarkerService : BaseService, IMarkerService
     {
-        private const string _markerImagesLocation = "markers\\images";
+        private const string MarkerImagesLocation = "markers\\images";
         private readonly IImageService _imageService;
         private readonly IMarkerRepository _markerRepository;
 
@@ -24,7 +24,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
         public BaseResponse AddMarker(Marker marker, string userId)
         {
             // Create images
-            marker.Images = marker.Images.Select(i => _imageService.SaveImageAsync(i, Guid.NewGuid().ToString(), _markerImagesLocation).Result).ToList();
+            marker.Images = marker.Images.Select(i => _imageService.SaveImageAsync(i, Guid.NewGuid().ToString(), MarkerImagesLocation).Result).ToList();
 
             // Add marker to database
             var dbMarker = LocalMapper.Map<Data.Models.Marker>(marker);
@@ -57,7 +57,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             result.Images.ForEach(i => _imageService.DeleteImageAsync(i));
 
             _markerRepository.DeleteMarker(markerToDelete);
-            if (markerToDelete != null && markerToDelete.MarkerInvitations.Any())
+            if (markerToDelete.MarkerInvitations.Any())
             {
                 _markerRepository.DeleteMarkerInvitations(markerToDelete.MarkerInvitations);
             }
@@ -68,13 +68,13 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
         public BaseResponse DeleteMarkerInvitation(string userId, Guid invitationId)
         {
             var invitation = _markerRepository.DeleteMarkerInvitation(userId, invitationId);
-            if (invitation != null)
+            if (invitation == null)
             {
-                var result = LocalMapper.Map<IncomingMarkerInviation>(invitation);
-                return new SuccessResponse<IncomingMarkerInviation>(result);
+                return new ErrorResponse(new ApplicationException($"Cannot find invitation with id {invitationId} for user with id {userId}"));
             }
 
-            return new ErrorResponse(new ApplicationException($"Cannot find invitation with id {invitationId} for user with id {userId}"));
+            var result = LocalMapper.Map<IncomingMarkerInviation>(invitation);
+            return new SuccessResponse<IncomingMarkerInviation>(result);
         }
 
         public BaseResponse GetIncomingMarkersInvitations(string userId)
@@ -129,16 +129,16 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
         public BaseResponse UpdateMarkerInvitationStatus(string userId, Guid invitationId, InvitationStatuses invitationStatus)
         {
             var invitation = _markerRepository.GetIncomingMarkersInvitation(userId, invitationId);
-            if (invitation != null)
+            if (invitation == null)
             {
-                invitation.InvitationStatus = (Data.Models.InvitationStatuses)((int)invitationStatus);
-                _markerRepository.UpdateIncomingMarkersInvitation(invitation);
-
-                var result = LocalMapper.Map<IncomingMarkerInviation>(invitation);
-                return new SuccessResponse<IncomingMarkerInviation>(result);
+                return new ErrorResponse(new ApplicationException($"Cannot find invitation with id {invitationId} for user with id {userId}"));
             }
 
-            return new ErrorResponse(new ApplicationException($"Cannot find invitation with id {invitationId} for user with id {userId}"));
+            invitation.InvitationStatus = (Data.Models.InvitationStatuses)((int)invitationStatus);
+            _markerRepository.UpdateIncomingMarkersInvitation(invitation);
+
+            var result = LocalMapper.Map<IncomingMarkerInviation>(invitation);
+            return new SuccessResponse<IncomingMarkerInviation>(result);
         }
 
         private List<Data.Models.MarkerInvitation> CreateMarkerInvitations(Data.Models.Marker dbMarker, List<MarkerInvitation> markerInvitations)
@@ -161,7 +161,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             return result;
         }
 
-        private Data.Models.Marker UpdateDatabaseMarker(Marker updateModel, Data.Models.Marker markerToUpdate)
+        private void UpdateDatabaseMarker(Marker updateModel, Data.Models.Marker markerToUpdate)
         {
             markerToUpdate.Description = updateModel.Description;
             markerToUpdate.Latitude = (double)updateModel.Latitude;
@@ -174,8 +174,8 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             markerToUpdate.IsPrivate = updateModel.IsPrivate;
 
             var existingImages = markerToUpdate.Images.Where(img => updateModel.Images.Any(umi => umi == img.Image)).ToList();
-            var imagesToRemove = markerToUpdate.Images.Where(img => !existingImages.Any(ei => ei.Id == img.Id)).ToList();
-            var imagesToCreate = updateModel.Images.Where(img => !existingImages.Any(ei => ei.Image == img)).ToList();
+            var imagesToRemove = markerToUpdate.Images.Where(img => existingImages.All(ei => ei.Id != img.Id)).ToList();
+            var imagesToCreate = updateModel.Images.Where(img => existingImages.All(ei => ei.Image != img)).ToList();
 
             // Remove old images
             imagesToRemove.ForEach(img => _imageService.DeleteImageAsync(img.Image));
@@ -184,25 +184,23 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             // Create new images
             var imagesToAppend = imagesToCreate.Select(img => new Data.Models.MarkerImage
             {
-                Image = _imageService.SaveImageAsync(img, Guid.NewGuid().ToString(), _markerImagesLocation).Result,
+                Image = _imageService.SaveImageAsync(img, Guid.NewGuid().ToString(), MarkerImagesLocation).Result,
                 CreateDate = DateTimeOffset.UtcNow
             }).ToList();
             markerToUpdate.Images.AddRange(imagesToAppend);
 
             // Remove invitations that are not in the model
             var invitationsToRemove = markerToUpdate.MarkerInvitations
-                .Where(i => !updateModel.MarkerInvitations.Any(mi => mi.InvitedUserUserName == i.InvitedUser.UserName))
+                .Where(i => updateModel.MarkerInvitations.All(mi => mi.InvitedUserUserName != i.InvitedUser.UserName))
                 .ToList();
             _markerRepository.DeleteMarkerInvitations(invitationsToRemove);
 
             // Add invitations that are new
             var invatationsModelsToAdd = updateModel.MarkerInvitations
-                .Where(i => !markerToUpdate.MarkerInvitations.Any(mi => mi.InvitedUser.UserName == i.InvitedUserUserName))
+                .Where(i => markerToUpdate.MarkerInvitations.All(mi => mi.InvitedUser.UserName != i.InvitedUserUserName))
                 .ToList();
             var inviataionsToAdd = CreateMarkerInvitations(markerToUpdate, invatationsModelsToAdd);
             _markerRepository.AddMarkerInvitations(inviataionsToAdd);
-
-            return markerToUpdate;
         }
     }
 }

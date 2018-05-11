@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RoadStoryTracking.Model.Models.Marker;
+using RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Collections.Generic;
-using RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {

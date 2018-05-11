@@ -1,73 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     public partial class updatedMarker : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropForeignKey(
-                name: "FK_MarkerInvitation_User_InvitedUserId",
-                table: "MarkerInvitation");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_MarkerInvitation_Markers_MarkerId",
-                table: "MarkerInvitation");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_MarkerInvitation",
-                table: "MarkerInvitation");
-
-            migrationBuilder.DropColumn(
-                name: "MakerId",
-                table: "MarkerInvitation");
-
-            migrationBuilder.RenameTable(
-                name: "MarkerInvitation",
-                newName: "MarkerInvitations");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_MarkerInvitation_MarkerId",
-                table: "MarkerInvitations",
-                newName: "IX_MarkerInvitations_MarkerId");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_MarkerInvitation_InvitedUserId",
-                table: "MarkerInvitations",
-                newName: "IX_MarkerInvitations_InvitedUserId");
-
-            migrationBuilder.AlterColumn<Guid>(
-                name: "MarkerId",
-                table: "MarkerInvitations",
-                nullable: false,
-                oldClrType: typeof(Guid),
-                oldNullable: true);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_MarkerInvitations",
-                table: "MarkerInvitations",
-                column: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_MarkerInvitations_User_InvitedUserId",
-                table: "MarkerInvitations",
-                column: "InvitedUserId",
-                principalSchema: "dbo",
-                principalTable: "User",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_MarkerInvitations_Markers_MarkerId",
-                table: "MarkerInvitations",
-                column: "MarkerId",
-                principalTable: "Markers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-        }
-
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -129,6 +66,68 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
                 principalTable: "Markers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
+        }
+
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_MarkerInvitation_User_InvitedUserId",
+                table: "MarkerInvitation");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_MarkerInvitation_Markers_MarkerId",
+                table: "MarkerInvitation");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_MarkerInvitation",
+                table: "MarkerInvitation");
+
+            migrationBuilder.DropColumn(
+                name: "MakerId",
+                table: "MarkerInvitation");
+
+            migrationBuilder.RenameTable(
+                name: "MarkerInvitation",
+                newName: "MarkerInvitations");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_MarkerInvitation_MarkerId",
+                table: "MarkerInvitations",
+                newName: "IX_MarkerInvitations_MarkerId");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_MarkerInvitation_InvitedUserId",
+                table: "MarkerInvitations",
+                newName: "IX_MarkerInvitations_InvitedUserId");
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "MarkerId",
+                table: "MarkerInvitations",
+                nullable: false,
+                oldClrType: typeof(Guid),
+                oldNullable: true);
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_MarkerInvitations",
+                table: "MarkerInvitations",
+                column: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_MarkerInvitations_User_InvitedUserId",
+                table: "MarkerInvitations",
+                column: "InvitedUserId",
+                principalSchema: "dbo",
+                principalTable: "User",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_MarkerInvitations_Markers_MarkerId",
+                table: "MarkerInvitations",
+                column: "MarkerId",
+                principalTable: "Markers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

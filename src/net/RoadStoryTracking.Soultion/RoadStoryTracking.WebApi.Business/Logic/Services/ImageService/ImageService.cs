@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Threading.Tasks;
 
 namespace RoadStoryTracking.WebApi.Business.Logic.Services.ImageService
 {
@@ -37,20 +37,19 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ImageService
             return Task.Run(async () =>
             {
                 base64Image = ClearBase64Fromat(base64Image);
-
-                if (TryGetFromBase64String(base64Image, out byte[] bytes))
+                if (!TryGetFromBase64String(base64Image, out var bytes))
                 {
-                    var imageFullPath = $"assets\\{location}\\{imageName}.jpg";
-                    var container = await GetDefaultContainer();
-                    var cloudBlockBlob = container.GetBlockBlobReference(imageFullPath);
-                    await cloudBlockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
-                    cloudBlockBlob.Properties.ContentType = "image/jpeg";
-                    await cloudBlockBlob.SetPropertiesAsync();
-
-                    return cloudBlockBlob.Uri.ToString();
+                    return null;
                 }
 
-                return null;
+                var imageFullPath = $"assets\\{location}\\{imageName}.jpg";
+                var container = await GetDefaultContainer();
+                var cloudBlockBlob = container.GetBlockBlobReference(imageFullPath);
+                await cloudBlockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
+                cloudBlockBlob.Properties.ContentType = "image/jpeg";
+                await cloudBlockBlob.SetPropertiesAsync();
+
+                return cloudBlockBlob.Uri.ToString();
             });
         }
 

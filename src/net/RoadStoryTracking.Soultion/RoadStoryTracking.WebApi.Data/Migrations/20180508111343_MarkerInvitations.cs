@@ -1,11 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     public partial class MarkerInvitations : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "MarkerInvitation");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -45,12 +50,6 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
                 name: "IX_MarkerInvitation_MarkerId",
                 table: "MarkerInvitation",
                 column: "MarkerId");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "MarkerInvitation");
         }
     }
 }

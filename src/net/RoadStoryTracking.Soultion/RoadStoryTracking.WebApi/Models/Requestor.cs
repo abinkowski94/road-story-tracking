@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
+﻿using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
 using RoadStoryTracking.WebApi.Business.Models.Responses;
 using RoadStoryTracking.WebApi.Business.Models.User;
+using System;
+using System.Threading.Tasks;
 
 namespace RoadStoryTracking.WebApi.Models
 {
@@ -11,7 +11,7 @@ namespace RoadStoryTracking.WebApi.Models
         private readonly IServiceProvider _serviceProvider;
 
         public ApplicationUser User { get; private set; }
-        public string UserName { get; private set; }
+        public string UserName { get; }
 
         public Requestor(string userName, IServiceProvider serviceProvider)
         {
@@ -24,9 +24,13 @@ namespace RoadStoryTracking.WebApi.Models
         {
             return Task.Run(async () =>
             {
-                var userService = (_serviceProvider.GetService(typeof(IUserService)) as IUserService);
-                var response = await userService.GetUser(UserName) as SuccessResponse<ApplicationUser>;
-                User = response.Result;
+                if (_serviceProvider.GetService(typeof(IUserService)) is IUserService userService)
+                {
+                    if (await userService.GetUser(UserName) is SuccessResponse<ApplicationUser> response)
+                    {
+                        User = response.Result;
+                    }
+                }
             });
         }
     }

@@ -1,12 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace RoadStoryTracking.WebApi.Data.Migrations
 {
     public partial class initial : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
+
+            migrationBuilder.DropTable(
+                name: "MarkerImages");
+
+            migrationBuilder.DropTable(
+                name: "RoleClaim",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserClaim",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserLogin",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserRole",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UserToken",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Markers");
+
+            migrationBuilder.DropTable(
+                name: "Role",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "User",
+                schema: "dbo");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
@@ -358,49 +400,6 @@ namespace RoadStoryTracking.WebApi.Data.Migrations
                 schema: "dbo",
                 table: "UserRole",
                 column: "RoleId");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "Contacts");
-
-            migrationBuilder.DropTable(
-                name: "MarkerImages");
-
-            migrationBuilder.DropTable(
-                name: "RoleClaim",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "UserClaim",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "UserLogin",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "UserRole",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "UserToken",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "Markers");
-
-            migrationBuilder.DropTable(
-                name: "Role",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "User",
-                schema: "dbo");
         }
     }
 }

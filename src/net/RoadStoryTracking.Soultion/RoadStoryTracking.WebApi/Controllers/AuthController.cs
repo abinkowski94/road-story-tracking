@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoadStoryTracking.Model.Models.User;
+using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
+using RoadStoryTracking.WebApi.Business.Models.Responses;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Threading.Tasks;
-using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
-using RoadStoryTracking.WebApi.Business.Models.Responses;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {
@@ -40,10 +40,10 @@ namespace RoadStoryTracking.WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Register([FromBody] ApplicationUser ApplicationUser)
+        public async Task<IActionResult> Register([FromBody] ApplicationUser applicationUser)
         {
             var callbackUri = new Uri($"{Request.Scheme}://{Request.Host}{Url.Action(nameof(ConfirmEmailAddress))}", UriKind.Absolute);
-            var user = LocalMapper.Map<Business.Models.User.ApplicationUser>(ApplicationUser);
+            var user = LocalMapper.Map<Business.Models.User.ApplicationUser>(applicationUser);
             var response = await _userService.RegisterNewUser(user, callbackUri);
             return response.GetActionResult<Business.Models.User.ApplicationUser, ApplicationUser>(this);
         }

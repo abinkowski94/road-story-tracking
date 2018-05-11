@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using RoadStoryTracking.WebApi.Business.Models.Comment;
+﻿using RoadStoryTracking.WebApi.Business.Models.Comment;
 using RoadStoryTracking.WebApi.Business.Models.Exceptions;
 using RoadStoryTracking.WebApi.Business.Models.Responses;
 using RoadStoryTracking.WebApi.Data.Repositories;
+using System;
+using System.Collections.Generic;
 
 namespace RoadStoryTracking.WebApi.Business.Logic.Services.CommentService
 {

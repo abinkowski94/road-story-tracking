@@ -24,7 +24,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ContctService
         public BaseResponse AcceptInvitation(Guid contactId, string userId)
         {
             var contact = _contactsRepository.GetContact(contactId);
-            if (contact?.RequestedToId != userId)
+            if (contact == null || contact.RequestedToId != userId)
             {
                 return new ErrorResponse(new ArgumentException($"User with id: {userId} does not own invitation with id ${contactId}"));
             }
@@ -84,7 +84,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ContctService
         {
             if (invitedUserName == null)
             {
-                return new ErrorResponse(new ArgumentNullException($"{invitedUserName} cannot be null!"));
+                return new ErrorResponse(new ArgumentNullException($"{nameof(invitedUserName)} cannot be null!"));
             }
 
             var invitedUserResponse = await _userService.GetUser(invitedUserName);
@@ -106,7 +106,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ContctService
                 return myContactsResponse;
             }
 
-            if (!myContacts.Any(c => c.UserName == invitedUserName))
+            if (myContacts.All(c => c.UserName != invitedUserName))
             {
                 return new ErrorResponse(new ApplicationException("Contact already exists!"));
             }

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RoadStoryTracking.Model.Models.Comment;
+using RoadStoryTracking.WebApi.Business.Logic.Services.CommentService;
 using RoadStoryTracking.WebApi.Extensions;
 using System;
 using System.Collections.Generic;
-using RoadStoryTracking.WebApi.Business.Logic.Services.CommentService;
 
 namespace RoadStoryTracking.WebApi.Controllers
 {

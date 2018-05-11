@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RoadStoryTracking.WebApi.Data.Models;
+using System;
 using System.Collections.Generic;
-using RoadStoryTracking.WebApi.Data.Models;
 
 namespace RoadStoryTracking.WebApi.Data.Repositories
 {

@@ -14,14 +14,14 @@ namespace RoadStoryTracking.WebApi.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected readonly IServiceProvider _serviceProvider;
+        protected readonly IServiceProvider ServiceProvider;
 
-        public IMapper LocalMapper { get; private set; }
+        public IMapper LocalMapper { get; }
         protected Requestor Requestor { get; private set; }
 
         protected BaseController(IServiceProvider serviceProvider) : this()
         {
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider), $"{nameof(IServiceProvider)} cannot be null");
+            ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider), $"{nameof(IServiceProvider)} cannot be null");
         }
 
         private BaseController()
@@ -31,7 +31,7 @@ namespace RoadStoryTracking.WebApi.Controllers
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var dbContext = (RoadStoryTrackingDbContext)_serviceProvider.GetService(typeof(RoadStoryTrackingDbContext));
+            var dbContext = (RoadStoryTrackingDbContext)ServiceProvider.GetService(typeof(RoadStoryTrackingDbContext));
             using (var transaction = dbContext.Database.BeginTransaction())
             {
                 try
