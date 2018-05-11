@@ -65,6 +65,25 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             return new SuccessResponse<Marker>(result);
         }
 
+        public BaseResponse DeleteMarkerInvitation(string userId, Guid invitationId)
+        {
+            var invitation = _markerRepository.DeleteMarkerInvitation(userId, invitationId);
+            if (invitation != null)
+            {
+                var result = LocalMapper.Map<IncomingMarkerInviation>(invitation);
+                return new SuccessResponse<IncomingMarkerInviation>(result);
+            }
+
+            return new ErrorResponse(new ApplicationException($"Cannot find invitation with id {invitationId} for user with id {userId}"));
+        }
+
+        public BaseResponse GetIncomingMarkersInvitations(string userId)
+        {
+            var invitations = _markerRepository.GetIncomingMarkersInvitations(userId);
+            var result = LocalMapper.Map<List<IncomingMarkerInviation>>(invitations);
+            return new SuccessResponse<List<IncomingMarkerInviation>>(result);
+        }
+
         public BaseResponse GetMarker(Guid markerId)
         {
             var dbMarker = _markerRepository.GetMarker(markerId);
@@ -105,6 +124,21 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
 
             var result = _markerRepository.UpdateMarker(dbMarker);
             return new SuccessResponse<Marker>(LocalMapper.Map<Marker>(result));
+        }
+
+        public BaseResponse UpdateMarkerInvitationStatus(string userId, Guid invitationId, InvitationStatuses invitationStatus)
+        {
+            var invitation = _markerRepository.GetIncomingMarkersInvitation(userId, invitationId);
+            if (invitation != null)
+            {
+                invitation.InvitationStatus = (Data.Models.InvitationStatuses)((int)invitationStatus);
+                _markerRepository.UpdateIncomingMarkersInvitation(invitation);
+
+                var result = LocalMapper.Map<IncomingMarkerInviation>(invitation);
+                return new SuccessResponse<IncomingMarkerInviation>(result);
+            }
+
+            return new ErrorResponse(new ApplicationException($"Cannot find invitation with id {invitationId} for user with id {userId}"));
         }
 
         private List<Data.Models.MarkerInvitation> CreateMarkerInvitations(Data.Models.Marker dbMarker, List<MarkerInvitation> markerInvitations)

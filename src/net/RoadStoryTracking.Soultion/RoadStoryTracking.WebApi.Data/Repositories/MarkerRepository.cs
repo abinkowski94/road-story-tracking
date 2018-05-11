@@ -56,6 +56,20 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
             return markerImages;
         }
 
+        public MarkerInvitation DeleteMarkerInvitation(string userId, Guid invitationId)
+        {
+            var invitation = GetIncomingMarkersInvitation(userId, invitationId);
+            if (invitation == null)
+            {
+                return invitation;
+            }
+
+            _dbContext.MarkerInvitations.Remove(invitation);
+            _dbContext.SaveChanges();
+
+            return invitation;
+        }
+
         public List<MarkerInvitation> DeleteMarkerInvitations(List<MarkerInvitation> markerInvitations)
         {
             _dbContext.MarkerInvitations.RemoveRange(markerInvitations);
@@ -67,6 +81,25 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
         public void Dispose()
         {
             _dbContext.Dispose();
+        }
+
+        public MarkerInvitation GetIncomingMarkersInvitation(string userId, Guid invitationId)
+        {
+            return _dbContext.MarkerInvitations
+                .Include(i => i.InvitedUser)
+                .Include(i => i.Marker)
+                .ThenInclude(m => m.ApplicationUser)
+                .FirstOrDefault(mi => mi.InvitedUserId == userId && mi.Id == invitationId);
+        }
+
+        public List<MarkerInvitation> GetIncomingMarkersInvitations(string userId)
+        {
+            return _dbContext.MarkerInvitations
+                .Include(i => i.InvitedUser)
+                .Include(i => i.Marker)
+                .ThenInclude(m => m.ApplicationUser)
+                .Where(i => i.InvitedUser.Id == userId)
+                .ToList();
         }
 
         public Marker GetMarker(Guid markerId)
@@ -106,6 +139,12 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
                 .ThenInclude(mi => mi.InvitedUser)
                 .Where(m => m.ApplicationUserId == userId)
                 .ToList();
+        }
+
+        public MarkerInvitation UpdateIncomingMarkersInvitation(MarkerInvitation invitation)
+        {
+            _dbContext.SaveChanges();
+            return invitation;
         }
 
         public Marker UpdateMarker(Marker marker)

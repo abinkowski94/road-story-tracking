@@ -1,0 +1,39 @@
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <h3>Friend's events:</h3>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list flex *ngIf="invitations">
+            <div *ngFor="let invitation of invitations">
+                <mat-list-item>
+                    <img *ngIf="spaceForInvitationSender" [routerLink]="'/marker/' + invitation.markerId" routerLinkActive="active" mat-list-icon
+                        [src]="invitation.markerOwner.image || './assets/images/account-image.svg'" />
+                    <h4 *ngIf="spaceForInvitationSender" [routerLink]="'/marker/' + invitation.markerId" routerLinkActive="active" mat-line>{{ invitation.markerOwner.firstName }} {{ invitation.markerOwner.lastName }}</h4>
+                    <p *ngIf="spaceForInvitationSender" [routerLink]="'/marker/' + invitation.markerId" routerLinkActive="active" mat-line> {{ invitation.markerOwner.userName }} </p>
+                    <div *ngIf="spaceForInvitationSender" [routerLink]="'/marker/' + invitation.markerId" routerLinkActive="active" style="width: 60%;">
+                        {{ invitation.name }}
+                    </div>
+                    <h4 *ngIf="!spaceForInvitationSender" [routerLink]="'/marker/' + invitation.markerId" routerLinkActive="active" mat-line>{{ invitation.name }}</h4>
+                    <h3 *ngIf="!spaceForInvitationSender" [routerLink]="'/marker/' + invitation.markerId" routerLinkActive="active" mat-line>
+                        <small>from:
+                            <i>{{ invitation.markerOwner.userName }}</i>
+                        </small>
+                    </h3>
+                    <div>
+                        <mat-form-field>
+                            <mat-select #inviationSelect placeholder="Status" [value]="invitation.invitationStatus" (valueChange)="updateInvitationStatus(invitation, inviationSelect.value)">
+                                <mat-option [value]="1">Pending acceptance</mat-option>
+                                <mat-option [value]="2">Accepted</mat-option>
+                                <mat-option [value]="3">Declined</mat-option>
+                                <mat-option [value]="4">Decline and remove</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </div>
+        </mat-list>
+    </mat-expansion-panel>
+</mat-accordion>

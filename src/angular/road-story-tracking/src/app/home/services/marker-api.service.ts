@@ -5,6 +5,8 @@ import { environment } from './../../../environments/environment';
 
 import { BaseHttpService } from '../../shared/services/http-services/base-http.service';
 import { Marker } from './../../shared/models/data/map/marker.model';
+import { IncomingMarkerInviation } from '../../shared/models/data/map/incoming-marker-invitation.model';
+import { InvitationStatuses } from '../../shared/models/data/map/invitation-statuses.enum.model';
 
 @Injectable()
 export class MarkerApiService extends BaseHttpService {
@@ -37,5 +39,18 @@ export class MarkerApiService extends BaseHttpService {
 
     public updateMarker(marker: Marker): Observable<Marker> {
         return this.put<Marker>('UpdateMarker', marker);
+    }
+
+    public getIncomingInvitations(): Observable<IncomingMarkerInviation[]> {
+        return this.get<IncomingMarkerInviation[]>('GetMyIncomingMarkersInvitations');
+    }
+    public updateMarkerInvitation(invitationId: string, value: InvitationStatuses): Observable<IncomingMarkerInviation> {
+        const params = new HttpParams().set('invitationId', invitationId).set('invitationStatus', `${value}`);
+        return this.put<IncomingMarkerInviation>('UpdateMarkerInvitationStatus', null, params);
+    }
+
+    public deleteInvitation(invitationId: string): Observable<IncomingMarkerInviation> {
+        const params = new HttpParams().set('invitationId', invitationId);
+        return this.delete<IncomingMarkerInviation>('DeleteMarkerInvitation', params);
     }
 }

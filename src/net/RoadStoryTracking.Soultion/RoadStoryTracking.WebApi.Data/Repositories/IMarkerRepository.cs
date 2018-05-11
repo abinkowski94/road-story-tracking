@@ -14,7 +14,13 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
 
         List<MarkerImage> DeleteMarkerImages(List<MarkerImage> markerImages);
 
+        MarkerInvitation DeleteMarkerInvitation(string userId, Guid invitationId);
+
         List<MarkerInvitation> DeleteMarkerInvitations(List<MarkerInvitation> markerInvitations);
+
+        MarkerInvitation GetIncomingMarkersInvitation(string userId, Guid invitationId);
+
+        List<MarkerInvitation> GetIncomingMarkersInvitations(string userId);
 
         Marker GetMarker(Guid markerId);
 
@@ -23,6 +29,8 @@ namespace RoadStoryTracking.WebApi.Data.Repositories
         Dictionary<string, ApplicationUser> GetUsersDictionary(List<string> userIds);
 
         List<Marker> GetUsersMarkers(string userId);
+
+        MarkerInvitation UpdateIncomingMarkersInvitation(MarkerInvitation invitation);
 
         Marker UpdateMarker(Marker marker);
     }

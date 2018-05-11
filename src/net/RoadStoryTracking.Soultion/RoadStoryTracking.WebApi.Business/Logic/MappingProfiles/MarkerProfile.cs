@@ -53,6 +53,15 @@ namespace RoadStoryTracking.WebApi.Business.Logic.MappingProfiles
                 .ForMember(dst => dst.InvitedUserUserName, opt => opt.MapFrom(src => src.InvitedUser.UserName))
                 .ForMember(dst => dst.InvitationStatus, opt => opt.MapFrom(src => src.InvitationStatus))
                 .ForAllOtherMembers(dst => dst.Ignore());
+
+            CreateMap<Data.Models.MarkerInvitation, IncomingMarkerInviation>()
+                .ForMember(dst => dst.Description, opt => opt.MapFrom(src => src.Marker.Description))
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dst => dst.InvitationStatus, opt => opt.MapFrom(src => src.InvitationStatus))
+                .ForMember(dst => dst.MarkerId, opt => opt.MapFrom(src => src.MarkerId))
+                .ForMember(dst => dst.MarkerOwner, opt => opt.MapFrom(src => src.Marker.ApplicationUser))
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Marker.Name))
+                .ForAllOtherMembers(dst => dst.Ignore());
         }
     }
 }

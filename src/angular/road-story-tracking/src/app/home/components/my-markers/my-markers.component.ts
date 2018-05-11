@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar, MatTableDataSource, MatDialog } from '@angular/material';
 
@@ -14,7 +14,7 @@ import { snackbarConfiguration } from '../../../shared/configurations/snackbar.c
     templateUrl: 'my-markers.component.html',
     styleUrls: ['my-markers.component.css'],
 })
-export class MyMarkersComponent {
+export class MyMarkersComponent implements OnInit {
 
     public displayedColumns: string[];
     public displayedColumnsMobile: string[];
@@ -25,7 +25,9 @@ export class MyMarkersComponent {
         this.markersData = new MatTableDataSource<Marker>();
         this.displayedColumns = ['name', 'type', 'created', 'actions'];
         this.displayedColumnsMobile = ['name', 'actions'];
+    }
 
+    public ngOnInit(): void {
         this.markerApiService.getMyMarkers().subscribe((result: Marker[]) => {
             this.markersData = new MatTableDataSource<Marker>(result);
         });

@@ -36,6 +36,14 @@ namespace RoadStoryTracking.WebApi.Controllers
             return response.GetActionResult<Business.Models.Marker.Marker, Marker>(this);
         }
 
+        [Authorize]
+        [HttpDelete("[action]")]
+        public IActionResult DeleteMarkerInvitation(Guid invitationId)
+        {
+            var response = _markerService.DeleteMarkerInvitation(Requestor.User.Id, invitationId);
+            return response.GetActionResult<Business.Models.Marker.IncomingMarkerInviation, IncomingMarkerInviation>(this);
+        }
+
         [HttpGet("[action]")]
         public IActionResult GetMarker(Guid markerId)
         {
@@ -48,6 +56,14 @@ namespace RoadStoryTracking.WebApi.Controllers
         {
             var response = _markerService.GetMarkers();
             return response.GetActionResult<List<Business.Models.Marker.Marker>, List<Marker>>(this);
+        }
+
+        [Authorize]
+        [HttpGet("[action]")]
+        public IActionResult GetMyIncomingMarkersInvitations()
+        {
+            var response = _markerService.GetIncomingMarkersInvitations(Requestor.User.Id);
+            return response.GetActionResult<List<Business.Models.Marker.IncomingMarkerInviation>, List<IncomingMarkerInviation>>(this);
         }
 
         [Authorize]
@@ -66,6 +82,14 @@ namespace RoadStoryTracking.WebApi.Controllers
             var response = _markerService.UpdateMarker(mappedMarker, Requestor.User.Id);
 
             return response.GetActionResult<Business.Models.Marker.Marker, Marker>(this);
+        }
+
+        [Authorize]
+        [HttpPut("[action]")]
+        public IActionResult UpdateMarkerInvitationStatus(Guid invitationId, InvitationStatuses invitationStatus)
+        {
+            var response = _markerService.UpdateMarkerInvitationStatus(Requestor.User.Id, invitationId, (Business.Models.Marker.InvitationStatuses)((int)invitationStatus));
+            return response.GetActionResult<Business.Models.Marker.IncomingMarkerInviation, IncomingMarkerInviation>(this);
         }
     }
 }

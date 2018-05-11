@@ -5,8 +5,31 @@
                 <h3>Invited users:</h3>
             </mat-panel-title>
         </mat-expansion-panel-header>
+        <h4>Accepted:</h4>
         <mat-chip-list>
-            <mat-chip *ngFor="let invitation of invitations">
+            <mat-chip *ngFor="let invitation of acceptedInvitations">
+                <img style="vertical-align:middle;" [src]="invitation.invitedUserImage || './assets/images/account-image.svg'" height="25"
+                />
+                <p style="white-space: pre;"> </p>
+                <span>{{ invitation.invitedUserFirstName }} {{ invitation.invitedUserLastName }}</span>
+                <p style="white-space: pre;"> | </p>
+                <small>{{ invitation.invitedUserUserName }}</small>
+            </mat-chip>
+        </mat-chip-list>
+        <h4>Declined:</h4>
+        <mat-chip-list>
+            <mat-chip *ngFor="let invitation of declinedInvitations">
+                <img style="vertical-align:middle;" [src]="invitation.invitedUserImage || './assets/images/account-image.svg'" height="25"
+                />
+                <p style="white-space: pre;"> </p>
+                <span>{{ invitation.invitedUserFirstName }} {{ invitation.invitedUserLastName }}</span>
+                <p style="white-space: pre;"> | </p>
+                <small>{{ invitation.invitedUserUserName }}</small>
+            </mat-chip>
+        </mat-chip-list>
+        <h4>Pending acceptance:</h4>
+        <mat-chip-list>
+            <mat-chip *ngFor="let invitation of pendingAcceptanceInvitations">
                 <img style="vertical-align:middle;" [src]="invitation.invitedUserImage || './assets/images/account-image.svg'" height="25"
                 />
                 <p style="white-space: pre;"> </p>
