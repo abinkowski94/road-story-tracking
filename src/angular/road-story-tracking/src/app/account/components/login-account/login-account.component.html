@@ -16,13 +16,13 @@
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="login-full-width">
-                        <input matInput type="password" name="password" [(ngModel)]="password" placeholder="Password" #passwordInput="ngModel"
-                            required>
+                        <input matInput type="password" name="password" [(ngModel)]="password" placeholder="Password" #passwordInput="ngModel" required>
                         <mat-error *ngIf="passwordInput.invalid">
                             <span *ngIf="passwordInput.hasError('required')">* The password is required</span>
                         </mat-error>
                     </mat-form-field>
                 </div>
+                <a (click)="$event.preventDefault();forgotPassword()" href="#">Forgot password?</a>
                 <div class="login-button">
                     <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.form.valid || pendingRequest">Login</button>
                 </div>

@@ -9,6 +9,7 @@ import { ManageAccountComponent } from './components/manage-account/manage-accou
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
 import { RegisterCompleteComponent } from './components/register-complete/register-complete.component';
 import { ConfirmedAccountComponent } from './components/confirmed-account/confirmed-account.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 import { UserService } from './../shared/services/user/user.service';
 import { ManageAccountApiService } from './services/manage-account-api.service';
@@ -35,6 +36,10 @@ const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
     {
         path: 'account/register/confirmed',
         component: ConfirmedAccountComponent
+    },
+    {
+        path: 'account/reset',
+        component: ResetPasswordComponent
     }
 ]);
 
@@ -51,7 +56,8 @@ const manageAccountRouting: ModuleWithProviders = RouterModule.forChild([
         LoginAccountComponent,
         RegisterAccountComponent,
         RegisterCompleteComponent,
-        ConfirmedAccountComponent
+        ConfirmedAccountComponent,
+        ResetPasswordComponent
     ],
     providers: [
         AuthGuard,

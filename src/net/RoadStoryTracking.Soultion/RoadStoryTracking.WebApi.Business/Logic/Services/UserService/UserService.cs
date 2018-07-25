@@ -105,7 +105,6 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
         public async Task<BaseResponse> GetUser(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-
             if (user == null)
             {
                 return new ErrorResponse(new CustomApplicationException("User with given name not found."));
@@ -135,6 +134,20 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             return new ErrorResponse(new CustomAggregatedException("Exceptions occurred during creating new user.", exceptions.ToArray()));
         }
 
+        public async Task<BaseResponse> ResetPassword(string userName, Uri callbackUri)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                return new SuccessResponse<string>("OK");
+            }
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            await SendEmailReset(user.Email, $"{user.FirstName} {user.LastName}", callbackUri, user.UserName, resetToken);
+
+            return new SuccessResponse<string>("OK");
+        }
+
         public async Task<BaseResponse> UpdateUser(string userName, ApplicationUser applicationUser)
         {
             var user = await _userManager.FindByNameAsync(userName);
@@ -158,16 +171,12 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             return new ErrorResponse(new CustomAggregatedException("Errors occured during user update.", errors));
         }
 
-        public async Task<BaseResponse> UpdateUserPassword(string userName, string oldPassword, string newPassword)
+        public async Task<BaseResponse> UpdateUserPassword(string userName, string token, string newPassword)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
             {
                 return new ErrorResponse(new CustomApplicationException($"Could not find user with user name: '{userName}'."));
-            }
-            if (_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, oldPassword) != PasswordVerificationResult.Success)
-            {
-                return new ErrorResponse(new CustomApplicationException("Wrong old password."));
             }
 
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -217,6 +226,20 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             var messageText = $"Please confirm your registration by clicking this link: {tokenCallbackUrl}";
             var messageHtml = $"<h2>Please confirm your registration by clicking this link:</h2><br>{tokenCallbackUrl}";
             await _emailService.SendEmail(email, fullName, "Email confirmation", messageText, messageHtml);
+        }
+
+        private async Task SendEmailReset(string email, string fullName, Uri tokenCallback, string userName, string resetToken)
+        {
+            var uriBuilder = new UriBuilder(tokenCallback);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["userName"] = userName;
+            query["token"] = resetToken;
+            uriBuilder.Query = query.ToString();
+            var tokenCallbackUrl = uriBuilder.ToString();
+
+            var messageText = $"Please click this link to reset your password: {tokenCallbackUrl}";
+            var messageHtml = $"<h2>Please click this link to reset your password:</h2><br>{tokenCallbackUrl}";
+            await _emailService.SendEmail(email, fullName, "Password reset", messageText, messageHtml);
         }
     }
 }

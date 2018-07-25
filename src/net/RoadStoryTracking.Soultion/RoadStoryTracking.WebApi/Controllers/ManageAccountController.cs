@@ -26,19 +26,20 @@ namespace RoadStoryTracking.WebApi.Controllers
             return response.GetActionResult<Business.Models.User.ApplicationUser, ApplicationUser>(this);
         }
 
+        [AllowAnonymous]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> ResetUserPassword(string userName, string token, string newPassword)
+        {
+            var response = await _userService.UpdateUserPassword(userName, token, newPassword);
+            return response.GetActionResult(this);
+        }
+
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateUserData([FromBody] ApplicationUser applicationUser)
         {
             var mappedUser = LocalMapper.Map<Business.Models.User.ApplicationUser>(applicationUser);
             var response = await _userService.UpdateUser(Requestor.UserName, mappedUser);
             return response.GetActionResult<Business.Models.User.ApplicationUser, ApplicationUser>(this);
-        }
-
-        [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateUserPassword(string oldPassword, string newPassword)
-        {
-            var response = await _userService.UpdateUserPassword(Requestor.User.UserName, oldPassword, newPassword);
-            return response.GetActionResult(this);
         }
     }
 }

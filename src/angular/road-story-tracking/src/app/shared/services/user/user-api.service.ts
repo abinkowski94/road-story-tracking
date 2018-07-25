@@ -22,4 +22,9 @@ export class UserApiService extends BaseHttpService {
     public registerUser(user: RegisterUser): Observable<ApplicationUser> {
         return this.post('register', user);
     }
+
+    public resetPassword(userName: string): Observable<string> {
+        const params = new HttpParams().set('userName', userName);
+        return this.post('ResetPassword', null, params);
+    }
 }

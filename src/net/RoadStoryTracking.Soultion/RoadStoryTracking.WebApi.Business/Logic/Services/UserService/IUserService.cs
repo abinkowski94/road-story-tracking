@@ -13,10 +13,12 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
 
         Task<BaseResponse> GetUser(string userName);
 
-        Task<BaseResponse> RegisterNewUser(ApplicationUser ApplicationUser, Uri tokenCallback);
+        Task<BaseResponse> RegisterNewUser(ApplicationUser applicationUser, Uri tokenCallback);
 
-        Task<BaseResponse> UpdateUser(string userName, ApplicationUser ApplicationUser);
+        Task<BaseResponse> ResetPassword(string userName, Uri callbackUri);
 
-        Task<BaseResponse> UpdateUserPassword(string userName, string oldPassword, string newPassword);
+        Task<BaseResponse> UpdateUser(string userName, ApplicationUser applicationUser);
+
+        Task<BaseResponse> UpdateUserPassword(string userName, string token, string newPassword);
     }
 }

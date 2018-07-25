@@ -26,10 +26,8 @@ namespace RoadStoryTracking.WebApi.Controllers
             {
                 return Redirect("~/account/register/confirmed");
             }
-            else
-            {
-                return new ObjectResult(null);
-            }
+
+            return new ObjectResult(null);
         }
 
         [HttpGet("token")]
@@ -46,6 +44,14 @@ namespace RoadStoryTracking.WebApi.Controllers
             var user = LocalMapper.Map<Business.Models.User.ApplicationUser>(applicationUser);
             var response = await _userService.RegisterNewUser(user, callbackUri);
             return response.GetActionResult<Business.Models.User.ApplicationUser, ApplicationUser>(this);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ResetPassword(string userName)
+        {
+            var callbackUri = new Uri($"{Request.Scheme}://{Request.Host}/account/reset", UriKind.Absolute);
+            var response = await _userService.ResetPassword(userName, callbackUri);
+            return response.GetActionResult<string, string>(this);
         }
     }
 }
