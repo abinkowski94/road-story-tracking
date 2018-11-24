@@ -3,16 +3,19 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RoadStoryTracking.WebApi.Business.Models.Messages;
 using RoadStoryTracking.WebJob.Images.Converters;
+using RoadStoryTracking.WebJob.Images.Services;
 
 namespace RoadStoryTracking.WebJob.Images
 {
-    [StorageAccount("Storage:ImageQueue:ConnectionString")]
+    [StorageAccount("Storage:DefaultQueue:ConnectionString")]
     public class Functions
     {
+        private readonly IImageService _imageService;
         private readonly JsonSerializerSettings _jsonSerializationSettings;
 
-        public Functions()
+        public Functions(IImageService imageService)
         {
+            _imageService = imageService;
             _jsonSerializationSettings = new JsonSerializerSettings { Converters = { new ImageMessageConverter() } };
         }
 
@@ -21,6 +24,16 @@ namespace RoadStoryTracking.WebJob.Images
             var imageMessage = JsonConvert.DeserializeObject<ImageMessage>(imageMessageString, _jsonSerializationSettings);
             if (imageMessage != null)
             {
+                switch (imageMessage)
+                {
+                    case DeleteImageMessage deleteImageMessage:
+                        _imageService.RemoveImage(deleteImageMessage.FullBlobPath);
+                        break;
+
+                    case ResizeImageMessage resizeImageMessage:
+                        _imageService.ResizeImage(resizeImageMessage);
+                        break;
+                }
             }
         }
     }

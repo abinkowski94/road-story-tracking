@@ -32,8 +32,4 @@
     <ProjectReference Include="..\RoadStoryTracking.WebApi.Business\RoadStoryTracking.WebApi.Business.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

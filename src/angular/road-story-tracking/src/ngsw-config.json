@@ -32,15 +32,14 @@
     ],
     "dataGroups": [
         {
-            "name": "from-api",
+            "name": "api",
             "urls": [
-                "/api/ManageAccount/GetUserData"
+                "/api"
             ],
             "cacheConfig": {
-                "strategy": "freshness",
-                "maxSize": 15,
-                "maxAge": "24h",
-                "timeout": "5s"
+                "maxSize": 0,
+                "maxAge": "0u",
+                "strategy": "freshness"
             }
         }
     ]

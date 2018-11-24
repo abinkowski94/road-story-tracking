@@ -15,11 +15,11 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.Messaging
 
         public MessagingService(IConfiguration configuration)
         {
-            _imageQueueName = configuration["Storage:Queues:Image:QueueName"]
-                ?? throw new ApplicationException("The key 'Storage:Queues:Image:QueueName' is not registered");
+            _imageQueueName = configuration["Storage:Queues:Default:QueueName"]
+                ?? throw new ApplicationException("The key 'Storage:Queues:Default:QueueName' is not registered");
 
-            _imageQueueConnectionString = configuration["Storage:Queues:Image:ConnectionString"]
-                ?? throw new ApplicationException("The key 'Storage:Queues:Image:ConnectionString' is not registered");
+            _imageQueueConnectionString = configuration["Storage:Queues:Default:ConnectionString"]
+                ?? throw new ApplicationException("The key 'Storage:Queues:Default:ConnectionString' is not registered");
         }
 
         public T PutImageMessageToQueue<T>(T message) where T : ImageMessage
