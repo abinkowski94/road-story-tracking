@@ -5,6 +5,7 @@ using RoadStoryTracking.WebApi.Business.Logic.Services.ContctService;
 using RoadStoryTracking.WebApi.Business.Logic.Services.EmailService;
 using RoadStoryTracking.WebApi.Business.Logic.Services.ImageService;
 using RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService;
+using RoadStoryTracking.WebApi.Business.Logic.Services.Messaging;
 using RoadStoryTracking.WebApi.Business.Logic.Services.UserService;
 using RoadStoryTracking.WebApi.Data.Repositories;
 
@@ -23,6 +24,7 @@ namespace RoadStoryTracking.WebApi.AppStartup
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IContactsRepository, ContactsRepository>();
             services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<IMessagingService, MessagingService>();
             services.AddSingleton(configuration);
         }
     }
