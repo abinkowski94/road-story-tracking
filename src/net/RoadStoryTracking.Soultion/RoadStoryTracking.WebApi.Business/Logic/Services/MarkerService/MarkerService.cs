@@ -11,7 +11,6 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
 {
     public class MarkerService : BaseService, IMarkerService
     {
-        private const string MarkerImagesLocation = "markers\\images";
         private readonly IImageService _imageService;
         private readonly IMarkerRepository _markerRepository;
 
@@ -24,7 +23,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
         public BaseResponse AddMarker(Marker marker, string userId)
         {
             // Create images
-            marker.Images = marker.Images.Select(i => _imageService.SaveImageAsync(i, Guid.NewGuid().ToString(), MarkerImagesLocation).Result).ToList();
+            marker.Images = marker.Images.Select(i => _imageService.SaveImageAsync(i, Guid.NewGuid().ToString()).Result).ToList();
 
             // Add marker to database
             var dbMarker = LocalMapper.Map<Data.Models.Marker>(marker);
@@ -54,7 +53,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             }
 
             var result = LocalMapper.Map<Marker>(markerToDelete);
-            result.Images.ForEach(i => _imageService.DeleteImageAsync(i));
+            result.Images.ForEach(i => _imageService.DeleteImage(i));
 
             _markerRepository.DeleteMarker(markerToDelete);
             if (markerToDelete.MarkerInvitations.Any())
@@ -178,13 +177,13 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.MarkerService
             var imagesToCreate = updateModel.Images.Where(img => existingImages.All(ei => ei.Image != img)).ToList();
 
             // Remove old images
-            imagesToRemove.ForEach(img => _imageService.DeleteImageAsync(img.Image));
+            imagesToRemove.ForEach(img => _imageService.DeleteImage(img.Image));
             _markerRepository.DeleteMarkerImages(imagesToRemove);
 
             // Create new images
             var imagesToAppend = imagesToCreate.Select(img => new Data.Models.MarkerImage
             {
-                Image = _imageService.SaveImageAsync(img, Guid.NewGuid().ToString(), MarkerImagesLocation).Result,
+                Image = _imageService.SaveImageAsync(img, Guid.NewGuid().ToString()).Result,
                 CreateDate = DateTimeOffset.UtcNow
             }).ToList();
             markerToUpdate.Images.AddRange(imagesToAppend);
