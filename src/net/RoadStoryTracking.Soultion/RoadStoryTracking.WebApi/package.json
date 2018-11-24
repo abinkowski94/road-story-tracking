@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "install": "cd ../../../angular/road-story-tracking && npm install",
+    "start": "cd ../../../angular/road-story-tracking && npm start",
+    "build": "cd ../../../angular/road-story-tracking && npm run-script build",
+    "build-prod": "cd ../../../angular/road-story-tracking && npm run-script build-prod"
+  }
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<im:images xmlns:mi="http://localhost/cityStoryTracking/markedImage"
+            xmlns:im="http://localhost/cityStoryTracking/images"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            
+   <image>
+      <id>f1ed618b-c972-450f-a2ba-fbfec6e5c4a9</id>
+      <createDate>2018-11-15T09:30:10Z</createDate>
+      <modificationDate>2018-11-15T12:33:12Z</modificationDate>
+      <markerId>c969203e-7e85-41b4-8eaf-c47b1992f4a4</markerId>
+      <originalImage>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAIAAAA2bnI+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACkSURBVDhPxZHBDcQgDAT95MmTciiHTiiDMiiPOHjlmDsnIve5kZCyjhcDS+NXFmfvPefcWoP2KsriTCkRUQgB2qsoi5ObBGivovzdyff56BPJQBuWUq2Vm0op0N5eilOyfO+l0ENiLtpPmtiOmW0xRumfa8If+H+PjAFyE+F5LA9E37z5+UJ27J1Zzylw5Vx27A7y1Ehl36wJXXnumG2wl/MdYxw5uaX1GPLR8AAAAABJRU5ErkJggg==</originalImage>
+      <imageSize>S</imageSize>
+      <resizedImage>null</resizedImage>
+   </image>
+   <image>
+      <id>f1ed618b-c972-450f-a2ba-fbfec6e5c4a9</id>
+      <createDate>2018-11-15T09:30:10Z</createDate>
+      <modificationDate>2018-11-15T12:33:12Z</modificationDate>
+      <markerId>c969203e-7e85-41b4-8eaf-c47b1992f4a4</markerId>
+      <originalImage>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAIAAAA2bnI+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACkSURBVDhPxZHBDcQgDAT95MmTciiHTiiDMiiPOHjlmDsnIve5kZCyjhcDS+NXFmfvPefcWoP2KsriTCkRUQgB2qsoi5ObBGivovzdyff56BPJQBuWUq2Vm0op0N5eilOyfO+l0ENiLtpPmtiOmW0xRumfa8If+H+PjAFyE+F5LA9E37z5+UJ27J1Zzylw5Vx27A7y1Ehl36wJXXnumG2wl/MdYxw5uaX1GPLR8AAAAABJRU5ErkJggg==</originalImage>
+      <imageSize>M</imageSize>
+      <resizedImage>null</resizedImage>
+   </image>
+   <image>
+      <id>f1ed618b-c972-450f-a2ba-fbfec6e5c4a9</id>
+      <createDate>2018-11-15T09:30:10Z</createDate>
+      <modificationDate>2018-11-15T12:33:12Z</modificationDate>
+      <markerId>c969203e-7e85-41b4-8eaf-c47b1992f4a4</markerId>
+      <originalImage>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAIAAAA2bnI+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACkSURBVDhPxZHBDcQgDAT95MmTciiHTiiDMiiPOHjlmDsnIve5kZCyjhcDS+NXFmfvPefcWoP2KsriTCkRUQgB2qsoi5ObBGivovzdyff56BPJQBuWUq2Vm0op0N5eilOyfO+l0ENiLtpPmtiOmW0xRumfa8If+H+PjAFyE+F5LA9E37z5+UJ27J1Zzylw5Vx27A7y1Ehl36wJXXnumG2wl/MdYxw5uaX1GPLR8AAAAABJRU5ErkJggg==</originalImage>
+      <imageSize>L</imageSize>
+      <resizedImage>null</resizedImage>
+   </image>
+</im:images>
