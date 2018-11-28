@@ -8,11 +8,17 @@ using RoadStoryTracking.WebApi.Business.Models.User;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Xml.Xsl;
+using RoadStoryTracking.WebApi.Business.Models.Messages;
+using static System.String;
 using ApplicationUser = RoadStoryTracking.WebApi.Business.Models.User.ApplicationUser;
 using Entities = RoadStoryTracking.WebApi.Data.Models;
 
@@ -56,11 +62,11 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
 
         public async Task<BaseResponse> CreateToken(string username, string password)
         {
-            if (string.IsNullOrEmpty(username))
+            if (IsNullOrEmpty(username))
             {
                 return new ErrorResponse(new CustomApplicationException("Username cannot be null"));
             }
-            if (string.IsNullOrEmpty(password))
+            if (IsNullOrEmpty(password))
             {
                 return new ErrorResponse(new CustomApplicationException("Password cannot be null"));
             }
@@ -223,9 +229,10 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             uriBuilder.Query = query.ToString();
             var tokenCallbackUrl = uriBuilder.ToString();
 
-            var messageText = $"Please confirm your registration by clicking this link: {tokenCallbackUrl}";
-            var messageHtml = $"<h2>Please confirm your registration by clicking this link:</h2><br>{tokenCallbackUrl}";
-            await _emailService.SendEmail(email, fullName, "Email confirmation", messageText, messageHtml);
+            const string mainMessage = "Please confirm your registration by clicking this link:  ";
+            var messageText = Concat(mainMessage , tokenCallbackUrl);
+            var htmlMessage =  CreateHtmlMessage(userName, tokenCallbackUrl, mainMessage);
+            await _emailService.SendEmail(email, fullName, "Email confirmation", messageText, htmlMessage);
         }
 
         private async Task SendEmailReset(string email, string fullName, Uri tokenCallback, string userName, string resetToken)
@@ -237,9 +244,60 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             uriBuilder.Query = query.ToString();
             var tokenCallbackUrl = uriBuilder.ToString();
 
-            var messageText = $"Please click this link to reset your password: {tokenCallbackUrl}";
-            var messageHtml = $"<h2>Please click this link to reset your password:</h2><br>{tokenCallbackUrl}";
-            await _emailService.SendEmail(email, fullName, "Password reset", messageText, messageHtml);
+            const string mainMessage = "Please click this link to reset your password:  ";
+            var messageText = Concat(mainMessage , tokenCallbackUrl);
+            var htmlMessage =  CreateHtmlMessage(userName, tokenCallbackUrl, mainMessage);
+            await _emailService.SendEmail(email, fullName, "Password reset", messageText, htmlMessage);
+        }
+        
+      
+        private string CreateHtmlMessage(string userName, string callbackUrl, string mainMessage)
+        {
+            var emailMessage = new EmailMessage();
+            emailMessage.UserName = userName;
+            emailMessage.CallbackUrl = callbackUrl;
+            emailMessage.MainMessage = mainMessage;
+            var xml = CreateXmlFromEmailMessage(emailMessage);
+            return TransformToHtml(xml);
+        }
+
+        private string CreateXmlFromEmailMessage(EmailMessage emailMessage)
+        {
+            var stringWriter = new StringWriter();
+            var serializer = new XmlSerializer(emailMessage.GetType());
+            var settings = new XmlWriterSettings
+            {
+                Encoding = Encoding.UTF8,
+                Indent = true
+            };
+            var xmlWriter = XmlWriter.Create(stringWriter, settings);
+            
+            serializer.Serialize(xmlWriter, emailMessage);
+            return stringWriter.ToString();
+        }
+
+        private string TransformToHtml(string xml)
+        {
+            const string xsltTemplate = @"<?xml version='1.0' ?>  
+            <xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>  
+               <xsl:template match='/EmailMessage'>  
+	                <h2> <xsl:value-of select='UserName'/>!</h2>
+                    <p><xsl:value-of select='MainMessage'/><br><xsl:value-of select='CallbackUrl'/></br></p>
+               </xsl:template>  
+            </xsl:stylesheet>";  
+          
+            //read xml
+            var xmlReader = XmlReader.Create(new StringReader(xml));
+            var stringWriter = new StringWriter();
+            var writer = XmlWriter.Create(stringWriter);
+               
+            // load xslt 
+            var xslt = new XslCompiledTransform();  
+            xslt.Load(XmlReader.Create(new StringReader(xsltTemplate)));  
+  
+            // Execute the transform  
+            xslt.Transform(xmlReader, writer);  
+            return stringWriter.ToString();
         }
     }
 }
