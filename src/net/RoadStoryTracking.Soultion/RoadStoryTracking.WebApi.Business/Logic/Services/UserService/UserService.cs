@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RoadStoryTracking.WebApi.Business.Logic.Services.EmailService;
 using RoadStoryTracking.WebApi.Business.Models.Exceptions;
+using RoadStoryTracking.WebApi.Business.Models.Messages;
 using RoadStoryTracking.WebApi.Business.Models.Responses;
 using RoadStoryTracking.WebApi.Business.Models.User;
 using System;
@@ -17,7 +18,6 @@ using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Xsl;
-using RoadStoryTracking.WebApi.Business.Models.Messages;
 using static System.String;
 using ApplicationUser = RoadStoryTracking.WebApi.Business.Models.User.ApplicationUser;
 using Entities = RoadStoryTracking.WebApi.Data.Models;
@@ -174,7 +174,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             }
 
             var errors = result.Errors.Select(e => new CustomApplicationException(e.Description)).ToArray();
-            return new ErrorResponse(new CustomAggregatedException("Errors occured during user update.", errors));
+            return new ErrorResponse(new CustomAggregatedException("Errors occurred during user update.", errors));
         }
 
         public async Task<BaseResponse> UpdateUserPassword(string userName, string token, string newPassword)
@@ -194,6 +194,39 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
 
             var errors = result.Errors.Select(e => new CustomApplicationException(e.Description)).ToArray();
             return new ErrorResponse(new CustomAggregatedException("Errors occured during changing password.", errors));
+        }
+
+        private string CreateHtmlMessage(string userName, string callbackUrl, string mainMessage)
+        {
+            var emailMessage = new EmailMessage
+            {
+                UserName = userName,
+                CallbackUrl = callbackUrl,
+                MainMessage = mainMessage
+            };
+
+            var xml = CreateXmlFromEmailMessage(emailMessage);
+            return TransformToHtml(xml);
+        }
+
+        private string CreateXmlFromEmailMessage(EmailMessage emailMessage)
+        {
+            using (var stringWriter = new StringWriter())
+            {
+                var serializer = new XmlSerializer(emailMessage.GetType());
+                var settings = new XmlWriterSettings
+                {
+                    Encoding = Encoding.UTF8,
+                    Indent = true,
+                    ConformanceLevel = ConformanceLevel.Auto
+                };
+
+                using (var xmlWriter = XmlWriter.Create(stringWriter, settings))
+                {
+                    serializer.Serialize(xmlWriter, emailMessage);
+                    return stringWriter.ToString();
+                }
+            }
         }
 
         private async Task<TokenInfo> GetTokenInfo(Entities.ApplicationUser user)
@@ -230,8 +263,8 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             var tokenCallbackUrl = uriBuilder.ToString();
 
             const string mainMessage = "Please confirm your registration by clicking this link:  ";
-            var messageText = Concat(mainMessage , tokenCallbackUrl);
-            var htmlMessage =  CreateHtmlMessage(userName, tokenCallbackUrl, mainMessage);
+            var messageText = Concat(mainMessage, tokenCallbackUrl);
+            var htmlMessage = CreateHtmlMessage(userName, tokenCallbackUrl, mainMessage);
             await _emailService.SendEmail(email, fullName, "Email confirmation", messageText, htmlMessage);
         }
 
@@ -245,59 +278,34 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
             var tokenCallbackUrl = uriBuilder.ToString();
 
             const string mainMessage = "Please click this link to reset your password:  ";
-            var messageText = Concat(mainMessage , tokenCallbackUrl);
-            var htmlMessage =  CreateHtmlMessage(userName, tokenCallbackUrl, mainMessage);
+            var messageText = Concat(mainMessage, tokenCallbackUrl);
+            var htmlMessage = CreateHtmlMessage(userName, tokenCallbackUrl, mainMessage);
             await _emailService.SendEmail(email, fullName, "Password reset", messageText, htmlMessage);
-        }
-        
-      
-        private string CreateHtmlMessage(string userName, string callbackUrl, string mainMessage)
-        {
-            var emailMessage = new EmailMessage();
-            emailMessage.UserName = userName;
-            emailMessage.CallbackUrl = callbackUrl;
-            emailMessage.MainMessage = mainMessage;
-            var xml = CreateXmlFromEmailMessage(emailMessage);
-            return TransformToHtml(xml);
-        }
-
-        private string CreateXmlFromEmailMessage(EmailMessage emailMessage)
-        {
-            var stringWriter = new StringWriter();
-            var serializer = new XmlSerializer(emailMessage.GetType());
-            var settings = new XmlWriterSettings
-            {
-                Encoding = Encoding.UTF8,
-                Indent = true
-            };
-            var xmlWriter = XmlWriter.Create(stringWriter, settings);
-            
-            serializer.Serialize(xmlWriter, emailMessage);
-            return stringWriter.ToString();
         }
 
         private string TransformToHtml(string xml)
         {
-            const string xsltTemplate = @"<?xml version='1.0' ?>  
-            <xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>  
-               <xsl:template match='/EmailMessage'>  
+            const string xsltTemplate = @"<?xml version='1.0' ?>
+            <xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>
+               <xsl:template match='/EmailMessage'>
 	                <h2> <xsl:value-of select='UserName'/>!</h2>
                     <p><xsl:value-of select='MainMessage'/><br><xsl:value-of select='CallbackUrl'/></br></p>
-               </xsl:template>  
-            </xsl:stylesheet>";  
-          
+               </xsl:template>
+            </xsl:stylesheet>";
+
             //read xml
-            var xmlReader = XmlReader.Create(new StringReader(xml));
-            var stringWriter = new StringWriter();
-            var writer = XmlWriter.Create(stringWriter);
-               
-            // load xslt 
-            var xslt = new XslCompiledTransform();  
-            xslt.Load(XmlReader.Create(new StringReader(xsltTemplate)));  
-  
-            // Execute the transform  
-            xslt.Transform(xmlReader, writer);  
-            return stringWriter.ToString();
+            using (var xmlReader = XmlReader.Create(new StringReader(xml), new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Auto }))
+            using (var stringWriter = new StringWriter())
+            using (var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings { ConformanceLevel = ConformanceLevel.Auto }))
+            {
+                // load xslt
+                var xslt = new XslCompiledTransform();
+                xslt.Load(XmlReader.Create(new StringReader(xsltTemplate)));
+
+                // Execute the transform
+                xslt.Transform(xmlReader, writer);
+                return stringWriter.ToString();
+            }
         }
     }
 }
