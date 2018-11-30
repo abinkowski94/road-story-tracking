@@ -35,6 +35,14 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ImageService
 
         public void DeleteImage(string path)
         {
+            foreach (var imageSize in (ImageSize[])Enum.GetValues(typeof(ImageSize)))
+            {
+                _messagingService.PutImageMessageToQueue(new DeleteImageMessage
+                {
+                    FullBlobPath = path.Replace(".jpg", $"-{imageSize}.jpg")
+                });
+            }
+
             _messagingService.PutImageMessageToQueue(new DeleteImageMessage
             {
                 FullBlobPath = path
@@ -65,7 +73,8 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.ImageService
                         FullBlobPath = cloudBlockBlob.Uri.ToString(),
                         BlobStorageName = _imageBlobStorageName,
                         OriginalName = imageName,
-                        Size = imageSize
+                        Size = imageSize,
+                        Location = _imageBlobStorageLocation
                     });
                 }
 

@@ -27,11 +27,11 @@ namespace RoadStoryTracking.WebJob.Images
                 switch (imageMessage)
                 {
                     case DeleteImageMessage deleteImageMessage:
-                        _imageService.RemoveImage(deleteImageMessage.FullBlobPath);
+                        _imageService.RemoveImage(deleteImageMessage.FullBlobPath, logger);
                         break;
 
                     case ResizeImageMessage resizeImageMessage:
-                        _imageService.ResizeImage(resizeImageMessage);
+                        _imageService.ResizeImage(resizeImageMessage, logger);
                         break;
                 }
             }

@@ -10,6 +10,9 @@ namespace RoadStoryTracking.WebApi.Business.Models.Messages
         [JsonProperty("fullBlobPath")]
         public string FullBlobPath { get; set; }
 
+        [JsonProperty("location")]
+        public string Location { get; set; }
+
         [JsonProperty("messageType")]
         public override ImageMessageTypes MessageType => ImageMessageTypes.Resize;
 
