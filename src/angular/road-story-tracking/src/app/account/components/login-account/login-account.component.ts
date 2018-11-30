@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { UserService } from '../../../shared/services/user/user.service';
 import { TokenInfo } from '../../../shared/models/data/token/token-info.model';

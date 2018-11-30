@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/operator/do';
+import { Observable,  BehaviorSubject } from 'rxjs';
 
 import { TokenService } from '../../../shared/services/user/token.service';
 import { UserApiService } from '../../../shared/services/user/user-api.service';

@@ -1,7 +1,7 @@
 import { MatSnackBar } from '@angular/material';
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { MarkerApiService } from '../services/marker-api.service';
 import { Marker } from '../../shared/models/data/map/marker.model';

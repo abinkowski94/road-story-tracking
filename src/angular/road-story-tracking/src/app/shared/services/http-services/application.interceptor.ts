@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { HttpHeaders, HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
-import 'rxjs/add/operator/do';
+
 
 import { environment } from '../../../../environments/environment';
 import { TokenService } from '../../../shared/services/user/token.service';

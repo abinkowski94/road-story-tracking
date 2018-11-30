@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 
 import { environment } from '../../../../environments/environment';
 import { TokenInfo } from '../../../shared/models/data/token/token-info.model';

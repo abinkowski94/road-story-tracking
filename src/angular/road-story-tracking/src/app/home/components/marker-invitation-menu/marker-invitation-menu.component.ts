@@ -5,7 +5,7 @@ import { MarkerInvitation } from './../../../shared/models/data/map/marker-invit
 import { InvitationStatuses } from './../../../shared/models/data/map/invitation-statuses.enum.model';
 import { Friend } from './../../../shared/models/data/friends/friend.model';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { DialogService } from '../../../shared/services/dialog/dialog.service';
 import { FriendsApiService } from '../../../friends/services/friends-api.service';
 import { snackbarConfiguration } from '../../../shared/configurations/snackbar.config';

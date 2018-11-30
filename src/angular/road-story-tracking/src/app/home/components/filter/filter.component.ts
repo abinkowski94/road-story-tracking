@@ -1,9 +1,8 @@
 import { MatSnackBar } from '@angular/material';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
+import { Observable } from 'rxjs';
+import { startWith,  map } from 'rxjs/operators';
 
 import { MarkerService } from './../../services/marker.service';
 import { Marker } from './../../../shared/models/data/map/marker.model';

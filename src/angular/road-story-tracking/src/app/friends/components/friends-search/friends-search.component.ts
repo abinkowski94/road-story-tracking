@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
-import 'rxjs/add/observable/of';
-import { startWith } from 'rxjs/operators/startWith';
+import { Observable } from 'rxjs';
 
 import { FriendsApiService } from '../../services/friends-api.service';
 import { DialogService } from '../../../shared/services/dialog/dialog.service';
