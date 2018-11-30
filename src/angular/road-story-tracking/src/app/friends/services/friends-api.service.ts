@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Friend } from '../../shared/models/data/friends/friend.model';
 import { Invitation } from '../../shared/models/data/friends/invitation.model';

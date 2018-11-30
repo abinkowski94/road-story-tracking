@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/operator/do';
+import { Observable,  BehaviorSubject } from 'rxjs';
 
 import { MarkerApiService } from './marker-api.service';
 import { MarkerServiceState } from './marker-service-state.enum';

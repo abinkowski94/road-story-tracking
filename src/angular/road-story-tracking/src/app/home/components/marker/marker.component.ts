@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ParamMap } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { MarkerApiService } from './../../services/marker-api.service';
 import { Marker } from './../../../shared/models/data/map/marker.model';
