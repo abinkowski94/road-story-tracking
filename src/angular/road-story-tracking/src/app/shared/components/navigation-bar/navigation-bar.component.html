@@ -28,28 +28,34 @@
         </div>
         <div class="mobile">
             <mat-menu #appMenu="matMenu">
-                <button *ngIf="isAuthenticated" mat-button routerLink="/my-markers" routerLinkActive="active">
-                    <i class="material-icons">book</i> Events
+                <button *ngIf="isAuthenticated" mat-menu-item routerLink="/my-markers" routerLinkActive="active">
+                    <mat-icon>book</mat-icon>
+                    <span>Events</span>
                 </button>
                 <br *ngIf="isAuthenticated">
-                <button *ngIf="isAuthenticated" mat-button routerLink="/my-friends" routerLinkActive="active">
-                    <i class="material-icons">people</i> Friends & invitations
+                <button *ngIf="isAuthenticated" mat-menu-item routerLink="/my-friends" routerLinkActive="active">
+                    <mat-icon>people</mat-icon>
+                    <span>Friends & invitations</span>
                 </button>
                 <br *ngIf="isAuthenticated">
-                <button *ngIf="isAuthenticated" mat-button routerLink="/account/manage" routerLinkActive="active">
-                    <i class="material-icons">account_circle</i> My account
+                <button *ngIf="isAuthenticated" mat-menu-item routerLink="/account/manage" routerLinkActive="active">
+                    <mat-icon>account_circle</mat-icon>
+                    <span>My account</span>
                 </button>
                 <br *ngIf="isAuthenticated">
-                <button *ngIf="isAuthenticated" mat-button (click)="logOff()">
-                    <i class="material-icons">exit_to_app</i> Log off
+                <button *ngIf="isAuthenticated" mat-menu-item (click)="logOff()">
+                        <mat-icon>exit_to_app</mat-icon>
+                        <span>Log off</span>
                 </button>
                 <br *ngIf="isAuthenticated">
-                <button *ngIf="!isAuthenticated" mat-button routerLink="/account/login" routerLinkActive="active">
-                    <i class="material-icons">forward</i> Login
+                <button *ngIf="!isAuthenticated" mat-menu-item routerLink="/account/login" routerLinkActive="active">
+                    <mat-icon>forward</mat-icon>
+                    <span>Login</span>
                 </button>
                 <br *ngIf="!isAuthenticated">
-                <button *ngIf="!isAuthenticated" mat-button routerLink="/account/register" routerLinkActive="active">
-                    <i class="material-icons">person</i> Register
+                <button *ngIf="!isAuthenticated" mat-menu-item routerLink="/account/register" routerLinkActive="active">
+                    <mat-icon>person</mat-icon>
+                    <span>Register</span>
                 </button>
             </mat-menu>
             <button mat-icon-button [matMenuTriggerFor]="appMenu">

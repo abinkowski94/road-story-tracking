@@ -33,14 +33,14 @@ namespace RoadStoryTracking.WebApi
             app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });
             app.UseStaticFiles();
 
-            //if (env.IsDevelopment())
-            //{
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials());
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseCors(builder =>
+                    builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials());
+            }
 
             app.UseMvc();
         }

@@ -23,7 +23,7 @@ export class MyMarkersComponent implements OnInit {
     public constructor(private snackBar: MatSnackBar, private markerApiService: MarkerApiService, private dialogService: DialogService,
         private materialdialogService: MatDialog) {
         this.markersData = new MatTableDataSource<Marker>();
-        this.displayedColumns = ['name', 'type', 'created', 'actions'];
+        this.displayedColumns = ['image', 'name', 'type', 'created', 'actions'];
         this.displayedColumnsMobile = ['name', 'actions'];
     }
 
@@ -73,6 +73,10 @@ export class MyMarkersComponent implements OnInit {
         } else {
             return 'Other';
         }
+    }
+
+    public getHeaderImage(images: string[]): string {
+        return images && images.length > 0 ? images[0].replace('.jpg', '-S.jpg') : null;
     }
 
     public get isMobile(): boolean {
