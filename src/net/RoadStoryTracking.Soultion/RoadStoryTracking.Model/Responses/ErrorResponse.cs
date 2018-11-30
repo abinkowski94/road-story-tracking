@@ -23,7 +23,7 @@ namespace RoadStoryTracking.Model.Responses
 #if DEBUG
             Exception = exception;
 #else
-            Exception = exception.Message
+            Exception = exception.Message;
 #endif
         }
     }
