@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
     <PackageReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
@@ -18,6 +14,17 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\images\account-image.svg" />
+    <None Include="wwwroot\fontawesome-webfont.912ec66d7572ff821749.svg" />
+    <None Include="wwwroot\fontawesome-webfont.af7ae505a9eed503f8b8.woff2" />
+    <None Include="wwwroot\inline.318b50c57b4eba3d437b.bundle.js" />
+    <None Include="wwwroot\mailing-transformation.xslt" />
+    <None Include="wwwroot\main.569c8d5c3e2eb508ec6a.bundle.js" />
+    <None Include="wwwroot\ngsw-worker.js" />
+    <None Include="wwwroot\polyfills.2d896654d931a4d9a559.bundle.js" />
   </ItemGroup>
 
   <ItemGroup>

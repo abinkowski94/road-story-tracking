@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RoadStoryTracking.WebApi.Business.Logic.Services.EmailService;
@@ -28,16 +29,18 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
     {
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly string _enviromentPath;
         private readonly IPasswordHasher<Entities.ApplicationUser> _passwordHasher;
         private readonly UserManager<Entities.ApplicationUser> _userManager;
 
         public UserService(IConfiguration configuration, IPasswordHasher<Entities.ApplicationUser> passwordHasher,
-            UserManager<Entities.ApplicationUser> userService, IEmailService emailService)
+            UserManager<Entities.ApplicationUser> userService, IEmailService emailService, IHostingEnvironment environment)
         {
             _userManager = userService;
             _emailService = emailService;
             _configuration = configuration;
             _passwordHasher = passwordHasher;
+            _enviromentPath = environment.WebRootPath ?? Directory.GetCurrentDirectory();
         }
 
         public async Task<BaseResponse> ConfirmUserEmailAddress(string userName, string confirmationToken)
@@ -285,13 +288,7 @@ namespace RoadStoryTracking.WebApi.Business.Logic.Services.UserService
 
         private string TransformToHtml(string xml)
         {
-            const string xsltTemplate = @"<?xml version='1.0' ?>
-            <xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>
-               <xsl:template match='/EmailMessage'>
-	                <h2> <xsl:value-of select='UserName'/>!</h2>
-                    <p><xsl:value-of select='MainMessage'/><br><xsl:value-of select='CallbackUrl'/></br></p>
-               </xsl:template>
-            </xsl:stylesheet>";
+            var xsltTemplate = File.ReadAllText($@"{_enviromentPath}\transformations\mailing-transformation.xslt", Encoding.UTF8);
 
             //read xml
             using (var xmlReader = XmlReader.Create(new StringReader(xml), new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Auto }))
